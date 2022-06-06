@@ -69,7 +69,6 @@
 				72820821284CE12000AEE913 /* Model */,
 				72820825284CE15600AEE913 /* Controller */,
 				72820824284CE14E00AEE913 /* View */,
-				72820822284CE12F00AEE913 /* API */,
 				72820823284CE13900AEE913 /* Extension */,
 				72820816284CD05000AEE913 /* Assets.xcassets */,
 				72820818284CD05000AEE913 /* LaunchScreen.storyboard */,
@@ -86,13 +85,6 @@
 				7282082A284CE2C500AEE913 /* GameData.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		72820822284CE12F00AEE913 /* API */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = API;
 			sourceTree = "<group>";
 		};
 		72820823284CE13900AEE913 /* Extension */ = {
