@@ -3,7 +3,7 @@
 //  RPSGame
 //
 //  Created by EHDOMB on 2022/06/05.
-//
+// <a href="https://www.flaticon.com/kr/free-icons/-" title="가위 바위 보 아이콘">가위 바위 보 아이콘  제작자: Freepik - Flaticon</a>
 
 import UIKit
 
