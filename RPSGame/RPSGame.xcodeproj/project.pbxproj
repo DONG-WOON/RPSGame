@@ -9,22 +9,22 @@
 /* Begin PBXBuildFile section */
 		7282080E284CD04E00AEE913 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282080D284CD04E00AEE913 /* AppDelegate.swift */; };
 		72820810284CD04E00AEE913 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282080F284CD04E00AEE913 /* SceneDelegate.swift */; };
-		72820812284CD04E00AEE913 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72820811284CD04E00AEE913 /* ViewController.swift */; };
-		72820815284CD04E00AEE913 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72820813284CD04E00AEE913 /* Main.storyboard */; };
+		72820812284CD04E00AEE913 /* LogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72820811284CD04E00AEE913 /* LogInViewController.swift */; };
 		72820817284CD05000AEE913 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 72820816284CD05000AEE913 /* Assets.xcassets */; };
 		7282081A284CD05000AEE913 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 72820818284CD05000AEE913 /* LaunchScreen.storyboard */; };
 		72820827284CE21400AEE913 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72820826284CE21400AEE913 /* User.swift */; };
 		72820829284CE29800AEE913 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72820828284CE29800AEE913 /* Message.swift */; };
 		7282082B284CE2C500AEE913 /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282082A284CE2C500AEE913 /* GameData.swift */; };
 		7282082D284CE37400AEE913 /* Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7282082C284CE37400AEE913 /* Extension.swift */; };
+		8D51C89706DA4CD71FA781E6 /* Pods_RPSGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		6082B3219E68F94196E073DD /* Pods-RPSGame.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPSGame.debug.xcconfig"; path = "Target Support Files/Pods-RPSGame/Pods-RPSGame.debug.xcconfig"; sourceTree = "<group>"; };
 		7282080A284CD04E00AEE913 /* RPSGame.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RPSGame.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7282080D284CD04E00AEE913 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7282080F284CD04E00AEE913 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		72820811284CD04E00AEE913 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
-		72820814284CD04E00AEE913 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		72820811284CD04E00AEE913 /* LogInViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogInViewController.swift; sourceTree = "<group>"; };
 		72820816284CD05000AEE913 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		72820819284CD05000AEE913 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7282081B284CD05000AEE913 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -32,6 +32,8 @@
 		72820828284CE29800AEE913 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		7282082A284CE2C500AEE913 /* GameData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		7282082C284CE37400AEE913 /* Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Extension.swift; sourceTree = "<group>"; };
+		7DA048D670757887B8CA9AD6 /* Pods-RPSGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPSGame.release.xcconfig"; path = "Target Support Files/Pods-RPSGame/Pods-RPSGame.release.xcconfig"; sourceTree = "<group>"; };
+		D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPSGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -39,6 +41,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8D51C89706DA4CD71FA781E6 /* Pods_RPSGame.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -50,6 +53,8 @@
 			children = (
 				7282080C284CD04E00AEE913 /* RPSGame */,
 				7282080B284CD04E00AEE913 /* Products */,
+				C1A7508982406084D079AF59 /* Pods */,
+				BE69F6E8666E2307E89CB52B /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -98,7 +103,6 @@
 		72820824284CE14E00AEE913 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				72820813284CD04E00AEE913 /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -106,9 +110,26 @@
 		72820825284CE15600AEE913 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				72820811284CD04E00AEE913 /* ViewController.swift */,
+				72820811284CD04E00AEE913 /* LogInViewController.swift */,
 			);
 			path = Controller;
+			sourceTree = "<group>";
+		};
+		BE69F6E8666E2307E89CB52B /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		C1A7508982406084D079AF59 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				6082B3219E68F94196E073DD /* Pods-RPSGame.debug.xcconfig */,
+				7DA048D670757887B8CA9AD6 /* Pods-RPSGame.release.xcconfig */,
+			);
+			path = Pods;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -118,9 +139,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 7282081E284CD05000AEE913 /* Build configuration list for PBXNativeTarget "RPSGame" */;
 			buildPhases = (
+				74E89692749CA0DB2D48AD35 /* [CP] Check Pods Manifest.lock */,
 				72820806284CD04E00AEE913 /* Sources */,
 				72820807284CD04E00AEE913 /* Frameworks */,
 				72820808284CD04E00AEE913 /* Resources */,
+				F96D84D670B7EECD29F226FB /* [CP] Embed Pods Frameworks */,
+				C4D8A020897E597F923AC877 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -171,11 +195,69 @@
 			files = (
 				7282081A284CD05000AEE913 /* LaunchScreen.storyboard in Resources */,
 				72820817284CD05000AEE913 /* Assets.xcassets in Resources */,
-				72820815284CD04E00AEE913 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		74E89692749CA0DB2D48AD35 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-RPSGame-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		C4D8A020897E597F923AC877 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F96D84D670B7EECD29F226FB /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-RPSGame/Pods-RPSGame-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		72820806284CD04E00AEE913 /* Sources */ = {
@@ -185,7 +267,7 @@
 				72820827284CE21400AEE913 /* User.swift in Sources */,
 				7282082B284CE2C500AEE913 /* GameData.swift in Sources */,
 				7282082D284CE37400AEE913 /* Extension.swift in Sources */,
-				72820812284CD04E00AEE913 /* ViewController.swift in Sources */,
+				72820812284CD04E00AEE913 /* LogInViewController.swift in Sources */,
 				72820829284CE29800AEE913 /* Message.swift in Sources */,
 				7282080E284CD04E00AEE913 /* AppDelegate.swift in Sources */,
 				72820810284CD04E00AEE913 /* SceneDelegate.swift in Sources */,
@@ -195,14 +277,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
-		72820813284CD04E00AEE913 /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				72820814284CD04E00AEE913 /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		72820818284CD05000AEE913 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -332,6 +406,7 @@
 		};
 		7282081F284CD05000AEE913 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 6082B3219E68F94196E073DD /* Pods-RPSGame.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -341,7 +416,6 @@
 				INFOPLIST_FILE = RPSGame/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -359,6 +433,7 @@
 		};
 		72820820284CD05000AEE913 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7DA048D670757887B8CA9AD6 /* Pods-RPSGame.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -368,7 +443,6 @@
 				INFOPLIST_FILE = RPSGame/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				LD_RUNPATH_SEARCH_PATHS = (
