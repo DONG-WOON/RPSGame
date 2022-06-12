@@ -8,8 +8,8 @@
 import Foundation
 
 
-struct GameData {
-    var userName: String
-    var userChoice: RPS?    // lazy는 optional일 때 못씀!
-    var userWantGameStart: Bool
+struct GamerInfo {
+    var name: String
+    var choice: RPS?    // lazy는 optional일 때 못씀!
+    var wantsGameStart: Bool
 }
