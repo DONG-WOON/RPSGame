@@ -3121,21 +3121,7 @@ IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
 			<key>License</key>
 			<string>Apache</string>
 			<key>Title</key>
-<<<<<<< HEAD
-			<string>GTMSessionFetcher</string>
-			<key>Type</key>
-			<string>PSGroupSpecifier</string>
-		</dict>
-		<dict>
-			<key>FooterText</key>
-			<string>Copyright 2022 Google</string>
-			<key>License</key>
-			<string>Copyright</string>
-			<key>Title</key>
-			<string>GoogleAppMeasurement</string>
-=======
 			<string>GTMAppAuth</string>
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
 		</dict>
@@ -3347,8 +3333,6 @@ IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
 			<key>License</key>
 			<string>Apache</string>
 			<key>Title</key>
-<<<<<<< HEAD
-=======
 			<string>GTMSessionFetcher</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -3571,7 +3555,6 @@ IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
 			<key>License</key>
 			<string>Apache</string>
 			<key>Title</key>
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
 			<string>GoogleDataTransport</string>
 			<key>Type</key>
 			<string>PSGroupSpecifier</string>
@@ -3780,8 +3763,6 @@ IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
-<<<<<<< HEAD
-=======
 </string>
 			<key>License</key>
 			<string>Apache</string>
@@ -3994,7 +3975,6 @@ IF IBM IS APPRISED OF THE POSSIBILITY OF SUCH DAMAGES.
    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
    See the License for the specific language governing permissions and
    limitations under the License.
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
 
 ================================================================================
 

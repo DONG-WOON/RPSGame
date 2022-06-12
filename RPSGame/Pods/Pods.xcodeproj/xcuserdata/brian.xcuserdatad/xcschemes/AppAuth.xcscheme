@@ -14,9 +14,9 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "0E07082C9A53E05662B11D6D1D39D191"
-               BuildableName = "GoogleAppUtilities"
-               BlueprintName = "GoogleAppUtilities"
+               BlueprintIdentifier = "5C642AA10FB29936669CC269F42079C6"
+               BuildableName = "AppAuth.framework"
+               BlueprintName = "AppAuth"
                ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>

@@ -99,13 +99,10 @@ PODS:
     - GoogleUtilities/Environment (~> 7.7)
     - nanopb (< 2.30910.0, >= 2.30908.0)
     - PromisesObjC (< 3.0, >= 1.2)
-<<<<<<< HEAD
-=======
   - GoogleSignIn (6.2.2):
     - AppAuth (~> 1.5)
     - GTMAppAuth (~> 1.3)
     - GTMSessionFetcher/Core (~> 1.1)
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
   - GoogleUtilities/AppDelegateSwizzler (7.7.0):
     - GoogleUtilities/Environment
     - GoogleUtilities/Logger
@@ -142,6 +139,7 @@ DEPENDENCIES:
   - Firebase/Core
   - Firebase/Database
   - Firebase/Storage
+  - GoogleSignIn
 
 SPEC REPOS:
   trunk:
@@ -161,10 +159,7 @@ SPEC REPOS:
     - FirebaseStorageInternal
     - GoogleAppMeasurement
     - GoogleDataTransport
-<<<<<<< HEAD
-=======
     - GoogleSignIn
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
     - GoogleUtilities
     - GTMAppAuth
     - GTMSessionFetcher
@@ -189,10 +184,7 @@ SPEC CHECKSUMS:
   FirebaseStorageInternal: d0e5482946dd483dbb2f6a76ef5750b9b5907049
   GoogleAppMeasurement: 8ecc717f2abe3f9ee95a5d38db08827852894acc
   GoogleDataTransport: 5fffe35792f8b96ec8d6775f5eccd83c998d5a3b
-<<<<<<< HEAD
-=======
   GoogleSignIn: 3c68388ac221f379676e8f1cb115df3aaf73b93f
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
   GoogleUtilities: e0913149f6b0625b553d70dae12b49fc62914fd1
   GTMAppAuth: 4d8f864896f3646f0c33baf38a28362f4c601e15
   GTMSessionFetcher: 5595ec75acf5be50814f81e9189490412bad82ba
@@ -200,6 +192,6 @@ SPEC CHECKSUMS:
   nanopb: b552cce312b6c8484180ef47159bc0f65a1f0431
   PromisesObjC: 99b6f43f9e1044bd87a95a60beff28c2c44ddb72
 
-PODFILE CHECKSUM: 5df46e85d8cd062bff2bd0e8307a96362a88cc72
+PODFILE CHECKSUM: 2bbd0b00ef28969e41e522d544cb7367e40143cd
 
 COCOAPODS: 1.11.3
