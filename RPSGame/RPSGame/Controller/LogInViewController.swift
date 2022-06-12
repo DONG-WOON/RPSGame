@@ -26,13 +26,10 @@ final class LoginViewController: UIViewController {
         
         appear()
         
-<<<<<<< HEAD
-=======
         // 테스트할 user객체 생성
         let dummyUser = DummyUser(id: "DKA8a7NWR", name: "domb", profileThumbnailImageURL: "www.ddd.com.url", record: Record(win: 0, lose: 0), isLogin: false, isInGame: false, isInvited: false)
         
         UserService.Upload(user: dummyUser)
->>>>>>> 1143afd8196a61dedcb86bdba5f796e5559fb27e
     }
     
     private func setupBackgroundView() {
