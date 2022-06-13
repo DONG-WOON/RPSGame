@@ -8,16 +8,13 @@
 import Foundation
 import Firebase
 import KakaoSDKUser
+import KakaoSDKCommon
 import GoogleSignIn
 
 // MARK: - UserService
-
-typealias AuthDataResultCallback = ((AuthDataResult?, Error?) -> Void)?
-
 struct UserService {
     
-    //카카오톡으로 로그인 후 에러 없다면 이 메소드 호출해서 사용자 정보를 database에 등록한다.
-    static func register() {
+    static func uploadKakaoUser() {
         UserApi.shared.me { (user, error) in
             if let error = error {
                 print("DEBUG: register Error\(error.localizedDescription)")
@@ -32,14 +29,30 @@ struct UserService {
                                                        "name": userName,
                                                        "profileImageUrl": userProfileImageUrl,
                                                        "record": ["win": 0, "lose": 0],
-                                                       "isLogin": false,
+                                                       "isLogin": true,
                                                        "isInGame": false,
                                                        "isInvited": false])
             }
         }
     }
     
+    static func uploadGoogleUser(_ credential: AuthCredential) {
+        Auth.auth().signIn(with: credential) { (authData, error) in
+            
+            guard let user = authData?.user else { return }
+            
+            USERS_REF.child("\(user.uid)").setValue(["id": user.uid,
+                                                     "name": user.displayName ?? "",
+                                                     "profileImageUrl": user.photoURL ?? "",
+                                                     "record": ["win": 0, "lose": 0],
+                                                     "isLogin": true,
+                                                     "isInGame": false,
+                                                     "isInvited": false])
+        }
+    }
+    
     static func fetchUser(completion: @escaping (User) -> Void) {
+        
         UserApi.shared.me { (user, error) in
             if let error = error {
                 print("DEBUG: fetchUser Error\(error.localizedDescription)")
@@ -77,25 +90,6 @@ struct UserService {
                 User(data: userData as! [String : Any])
             }
             completion(users)
-        }
-    }
-    
-    static func googleAuth(_ viewController: UIViewController, completion: AuthDataResultCallback) {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { user, error in
-            guard error == nil else { return }
-            
-            guard
-                let authentication = user?.authentication,
-                let idToken = authentication.idToken else { return }
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                           accessToken: authentication.accessToken)
-
-            Auth.auth().signIn(with: credential) { (AuthData, error) in
-                completion?(AuthData,error)
-            }
         }
     }
 }
