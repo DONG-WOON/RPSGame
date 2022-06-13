@@ -7,59 +7,59 @@
 
 import Foundation
 import Firebase
-
-// MARK: - UserProtocol
-
-protocol UserProtocol {
-    var id: String { get }
-    var name: String { get }
-    var profileThumbnailImageURL: String { get }
-    var record: Record { get }
-    var isLogin: Bool { get }
-    var isInGame: Bool { get }
-    var isInvited: Bool { get }
-}
-
-// MARK: - Mock
-
-struct DummyUser: UserProtocol {
-    let id: String
-    let name: String
-    let profileThumbnailImageURL: String
-    let record: Record
-    var isLogin: Bool
-    var isInGame: Bool
-    var isInvited: Bool
-}
+import KakaoSDKUser
+import GoogleSignIn
 
 // MARK: - UserService
 
+typealias AuthDataResultCallback = ((AuthDataResult?, Error?) -> Void)?
+
 struct UserService {
-    static func Upload(user: UserProtocol) {
-        USERS_REF.child(user.id).setValue(["id":user.id,
-                                           "name": user.name,
-                                           "profileImageURL": user.profileThumbnailImageURL,
-                                           "record": ["win": user.record.win, "lose": user.record.lose],
-                                           "isLogin": user.isLogin,
-                                           "isInGame": user.isInGame,
-                                           "isInvited": user.isInvited])
+    
+    //카카오톡으로 로그인 후 에러 없다면 이 메소드 호출해서 사용자 정보를 database에 등록한다.
+    static func register() {
+        UserApi.shared.me { (user, error) in
+            if let error = error {
+                print("DEBUG: register Error\(error.localizedDescription)")
+                return
+            } else {
+                guard let kakaoUser = user,
+                      let userID = kakaoUser.id,
+                      let userName = kakaoUser.kakaoAccount?.name,
+                      let userProfileImageUrl = kakaoUser.kakaoAccount?.profile?.thumbnailImageUrl else { return }
+                
+                USERS_REF.child("\(userID)").setValue(["id": userID,
+                                                       "name": userName,
+                                                       "profileImageUrl": userProfileImageUrl,
+                                                       "record": ["win": 0, "lose": 0],
+                                                       "isLogin": false,
+                                                       "isInGame": false,
+                                                       "isInvited": false])
+            }
+        }
     }
     
     static func fetchUser(completion: @escaping (User) -> Void) {
-        //구글이나 카카오의 로그인 아이디를 가져올수 있는 코드 구현
-        // -> child의 id에 대입
-        
-        USERS_REF.child("DKA877JNWR").getData { (error, snapshot) in
-            guard error == nil else {
-                print(error!.localizedDescription)
+        UserApi.shared.me { (user, error) in
+            if let error = error {
+                print("DEBUG: fetchUser Error\(error.localizedDescription)")
                 return
+            } else {
+                guard let user = user, let userID = user.id else { return }
+                
+                USERS_REF.child("\(userID)").getData { (error, snapshot) in
+                    guard error == nil else {
+                        print(error!.localizedDescription)
+                        return
+                    }
+                    
+                    guard let userData = snapshot?.value as? [String: Any] else {
+                        fatalError("DEBUG: user data is nil")
+                    }
+                    let user = User(data: userData)
+                    completion(user)
+                }
             }
-            
-            guard let userData = snapshot?.value as? [String: Any] else {
-                fatalError("DEBUG: user data is nil")
-            }
-            let user = User(data: userData)
-            completion(user)
         }
     }
     
@@ -77,6 +77,25 @@ struct UserService {
                 User(data: userData as! [String : Any])
             }
             completion(users)
+        }
+    }
+    
+    static func googleAuth(_ viewController: UIViewController, completion: AuthDataResultCallback) {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: viewController) { user, error in
+            guard error == nil else { return }
+            
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken else { return }
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+
+            Auth.auth().signIn(with: credential) { (AuthData, error) in
+                completion?(AuthData,error)
+            }
         }
     }
 }

@@ -8,6 +8,9 @@
 import UIKit
 import FirebaseCore
 import GoogleSignIn
+import KakaoSDKCommon
+import KakaoSDKAuth
+
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,16 +18,25 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        KakaoSDK.initSDK(appKey: "004161ac9e99efb4270ab01b646bcdbe")
         FirebaseApp.configure()
         return true
     }
 
     // MARK: UISceneSession Lifecycle
+    
+    // 인증이 끝나고 앱이 받는 url을 처리한다
     @available(iOS 9.0, *)
-    func application(_ application: UIApplication, open url: URL,
-                     options: [UIApplication.OpenURLOptionsKey: Any])
-      -> Bool {
-      return GIDSignIn.sharedInstance.handle(url)
+    func application(_ application: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey: Any]) -> Bool {
+        if (AuthApi.isKakaoTalkLoginUrl(url)) {
+            if AuthController.handleOpenUrl(url: url, options: options) {
+                return true
+            }
+        }
+        else {
+            return GIDSignIn.sharedInstance.handle(url)
+        }
+        return false
     }
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

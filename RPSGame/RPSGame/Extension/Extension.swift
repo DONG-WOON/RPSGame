@@ -21,13 +21,13 @@ extension UIViewController {
 
 // MARK: - UIView
 extension UIView {
-    func anchor(top: NSLayoutYAxisAnchor?, paddingTop: CGFloat) {
+    func anchor(top: NSLayoutYAxisAnchor?, paddingTop: CGFloat, left: NSLayoutXAxisAnchor?, paddingLeft: CGFloat) {
         
         translatesAutoresizingMaskIntoConstraints = false
         
         if let top = top {
             topAnchor.constraint(equalTo: top, constant: paddingTop).isActive = true
+
         }
-       
     }
 }

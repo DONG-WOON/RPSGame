@@ -8,10 +8,10 @@
 import Foundation
 import Firebase
 
-struct User: UserProtocol {
-    let id: String
+struct User {
+    let id: Int64
     let name: String
-    let profileThumbnailImageURL: String
+    let profileThumbnailImageUrl: String
     let record: Record
     
     var isLogin: Bool
@@ -19,9 +19,9 @@ struct User: UserProtocol {
     var isInvited: Bool  //observe 등록해서 데이터 관찰 / 초대장 구현에 필요
     
     init(data: [String: Any]) {
-        self.id = data["id"] as? String ?? ""
+        self.id = data["id"] as? Int64 ?? 0
         self.name = data["name"] as? String ?? ""
-        self.profileThumbnailImageURL = data["profileThumbnailImageURL"] as? String ?? ""
+        self.profileThumbnailImageUrl = data["profileThumbnailImageUrl"] as? String ?? ""
         self.record = data["record"] as? Record ?? Record(win: 0, lose: 0)
         self.isLogin = data["isLogin"] as? Bool ?? false
         self.isInGame = data["isInGame"] as? Bool ?? false
