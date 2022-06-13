@@ -7,6 +7,7 @@
 
 import UIKit
 import Firebase
+import GoogleSignIn
 
 
 final class LoginViewController: UIViewController {
@@ -15,6 +16,7 @@ final class LoginViewController: UIViewController {
     private let mainLabel = UILabel()
     private let kakaoLoginButton = UIButton()
     private let loginButtonStack = UIStackView()
+    private let googleLoginButton = GIDSignInButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -25,11 +27,6 @@ final class LoginViewController: UIViewController {
         setupLoginButtons()
         
         appear()
-        
-        // 테스트할 user객체 생성
-        let dummyUser = DummyUser(id: "DKA8a7NWR", name: "domb", profileThumbnailImageURL: "www.ddd.com.url", record: Record(win: 0, lose: 0), isLogin: false, isInGame: false, isInvited: false)
-        
-        UserService.Upload(user: dummyUser)
     }
     
     private func setupBackgroundView() {
@@ -68,15 +65,23 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupLoginButtons() {
-        loginButtonStack.addArrangedSubview(kakaoLoginButton)
+//        loginButtonStack.addArrangedSubview(kakaoLoginButton)
+        loginButtonStack.addArrangedSubview(googleLoginButton)
 
-        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
-        kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
-        kakaoLoginButton.alpha = 0
+//        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
+//        kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
+//        kakaoLoginButton.alpha = 0
+//
+//        kakaoLoginButton.translatesAutoresizingMaskIntoConstraints = false
+//        kakaoLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+//        kakaoLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        
+        googleLoginButton.addTarget(self, action: #selector(googleLogin), for: .touchUpInside)
+        googleLoginButton.alpha = 0
 
-        kakaoLoginButton.translatesAutoresizingMaskIntoConstraints = false
-        kakaoLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-        kakaoLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        googleLoginButton.translatesAutoresizingMaskIntoConstraints = false
+        googleLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
+        googleLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
     }
     
     private func setupStackView() {
@@ -98,13 +103,18 @@ final class LoginViewController: UIViewController {
         UIView.animate(withDuration: 3) {
             self.backgroundView.alpha = 1
             self.mainLabel.alpha = 1
-            self.kakaoLoginButton.alpha = 1
+//            self.kakaoLoginButton.alpha = 1
+            self.googleLoginButton.alpha = 1
             self.mainLabel.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
         }
     }
     
+    @objc func googleLogin() {
+        UserService.googleAuth(self, completion: nil)
+    }
+    
     @objc func kakaoLogin() {
-        print("dhdld")
+        print("일단")
     }
 }
 
