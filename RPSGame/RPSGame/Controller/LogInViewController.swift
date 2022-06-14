@@ -8,6 +8,9 @@
 import UIKit
 import Firebase
 import GoogleSignIn
+import KakaoSDKCommon
+import KakaoSDKAuth
+import KakaoSDKUser
 
 
 final class LoginViewController: UIViewController {
@@ -65,23 +68,16 @@ final class LoginViewController: UIViewController {
     }
     
     private func setupLoginButtons() {
-//        loginButtonStack.addArrangedSubview(kakaoLoginButton)
-        loginButtonStack.addArrangedSubview(googleLoginButton)
+        loginButtonStack.addArrangedSubview(kakaoLoginButton)
 
-//        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
-//        kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
-//        kakaoLoginButton.alpha = 0
-//
-//        kakaoLoginButton.translatesAutoresizingMaskIntoConstraints = false
-//        kakaoLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-//        kakaoLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
+        kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
+
+        loginButtonStack.addArrangedSubview(googleLoginButton)
         
         googleLoginButton.addTarget(self, action: #selector(googleLogin), for: .touchUpInside)
-        googleLoginButton.alpha = 0
-
         googleLoginButton.translatesAutoresizingMaskIntoConstraints = false
-        googleLoginButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -100).isActive = true
-        googleLoginButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        googleLoginButton.style = .wide
     }
     
     private func setupStackView() {
@@ -90,7 +86,8 @@ final class LoginViewController: UIViewController {
         loginButtonStack.axis = .vertical
         loginButtonStack.spacing = 20.0
         loginButtonStack.alignment = .center
-        loginButtonStack.distribution = .fillEqually
+        loginButtonStack.distribution = .fill
+        loginButtonStack.alpha = 0
         
         loginButtonStack.translatesAutoresizingMaskIntoConstraints = false
         loginButtonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
@@ -100,11 +97,10 @@ final class LoginViewController: UIViewController {
     
     
     private func appear() {
-        UIView.animate(withDuration: 3) {
+        UIView.animate(withDuration: 2) {
             self.backgroundView.alpha = 1
             self.mainLabel.alpha = 1
-//            self.kakaoLoginButton.alpha = 1
-            self.googleLoginButton.alpha = 1
+            self.loginButtonStack.alpha = 1
             self.mainLabel.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
         }
     }
@@ -115,6 +111,18 @@ final class LoginViewController: UIViewController {
     
     @objc func kakaoLogin() {
         print("일단")
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print(error)
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+
+                    _ = oauthToken
+                }
+            }
+        }
     }
 }
 
