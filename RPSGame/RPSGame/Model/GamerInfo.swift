@@ -9,7 +9,8 @@ import Foundation
 
 
 struct GamerInfo {
-    var name: String
+    var name: Int
     var choice: RPS?    // lazy는 optional일 때 못씀!
     var wantsGameStart: Bool
+    let gitTest: String
 }
