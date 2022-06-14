@@ -14,7 +14,7 @@ import KakaoSDKUser
 
 
 final class LoginViewController: UIViewController {
-
+    
     private let backgroundView = UIImageView()
     private let mainLabel = UILabel()
     private let kakaoLoginButton = UIButton()
@@ -49,12 +49,12 @@ final class LoginViewController: UIViewController {
         view.addSubview(mainLabel)
         
         let constraints = [
-        mainLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-        mainLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150),
-        mainLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
-        mainLabel.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
+            mainLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
+            mainLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            mainLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
+            mainLabel.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
         ]
-
+        
         NSLayoutConstraint.activate(constraints)
         
         mainLabel.backgroundColor = .systemGray
@@ -69,10 +69,10 @@ final class LoginViewController: UIViewController {
     
     private func setupLoginButtons() {
         loginButtonStack.addArrangedSubview(kakaoLoginButton)
-
+        
         kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
         kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
-
+        
         loginButtonStack.addArrangedSubview(googleLoginButton)
         
         googleLoginButton.addTarget(self, action: #selector(googleLogin), for: .touchUpInside)
@@ -106,7 +106,28 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func googleLogin() {
-        UserService.googleAuth(self, completion: nil)
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
+        
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { (user, error) in
+            
+            if let error = error {
+                print("DEBUG Google Login Error\(error.localizedDescription)")
+                return
+            }
+            
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken
+            else {
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            UserService.uploadGoogleUser(credential)
+        }
     }
     
     @objc func kakaoLogin() {
@@ -118,8 +139,8 @@ final class LoginViewController: UIViewController {
                 }
                 else {
                     print("loginWithKakaoTalk() success.")
-
                     _ = oauthToken
+                    UserService.uploadKakaoUser()
                 }
             }
         }
