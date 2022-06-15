@@ -127,6 +127,7 @@ final class LoginViewController: UIViewController {
                                                            accessToken: authentication.accessToken)
             
             UserService.uploadGoogleUser(credential)
+            self.dismiss(animated: true, completion: nil)
         }
     }
     
@@ -144,6 +145,7 @@ final class LoginViewController: UIViewController {
                 }
             }
         }
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

@@ -19,6 +19,8 @@
 		72FB25F72855A91B0025A211 /* UserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB25F62855A91B0025A211 /* UserService.swift */; };
 		72FB25FB2855B37B0025A211 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 72FB25FA2855B37B0025A211 /* GoogleService-Info.plist */; };
 		72FB25FD2855CAA30025A211 /* Reference.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB25FC2855CAA30025A211 /* Reference.swift */; };
+		72FB25FF2859C3D60025A211 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB25FE2859C3D60025A211 /* MainViewController.swift */; };
+		72FB26032859DBEE0025A211 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB26022859DBEE0025A211 /* UserTableViewCell.swift */; };
 		8D51C89706DA4CD71FA781E6 /* Pods_RPSGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */; };
 /* End PBXBuildFile section */
 
@@ -38,6 +40,8 @@
 		72FB25F62855A91B0025A211 /* UserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserService.swift; sourceTree = "<group>"; };
 		72FB25FA2855B37B0025A211 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		72FB25FC2855CAA30025A211 /* Reference.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Reference.swift; sourceTree = "<group>"; };
+		72FB25FE2859C3D60025A211 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		72FB26022859DBEE0025A211 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		7DA048D670757887B8CA9AD6 /* Pods-RPSGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPSGame.release.xcconfig"; path = "Target Support Files/Pods-RPSGame/Pods-RPSGame.release.xcconfig"; sourceTree = "<group>"; };
 		D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPSGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -112,6 +116,7 @@
 		72820824284CE14E00AEE913 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				72FB26022859DBEE0025A211 /* UserTableViewCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -120,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				72820811284CD04E00AEE913 /* LogInViewController.swift */,
+				72FB25FE2859C3D60025A211 /* MainViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -267,6 +273,7 @@
 			files = (
 				72820827284CE21400AEE913 /* User.swift in Sources */,
 				7282082B284CE2C500AEE913 /* GamerInfo.swift in Sources */,
+				72FB26032859DBEE0025A211 /* UserTableViewCell.swift in Sources */,
 				7282082D284CE37400AEE913 /* Extension.swift in Sources */,
 				72820812284CD04E00AEE913 /* LogInViewController.swift in Sources */,
 				72FB25F72855A91B0025A211 /* UserService.swift in Sources */,
@@ -274,6 +281,7 @@
 				72FB25FD2855CAA30025A211 /* Reference.swift in Sources */,
 				7282080E284CD04E00AEE913 /* AppDelegate.swift in Sources */,
 				72820810284CD04E00AEE913 /* SceneDelegate.swift in Sources */,
+				72FB25FF2859C3D60025A211 /* MainViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
