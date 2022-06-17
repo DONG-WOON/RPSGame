@@ -30,22 +30,23 @@ Architecture - MVC패턴
 
 ### 프레임워크
 > UIKit
+
 ### 라이브러리
 코코아 팟을 활용한 SDK설치 및 활용
 
-**데이터베이스 저장 및 불러오기 기능 활용**
-> Firebase/Core
-> Firebase/Database
-> Firebase/Auth
-> Firebase/Storage
-
-**구글 로그인 및 사용자 정보 활용**
-> GoogleSignIn
-
-**카카오 로그인 및 사용자 정보 활용**
-> KakaoSDKCommon
-> KakaoSDKAuth
-> KakaoSDKUser
+> **데이터베이스 저장 및 불러오기 기능 활용**
+> - Firebase/Core
+> - Firebase/Database
+> - Firebase/Auth
+> - Firebase/Storage
+>
+> **구글 로그인 및 사용자 정보 활용**
+> - GoogleSignIn
+>
+> **카카오 로그인 및 사용자 정보 활용**
+> - KakaoSDKCommon
+> - KakaoSDKAuth
+> - KakaoSDKUser
 
 ## 핵심 경험
 
