@@ -26,7 +26,7 @@
 
 
 ### 디자인 패턴
-Architecture - MVC패턴
+> Architecture - MVC패턴
 
 ### 프레임워크
 > UIKit
