@@ -1,8 +1,8 @@
 # 죽음의 RPS GAME
 
-<img alt="Swift" src ="https://img.shields.io/badge/swift-#F05138.svg?&style=for-the-badge&logo=swift&logoColor=White"/>
-<img alt="Xcode" src ="https://img.shields.io/badge/Xcode-#147EFB.svg?&style=for-the-badge&logo=Xcode&logoColor=White"/>
-<img alt="Firebase" src ="https://img.shields.io/badge/Firebase-#FFCA28.svg?&style=for-the-badge&logo=Firebase&logoColor=White"/>
+<img alt="Swift" src ="https://img.shields.io/badge/Swift-#F05138?&style=for-the-badge&logo=Swift&logoColor=white"/>
+<img alt="Xcode" src ="https://img.shields.io/badge/Xcode-#147EFB?&style=for-the-badge&logo=Xcode&logoColor=white"/>
+<img alt="Firebase" src ="https://img.shields.io/badge/Firebase-#FFCA28?&style=for-the-badge&logo=Firebase&logoColor=white"/>
 
 <!-- <img alt="기술명" src ="https://img.shields.io/badge/기술명-원하는색상코드.svg?&style=for-the-badge&logo=로고명&logoColor=로고색상"/> -->
 
