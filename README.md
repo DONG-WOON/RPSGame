@@ -2,7 +2,11 @@
 
 <img alt="Swift" src ="https://img.shields.io/badge/Swift-#F05138?&style=for-the-badge&logo=Swift&logoColor=white"/>
 <img alt="Xcode" src ="https://img.shields.io/badge/Xcode-#147EFB?&style=for-the-badge&logo=Xcode&logoColor=white"/>
-<img alt="Firebase" src ="https://img.shields.io/badge/Firebase-#FFCA28?&style=for-the-badge&logo=Firebase&logoColor=white"/>
+<img alt="Firebase" src ="https://img.shields.io/badge/Firebase-#FFCA28?&style=for-the-badge&logo=Firebase&logoColor=white"/>\
+
+<img src="https://img.shields.io/badge/Swift-F05138?style=flat-square&logo=Swift&logoColor=white"/></a>&nbsp 
+<img src="https://img.shields.io/badge/Xcode-147EFB?style=flat-square&logo=Xcode&logoColor=white"/></a>&nbsp 
+<img src="https://img.shields.io/badge/Firebase-FFCA28?style=flat-square&logo=Firebase&logoColor=white"/></a>&nbsp 
 
 <!-- <img alt="기술명" src ="https://img.shields.io/badge/기술명-원하는색상코드.svg?&style=for-the-badge&logo=로고명&logoColor=로고색상"/> -->
 
