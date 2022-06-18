@@ -29,10 +29,11 @@ class MyInformationView: UIView {
         
         guard let view = view else { return }
 //        view.backgroundColor = UIColor(displayP3Red: 148/255, green: 180/255, blue: 159/255, alpha: 1)
-        view.backgroundColor = UIColor(red: 148/255, green: 180/255, blue: 159/255, alpha: 1)
+        view.backgroundColor = UIColor(red: 255/255, green: 211/255, blue: 110/255, alpha: 1)
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.frame = self.bounds
         addSubview(view)
         myProfiileImage.contentMode = .scaleAspectFill
+        view.layer.cornerRadius = 10
     }
 }
