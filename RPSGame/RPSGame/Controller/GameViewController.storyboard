@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--가위 바위 보-->
+        <scene sceneID="s0d-6b-0kx">
+            <objects>
+                <viewController storyboardIdentifier="GameViewController" id="Y6W-OH-hqX" customClass="GameViewController" customModule="RPSGame" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="5EZ-qb-Rvc">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pt3-He-MRO">
+                                <rect key="frame" x="30" y="144" width="354" height="354"/>
+                                <color key="backgroundColor" systemColor="systemBrownColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="pt3-He-MRO" secondAttribute="height" multiplier="1:1" id="nRz-7q-bUP"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="rK7-S4-YSL">
+                                <rect key="frame" x="173.5" y="596" width="67" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                <connections>
+                                    <action selector="startGame:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Eyf-fB-weM"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ry5-ob-bVg">
+                                <rect key="frame" x="20" y="44" width="48.5" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" title="튀자"/>
+                                <connections>
+                                    <segue destination="VAr-Qq-4tx" kind="unwind" unwindAction="unwindToMain:" id="9xP-Pg-Td9"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ec5-E6-hSd">
+                                <rect key="frame" x="345.5" y="44" width="48.5" height="31"/>
+                                <state key="normal" title="Button"/>
+                                <buttonConfiguration key="configuration" style="plain" image="text.bubble" catalog="system"/>
+                                <connections>
+                                    <action selector="goChat:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="6Vh-oQ-At4"/>
+                                </connections>
+                            </button>
+                            <stackView opaque="NO" contentMode="scaleToFill" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="H8N-Zz-G0G">
+                                <rect key="frame" x="82.5" y="742" width="249" height="31"/>
+                                <subviews>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6OY-Ju-fhe">
+                                        <rect key="frame" x="0.0" y="0.0" width="67" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Hs1-UJ-j38"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5O-zd-Lpz">
+                                        <rect key="frame" x="91" y="0.0" width="67" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9Ws-tx-vh9"/>
+                                        </connections>
+                                    </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pz5-lY-rqu">
+                                        <rect key="frame" x="182" y="0.0" width="67" height="31"/>
+                                        <state key="normal" title="Button"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="Button"/>
+                                        <connections>
+                                            <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="462-9z-Sbh"/>
+                                        </connections>
+                                    </button>
+                                </subviews>
+                            </stackView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="vDu-zF-Fre"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="rK7-S4-YSL" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="00E-1m-P39"/>
+                            <constraint firstItem="Ry5-ob-bVg" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="20" id="33b-Qd-oYg"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="bottom" secondItem="H8N-Zz-G0G" secondAttribute="bottom" constant="89" id="Btc-E4-lE9"/>
+                            <constraint firstItem="pt3-He-MRO" firstAttribute="leading" secondItem="vDu-zF-Fre" secondAttribute="leading" constant="30" id="CAt-zG-yNh"/>
+                            <constraint firstItem="pt3-He-MRO" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" constant="100" id="Df5-p4-Jff"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="ec5-E6-hSd" secondAttribute="trailing" constant="20" id="DgB-tm-39V"/>
+                            <constraint firstItem="rK7-S4-YSL" firstAttribute="top" secondItem="pt3-He-MRO" secondAttribute="bottom" constant="98" id="J8b-sE-xkt"/>
+                            <constraint firstItem="ec5-E6-hSd" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="Nxw-K0-El6"/>
+                            <constraint firstItem="Ry5-ob-bVg" firstAttribute="top" secondItem="vDu-zF-Fre" secondAttribute="top" id="egU-0Q-WG2"/>
+                            <constraint firstItem="vDu-zF-Fre" firstAttribute="trailing" secondItem="pt3-He-MRO" secondAttribute="trailing" constant="30" id="qyO-Yk-udT"/>
+                            <constraint firstItem="H8N-Zz-G0G" firstAttribute="centerX" secondItem="vDu-zF-Fre" secondAttribute="centerX" id="xIB-iW-NAW"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="가위 바위 보" id="F0A-OI-ztr">
+                        <barButtonItem key="rightBarButtonItem" image="text.bubble" catalog="system" id="z7V-6D-1Kn"/>
+                    </navigationItem>
+                    <connections>
+                        <outlet property="gameView" destination="rK7-S4-YSL" id="0XT-92-ZpE"/>
+                        <outlet property="startButton" destination="rK7-S4-YSL" id="5xN-oD-XZs"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Ief-a0-LHa" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <exit id="VAr-Qq-4tx" userLabel="Exit" sceneMemberID="exit"/>
+            </objects>
+            <point key="canvasLocation" x="886.95652173913049" y="95.758928571428569"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="text.bubble" catalog="system" width="128" height="110"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+        <systemColor name="systemBrownColor">
+            <color red="0.63529411764705879" green="0.51764705882352946" blue="0.36862745098039218" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+        </systemColor>
+    </resources>
+</document>

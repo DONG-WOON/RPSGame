@@ -130,9 +130,10 @@ final class MainViewController: UIViewController {
     
     func setupTableView() {
         
+        userTableView.dataSource = self
+        userTableView.delegate = self
         userTableView.rowHeight = 80
         userTableView.register(UserTableViewCell.self, forCellReuseIdentifier: "UserTableViewCell")
-        userTableView.dataSource = self
         userTableView.layer.cornerRadius = 10
         userTableView.backgroundColor = UIColor(red: 255/255, green: 245/255, blue: 109/255, alpha: 1)
         userTableView.layer.borderWidth = 0.2
@@ -150,6 +151,19 @@ final class MainViewController: UIViewController {
                              paddingRight: 20)
     }
     
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let cell = sender as? UITableViewCell {
+            if let indexPath = userTableView.indexPath(for: cell) {
+                if let targetViewController = segue.destination as? GameViewController {
+                    targetViewController.opponent = users[indexPath.row]
+                }
+            }
+        }
+    }
+    
+    @IBAction func unwindToMain(_ unwindSegue: UIStoryboardSegue) {
+    }
+    
 }
 
 
@@ -159,6 +173,7 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
+//        return users.count
         return 8
     }
 
@@ -168,5 +183,19 @@ extension MainViewController: UITableViewDataSource {
         
         cell.backgroundColor = UIColor(red: 153/255, green: 255/255, blue: 205/255, alpha: 1)
         return cell
+    }
+}
+
+extension MainViewController: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if let cell = tableView.cellForRow(at: indexPath) {
+            let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
+            let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController")
+            
+            inGameVC.modalPresentationStyle = .fullScreen
+            self.present(inGameVC, animated: true, completion: nil)
+        }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
