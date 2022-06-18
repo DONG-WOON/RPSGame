@@ -188,14 +188,13 @@ extension MainViewController: UITableViewDataSource {
 
 extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+
+        let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
+        let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController")
         
-        if let cell = tableView.cellForRow(at: indexPath) {
-            let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
-            let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController")
-            
-            inGameVC.modalPresentationStyle = .fullScreen
-            self.present(inGameVC, animated: true, completion: nil)
-        }
+        inGameVC.modalPresentationStyle = .fullScreen
+        self.present(inGameVC, animated: true, completion: nil)
+    
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }
