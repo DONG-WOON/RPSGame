@@ -22,6 +22,8 @@
 		72FB25FF2859C3D60025A211 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB25FE2859C3D60025A211 /* MainViewController.swift */; };
 		72FB26032859DBEE0025A211 /* UserTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72FB26022859DBEE0025A211 /* UserTableViewCell.swift */; };
 		8D51C89706DA4CD71FA781E6 /* Pods_RPSGame.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */; };
+		D34123BE285B205600E8A648 /* MyInformationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34123BD285B205600E8A648 /* MyInformationView.swift */; };
+		D34123C0285B20A600E8A648 /* MyInformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D34123BF285B20A600E8A648 /* MyInformationView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -43,6 +45,8 @@
 		72FB25FE2859C3D60025A211 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		72FB26022859DBEE0025A211 /* UserTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserTableViewCell.swift; sourceTree = "<group>"; };
 		7DA048D670757887B8CA9AD6 /* Pods-RPSGame.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RPSGame.release.xcconfig"; path = "Target Support Files/Pods-RPSGame/Pods-RPSGame.release.xcconfig"; sourceTree = "<group>"; };
+		D34123BD285B205600E8A648 /* MyInformationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyInformationView.swift; sourceTree = "<group>"; };
+		D34123BF285B20A600E8A648 /* MyInformationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyInformationView.xib; sourceTree = "<group>"; };
 		D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPSGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -117,6 +121,8 @@
 			isa = PBXGroup;
 			children = (
 				72FB26022859DBEE0025A211 /* UserTableViewCell.swift */,
+				D34123BD285B205600E8A648 /* MyInformationView.swift */,
+				D34123BF285B20A600E8A648 /* MyInformationView.xib */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -217,6 +223,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				7282081A284CD05000AEE913 /* LaunchScreen.storyboard in Resources */,
+				D34123C0285B20A600E8A648 /* MyInformationView.xib in Resources */,
 				72820817284CD05000AEE913 /* Assets.xcassets in Resources */,
 				72FB25FB2855B37B0025A211 /* GoogleService-Info.plist in Resources */,
 			);
@@ -276,6 +283,7 @@
 				72FB26032859DBEE0025A211 /* UserTableViewCell.swift in Sources */,
 				7282082D284CE37400AEE913 /* Extension.swift in Sources */,
 				72820812284CD04E00AEE913 /* LogInViewController.swift in Sources */,
+				D34123BE285B205600E8A648 /* MyInformationView.swift in Sources */,
 				72FB25F72855A91B0025A211 /* UserService.swift in Sources */,
 				72820829284CE29800AEE913 /* Message.swift in Sources */,
 				72FB25FD2855CAA30025A211 /* Reference.swift in Sources */,

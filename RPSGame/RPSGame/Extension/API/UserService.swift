@@ -27,7 +27,7 @@ struct UserService {
                 
                 USERS_REF.child("\(userID)").setValue(["id": userID,
                                                        "name": userName,
-                                                       "profileImageUrl": userProfileImageUrl,
+//                                                       "profileImageUrl": userProfileImageUrl,
                                                        "record": ["win": 0, "lose": 0],
                                                        "isLogin": true,
                                                        "isInGame": false,
@@ -43,7 +43,7 @@ struct UserService {
             
             USERS_REF.child("\(user.uid)").setValue(["id": user.uid,
                                                      "name": user.displayName ?? "",
-                                                     "profileImageUrl": user.photoURL ?? "",
+//                                                     "profileImageUrl": user.photoURL ?? "",
                                                      "record": ["win": 0, "lose": 0],
                                                      "isLogin": true,
                                                      "isInGame": false,
