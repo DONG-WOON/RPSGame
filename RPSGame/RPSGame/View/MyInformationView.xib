@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="MyInformationView" customModule="RPSGame" customModuleProvider="target">
+            <connections>
+                <outlet property="myGameRecord" destination="f7Y-ag-bM7" id="Q9S-LV-64d"/>
+                <outlet property="myName" destination="39d-Br-OLt" id="2cx-rw-2g9"/>
+                <outlet property="myProfiileImage" destination="pkX-6K-5Es" id="jzw-8R-acF"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="RJd-Fi-Ejo" customClass="MyInformationView" customModule="RPSGame" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="427" height="180"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" alignment="top" spacing="46" translatesAutoresizingMaskIntoConstraints="NO" id="4qx-0y-uNN">
+                    <rect key="frame" x="180" y="40" width="227" height="80"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="이름" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="39d-Br-OLt">
+                            <rect key="frame" x="0.0" y="0.0" width="35" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00전 00승 00무 00패 " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" minimumFontSize="8" translatesAutoresizingMaskIntoConstraints="NO" id="f7Y-ag-bM7">
+                            <rect key="frame" x="0.0" y="63" width="142" height="17"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="15"/>
+                            <nil key="textColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                    </subviews>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="80" id="Efr-RL-S6B"/>
+                    </constraints>
+                </stackView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="따라서" translatesAutoresizingMaskIntoConstraints="NO" id="pkX-6K-5Es">
+                    <rect key="frame" x="20" y="20" width="140" height="140"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="140" id="0jg-4W-cDa"/>
+                        <constraint firstAttribute="width" constant="140" id="sEy-GU-v1D"/>
+                    </constraints>
+                </imageView>
+            </subviews>
+            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+            <constraints>
+                <constraint firstItem="pkX-6K-5Es" firstAttribute="top" secondItem="RJd-Fi-Ejo" secondAttribute="top" constant="20" id="5SX-tE-fuJ"/>
+                <constraint firstAttribute="trailing" secondItem="4qx-0y-uNN" secondAttribute="trailing" constant="20" id="IyG-Vx-NYA"/>
+                <constraint firstItem="4qx-0y-uNN" firstAttribute="leading" secondItem="pkX-6K-5Es" secondAttribute="trailing" constant="20" id="c94-Ky-6WM"/>
+                <constraint firstAttribute="bottom" secondItem="pkX-6K-5Es" secondAttribute="bottom" constant="20" id="pBV-M7-TVG"/>
+                <constraint firstItem="pkX-6K-5Es" firstAttribute="leading" secondItem="RJd-Fi-Ejo" secondAttribute="leading" constant="20" id="uMW-Uo-mrv"/>
+                <constraint firstItem="4qx-0y-uNN" firstAttribute="top" secondItem="RJd-Fi-Ejo" secondAttribute="top" constant="40" id="yiB-nb-Awh"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <point key="canvasLocation" x="264.80000000000001" y="-334.63268365817095"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="따라서" width="1838" height="1875"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

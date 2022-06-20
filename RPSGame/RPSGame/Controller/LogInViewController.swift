@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController {
         setupStackView()
         setupLoginButtons()
         
-//        appear()
+        appear()
     }
     
     private func setupBackgroundView() {
