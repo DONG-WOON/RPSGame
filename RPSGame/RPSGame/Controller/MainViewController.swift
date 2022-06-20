@@ -49,8 +49,11 @@ final class MainViewController: UIViewController {
     private func fetchUserData(_ id: String) {
         UserService.fetchUser(id) { user in
             self.user = user
-            print(user)
+            self.myInformationView.myName.text = user.name
+            self.setupUI()
         }
+        
+        
     }
     
     private func checkIfUserIsLoggedIn() {
@@ -97,9 +100,14 @@ final class MainViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .white
-                
         
-
+        checkIfUserIsLoggedIn()
+//        setupUI()
+    }
+    
+// MARK: - Configure
+    
+    func setupUI() {
         view.addSubview(myInformationView)
         setupMyInformationView()
         
@@ -109,11 +117,7 @@ final class MainViewController: UIViewController {
 
         view.addSubview(logoutButton)
         setupLogoutButton()
-
-//        checkIfUserIsLoggedIn()
     }
-    
-// MARK: - Configure
     
     func setupMyInformationView() {
 

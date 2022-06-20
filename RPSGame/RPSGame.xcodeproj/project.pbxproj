@@ -26,6 +26,7 @@
 		D34123C0285B20A600E8A648 /* MyInformationView.xib in Resources */ = {isa = PBXBuildFile; fileRef = D34123BF285B20A600E8A648 /* MyInformationView.xib */; };
 		D34123C3285DCB3E00E8A648 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34123C1285DCB3E00E8A648 /* GameViewController.swift */; };
 		D34123C8285DCBB400E8A648 /* GameViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D34123C7285DCBB400E8A648 /* GameViewController.storyboard */; };
+		D34123CA2860BE0400E8A648 /* ChatTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34123C92860BE0400E8A648 /* ChatTableViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -51,6 +52,7 @@
 		D34123BF285B20A600E8A648 /* MyInformationView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MyInformationView.xib; sourceTree = "<group>"; };
 		D34123C1285DCB3E00E8A648 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		D34123C7285DCBB400E8A648 /* GameViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GameViewController.storyboard; sourceTree = "<group>"; };
+		D34123C92860BE0400E8A648 /* ChatTableViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewController.swift; sourceTree = "<group>"; };
 		D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPSGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -138,6 +140,7 @@
 				72FB25FE2859C3D60025A211 /* MainViewController.swift */,
 				D34123C1285DCB3E00E8A648 /* GameViewController.swift */,
 				D34123C7285DCBB400E8A648 /* GameViewController.storyboard */,
+				D34123C92860BE0400E8A648 /* ChatTableViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -298,6 +301,7 @@
 				7282080E284CD04E00AEE913 /* AppDelegate.swift in Sources */,
 				72820810284CD04E00AEE913 /* SceneDelegate.swift in Sources */,
 				72FB25FF2859C3D60025A211 /* MainViewController.swift in Sources */,
+				D34123CA2860BE0400E8A648 /* ChatTableViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
