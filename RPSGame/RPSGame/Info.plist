@@ -9,7 +9,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.733430878462-p409ml1j6feln5rgs8ald7p8cja2t5mr</string>
+				<string>com.googleusercontent.apps.733430878462-nvv35l8k77jrkbr3q1jf66oskrufmbd5</string>
 			</array>
 		</dict>
 		<dict>
@@ -20,6 +20,11 @@
 				<string>kakao004161ac9e99efb4270ab01b646bcdbe</string>
 			</array>
 		</dict>
+	</array>
+	<key>LSApplicationQueriesSchemes</key>
+	<array>
+		<string>kakaokompassauth</string>
+		<string>kakaolink</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>
@@ -38,10 +43,5 @@
 			</array>
 		</dict>
 	</dict>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<string>kakaokompassauth</string>
-		<string>kakaolink</string>
-	</array>
 </dict>
 </plist>

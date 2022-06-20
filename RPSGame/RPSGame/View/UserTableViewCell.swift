@@ -10,8 +10,6 @@ import UIKit
 class UserTableViewCell: UITableViewCell {
 // MARK: - Properties
     
-    let reusableTableViewCellIdentifier = "UserTableViewCell"
-    
     private let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill

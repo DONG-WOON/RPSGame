@@ -10,7 +10,7 @@ import KakaoSDKAuth
 import KakaoSDKUser
 import KakaoSDKCommon
 import GoogleSignIn
-import FirebaseAuth
+import Firebase
 
 class MainViewController: UIViewController {
 // MARK: - Properties
@@ -18,6 +18,7 @@ class MainViewController: UIViewController {
     private var users = [User]()
     private var userTableView = UITableView()
     private let logoutButton = UIButton()
+    private let reusableTableViewCellIdentifier = "UserTableViewCell"
     
 // MARK: - Actions
     
@@ -43,15 +44,16 @@ class MainViewController: UIViewController {
         }
     }
     
-    private func fetchUserData() {
-        UserService.fetchUser { [weak self] user in
-            self?.user = user
+    private func fetchUserData(_ id: String) {
+        UserService.fetchUser(id) { user in
+            self.user = user
+            print(user)
         }
     }
     
     private func checkIfUserIsLoggedIn() {
         if AuthApi.hasToken() {
-            UserApi.shared.accessTokenInfo { (_, error) in
+            UserApi.shared.accessTokenInfo { (tokenInfo, error) in
                 if let error = error {
                     if let sdkError = error as? SdkError, sdkError.isInvalidTokenError() == true  {
                         //로그인 필요
@@ -59,24 +61,30 @@ class MainViewController: UIViewController {
                         DispatchQueue.main.async {
                             let loginVC = LoginViewController()
                             loginVC.modalPresentationStyle = .fullScreen
-                            self.present(loginVC, animated: true, completion: nil)
+                            self.present(loginVC, animated: false, completion: nil)
                         }
                     }
                     else {
+                        //SDK에러가 아닌 다른 에러인 경우
                         print("login error: \(error.localizedDescription)")
                         return
                     }
                 }
                 else {
                     //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
-                    self.fetchUserData()
+                    guard let id = tokenInfo?.id else { return }
+                    let userIdToString = String(id)
+                    self.fetchUserData(userIdToString)
                 }
             }
-        } else if !GIDSignIn.sharedInstance.hasPreviousSignIn() {
+        } else if GIDSignIn.sharedInstance.hasPreviousSignIn() {
+            guard let id = Auth.auth().currentUser?.uid else { return }
+            self.fetchUserData(id)
+        } else {
             DispatchQueue.main.async {
                 let loginVC = LoginViewController()
                 loginVC.modalPresentationStyle = .fullScreen
-                self.present(loginVC, animated: true, completion: nil)
+                self.present(loginVC, animated: false, completion: nil)
             }
         }
     }

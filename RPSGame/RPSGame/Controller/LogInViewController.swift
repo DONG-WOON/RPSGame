@@ -29,7 +29,7 @@ final class LoginViewController: UIViewController {
         setupStackView()
         setupLoginButtons()
         
-        appear()
+//        appear()
     }
     
     private func setupBackgroundView() {
@@ -132,20 +132,19 @@ final class LoginViewController: UIViewController {
     }
     
     @objc func kakaoLogin() {
-        print("일단")
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
-                    print(error)
+                    print("login with kakaoTalk error: \(error)")
                 }
                 else {
                     print("loginWithKakaoTalk() success.")
                     _ = oauthToken
                     UserService.uploadKakaoUser()
+                    self.dismiss(animated: true, completion: nil)
                 }
             }
         }
-        self.dismiss(animated: true, completion: nil)
     }
 }
 
