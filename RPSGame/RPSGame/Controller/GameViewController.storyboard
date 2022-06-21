@@ -101,7 +101,11 @@
                                 </connections>
                             </button>
                         </barButtonItem>
-                        <barButtonItem key="rightBarButtonItem" image="text.bubble" catalog="system" id="z7V-6D-1Kn" userLabel="chat"/>
+                        <barButtonItem key="rightBarButtonItem" image="text.bubble" catalog="system" id="z7V-6D-1Kn" userLabel="chat">
+                            <connections>
+                                <action selector="goChat:" destination="Y6W-OH-hqX" id="DJw-uE-56H"/>
+                            </connections>
+                        </barButtonItem>
                     </navigationItem>
                     <connections>
                         <outlet property="gameView" destination="rK7-S4-YSL" id="0XT-92-ZpE"/>

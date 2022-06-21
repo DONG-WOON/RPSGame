@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="135" id="zAC-ay-UlH" customClass="ChatTableViewCell" customModule="N5mok" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="zAC-ay-UlH" id="cbt-WU-h1v">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="135"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" alignment="top" translatesAutoresizingMaskIntoConstraints="NO" id="j3x-QA-1Pa">
+                        <rect key="frame" x="10" y="5" width="300" height="125"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="UserName" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="mg2-gs-vxV">
+                                <rect key="frame" x="0.0" y="0.0" width="68.5" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Lpg-hr-O84">
+                                <rect key="frame" x="0.0" y="17" width="242" height="108"/>
+                                <subviews>
+                                    <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" scrollEnabled="NO" editable="NO" text="ㄴㅇㅁㄹㄷㅈㄹㄴㅁㅇㄹㅈㄷㄹㄴㅁㅇㄹㅈㄷㄹㄴㅇㅁㄹㅈㄷㄹㅁㄴㅇㄹㅁㄴㅇㄴㄴㅇㄹㄴㅇㅁㄹㄴㅇㅁㄹㅇㄴㅁㄹㄴㅇ" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="poB-9h-aEt">
+                                        <rect key="frame" x="7" y="0.0" width="228" height="108"/>
+                                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" relation="lessThanOrEqual" constant="230" id="xW0-Ui-ATZ"/>
+                                        </constraints>
+                                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                        <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                                    </textView>
+                                </subviews>
+                                <color key="backgroundColor" red="0.56053791809999998" green="0.69971643080000001" blue="0.96204790610000002" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstItem="poB-9h-aEt" firstAttribute="top" secondItem="Lpg-hr-O84" secondAttribute="top" id="EiS-ZR-6LR"/>
+                                    <constraint firstAttribute="bottom" secondItem="poB-9h-aEt" secondAttribute="bottom" id="XFw-ig-NZf"/>
+                                    <constraint firstItem="poB-9h-aEt" firstAttribute="leading" secondItem="Lpg-hr-O84" secondAttribute="leading" constant="7" id="cn8-y4-Ja8"/>
+                                    <constraint firstAttribute="trailing" secondItem="poB-9h-aEt" secondAttribute="trailing" constant="7" id="lLi-HJ-3MS"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                    </stackView>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" secondItem="j3x-QA-1Pa" secondAttribute="bottom" constant="5" id="Nhq-9e-klh"/>
+                    <constraint firstItem="j3x-QA-1Pa" firstAttribute="leading" secondItem="cbt-WU-h1v" secondAttribute="leading" constant="10" id="RQq-Zo-jfp"/>
+                    <constraint firstItem="j3x-QA-1Pa" firstAttribute="top" secondItem="cbt-WU-h1v" secondAttribute="top" constant="5" id="is3-gR-tVK"/>
+                    <constraint firstAttribute="trailing" secondItem="j3x-QA-1Pa" secondAttribute="trailing" constant="10" id="mO7-sf-2uY"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="A7X-fl-e7h"/>
+            <connections>
+                <outlet property="chatTextBubbleView" destination="Lpg-hr-O84" id="haA-W2-R7g"/>
+                <outlet property="chatTextView" destination="poB-9h-aEt" id="cep-dC-SGp"/>
+                <outlet property="stackView" destination="j3x-QA-1Pa" id="2U7-qz-HjL"/>
+                <outlet property="userNameLabel" destination="mg2-gs-vxV" id="nFY-bb-Emu"/>
+            </connections>
+            <point key="canvasLocation" x="131.8840579710145" y="144.97767857142856"/>
+        </tableViewCell>
+    </objects>
+</document>

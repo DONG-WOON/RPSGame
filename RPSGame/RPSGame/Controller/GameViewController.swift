@@ -23,7 +23,7 @@ final class GameViewController: UIViewController {
 // MARK: - Actions
     
     @IBAction func goChat(_ sender: Any) {
-        let chatVC = ChatTableViewController()
+        let chatVC = ChatViewController()
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
