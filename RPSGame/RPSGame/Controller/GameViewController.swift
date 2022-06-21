@@ -12,32 +12,25 @@ final class GameViewController: UIViewController {
 // MARK: - Properties
     @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var startButton: UIButton!
+    @IBOutlet weak var rpsButton: UIButton!
     var opponent: User?
     var myChoice: RPS?
     
 // MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
     }
 // MARK: - Actions
     
     @IBAction func goChat(_ sender: Any) {
-        
+        let chatVC = ChatTableViewController()
+        navigationController?.pushViewController(chatVC, animated: true)
     }
     
     @IBAction func startGame(_ sender: Any) {
         showMessage(title: "게임 시작", message: "게임을 시작할까유?", firstAction: "네") { [self] alertAction in
-            switch alertAction.style {
-                case .default:
-                    print("네를 눌렀구만")
-                    gamePlay()
-                case .cancel:
-                    print("아니오를 눌렀구만")
-                case .destructive:
-                    break
-                @unknown default:
-                    break
+            if alertAction.style == .default {
+                gamePlay()
             }
         }
     }
@@ -56,7 +49,7 @@ final class GameViewController: UIViewController {
     }
     
     private func gamePlay() {
-        
+        rpsButton.isEnabled.toggle()
     }
     
 // MARK: Helpers

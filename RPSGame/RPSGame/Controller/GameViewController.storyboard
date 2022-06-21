@@ -50,7 +50,7 @@
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="H8N-Zz-G0G">
                                 <rect key="frame" x="78" y="742" width="258" height="31"/>
                                 <subviews>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6OY-Ju-fhe">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6OY-Ju-fhe">
                                         <rect key="frame" x="0.0" y="0.0" width="70" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="rock"/>
@@ -58,7 +58,7 @@
                                             <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="Hs1-UJ-j38"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5O-zd-Lpz">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5O-zd-Lpz">
                                         <rect key="frame" x="94" y="0.0" width="70" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="scissor"/>
@@ -66,7 +66,7 @@
                                             <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9Ws-tx-vh9"/>
                                         </connections>
                                     </button>
-                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pz5-lY-rqu">
+                                    <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pz5-lY-rqu">
                                         <rect key="frame" x="188" y="0.0" width="70" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="paper"/>
@@ -105,6 +105,7 @@
                     </navigationItem>
                     <connections>
                         <outlet property="gameView" destination="rK7-S4-YSL" id="0XT-92-ZpE"/>
+                        <outlet property="rpsButton" destination="pz5-lY-rqu" id="1Pv-Uv-AIi"/>
                         <outlet property="startButton" destination="rK7-S4-YSL" id="5xN-oD-XZs"/>
                     </connections>
                 </viewController>
