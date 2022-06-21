@@ -7,7 +7,7 @@
 
 import UIKit
 
-class ChatViewController: UIViewController {
+final class ChatViewController: UIViewController {
     
 
     
@@ -20,14 +20,27 @@ class ChatViewController: UIViewController {
         let message3 = Message(userName: "e", text: "ㅁ렁나리;ㅁㄴ어라ㅣㅁㄴ;ㅜㅡㅇ라민ㅇㅇ푸마ㅣ;음ㅇ나ㅣ퍼마ㅣㄴ어프마ㅣㄴ;품나ㅣㅍ이;ㅜㄴㅁㅇㅍㄴㅁㅍㅇ푸ㅏㅁㄴ잎;ㅜㅁㄴ아ㅣ")
         let message4 = Message(userName: "d", text: "모야 이건")
         let message5 = Message(userName: "e", text: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ")
+        let message6 = Message(userName: "e", text: "꼽냐")
+        let message7 = Message(userName: "d", text: "응엄청")
+        let message8 = Message(userName: "e", text: "ㅁ디지고싶냐")
+        let message9 = Message(userName: "d", text: "머라그랬냐")
+        let message99 = Message(userName: "e", text: "아무것도아님8")
+        
 
         chatMessages.append(message1)
         chatMessages.append(message2)
         chatMessages.append(message3)
         chatMessages.append(message4)
         chatMessages.append(message5)
+        chatMessages.append(message6)
+        chatMessages.append(message7)
+        chatMessages.append(message8)
+        chatMessages.append(message9)
+        chatMessages.append(message99)
+        
     }
     
+    let containerView = UIView()
     let chatTableView = UITableView()
     let inputTextView = UITextView()
     let sendButton = UIButton()
@@ -54,23 +67,28 @@ class ChatViewController: UIViewController {
         
         observeMessages()
         textViewDidChange(inputTextView)
+        
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
     }
     
     func setAutoLayout() {
         
-        view.addSubview(chatTableView)
-        view.addSubview(messageContainerView)
-        view.addSubview(moveDownButton)
+        view.addSubview(containerView)
         
-        chatTableView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor)
-        messageContainerView.anchor(top: chatTableView.bottomAnchor
-                                    , left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor, height: 60)
-
-//        let containerViewBottomConstDown = messageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
-//        containerViewBottomConstDown.priority = UILayoutPriority(rawValue: 500)
-//        containerViewBottomConstDown.isActive = true
-
-        moveDownButton.anchor(bottom: messageContainerView.topAnchor, right: view.rightAnchor, paddingBottom: 3, paddingRight: 10, width: 32, height: 32)
+        containerView.anchor(top: view.safeAreaLayoutGuide.topAnchor, left: view.leftAnchor, bottom: view.safeAreaLayoutGuide.bottomAnchor, right: view.rightAnchor)
+        
+        containerView.addSubview(chatTableView)
+        containerView.addSubview(messageContainerView)
+        containerView.addSubview(moveDownButton)
+        
+        chatTableView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, right: containerView.rightAnchor)
+        messageContainerView.anchor(top: chatTableView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, height: 60)
+        
+        moveDownButton.anchor(bottom: messageContainerView.topAnchor, right: containerView.rightAnchor, paddingBottom: 3, paddingRight: 10, width: 32, height: 32)
         
         messageContainerView.addSubview(inputTextView)
         messageContainerView.addSubview(sendButton)
@@ -112,54 +130,28 @@ class ChatViewController: UIViewController {
     }
     
     @objc func didReceiveKeyboardNotification(_ sender: Notification) {
-        
-        guard let userInfo = sender.userInfo
-            , let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect
-            , let duration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval
-            else { return }
-        
-        let keyboardHeightWithoutSafeInset = keyboardFrame.height - viewBottomSafeInset
-        print(keyboardHeightWithoutSafeInset)
-        
-        let containerViewBottomUp = messageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -keyboardHeightWithoutSafeInset)
-        let containerViewBottomDown = messageContainerView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: 0)
     
         switch sender.name {
             case UIResponder.keyboardWillShowNotification:
-                print("KeyboardWillShow")
-                
-                UIView.animate(withDuration: duration) {
-                    containerViewBottomDown.priority = .defaultLow
-                    containerViewBottomUp.priority = .defaultHigh
-                    containerViewBottomUp.isActive = true
+            print("willshow")
+            if let keyboardFrame:NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
+                   let keyboardRectangle = keyboardFrame.cgRectValue
+               
+                UIView.animate(withDuration: 0.3) {
+                    self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
                 }
-                view.layoutIfNeeded()
-                
-                if chatTableView.contentSize.height >= chatTableView.frame.height {
-                    self.chatTableView.contentOffset.y += keyboardHeightWithoutSafeInset
                 }
-                
+            
             case UIResponder.keyboardWillHideNotification :
-                print("KeyboardWillHide")
-                
-                UIView.animate(withDuration: duration) {
-                    containerViewBottomUp.priority = .defaultLow
-                    containerViewBottomDown.priority = .defaultHigh
-                    containerViewBottomDown.isActive = true
-                }
-                
-                if chatTableView.contentSize.height >= chatTableView.frame.height {
-                    self.chatTableView.contentOffset.y -= keyboardHeightWithoutSafeInset
-                }
-                
-                view.layoutIfNeeded()
+                print("willhide")
+                self.view.transform = .identity
                 
             default : break
         }
     }
     
     func observeMessages() {
-//
+
 //        let messageRoomKey = amIChallenger ? "\(playerID)vs\(playerVS)" : "\(playerVS)vs\(playerID)"      // 도전자의이름이 앞에오는 동일한 키를 가지기위함
 //
 //        dbRef.child("Chat").child("messages").child("\(messageRoomKey)").observe(.childAdded) { (snapshot) in
@@ -215,8 +207,8 @@ class ChatViewController: UIViewController {
 extension ChatViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        return 5
-//        return chatMessages.count
+        
+        return chatMessages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
