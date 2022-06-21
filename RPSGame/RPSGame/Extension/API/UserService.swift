@@ -27,7 +27,6 @@ struct UserService {
                       let userProfileImageUrl = userProfile.thumbnailImageUrl else { return }
                 
                 let userIdToString = String(userId)
-                print(userProfileImageUrl.absoluteString)
                 USERS_REF.child("\(userIdToString)").setValue(["id": userIdToString,
                                                        "name": userName,
                                                        "profileImageUrl": userProfileImageUrl.absoluteString,
@@ -56,18 +55,19 @@ struct UserService {
     }
     
     static func fetchUser(_ id: String, completion: @escaping (User) -> Void) {
-    
-        USERS_REF.child("\(id)").getData { (error, snapshot) in
-            guard error == nil else {
-                print(error!.localizedDescription)
-                return
+        DispatchQueue.global().async {
+            USERS_REF.child("\(id)").getData { (error, snapshot) in
+                guard error == nil else {
+                    print(error!.localizedDescription)
+                    return
+                }
+                
+                guard let userData = snapshot?.value as? [String: Any] else {
+                    fatalError("DEBUG: user data is nil")
+                }
+                let user = User(data: userData)
+                completion(user)
             }
-            
-            guard let userData = snapshot?.value as? [String: Any] else {
-                fatalError("DEBUG: user data is nil")
-            }
-            let user = User(data: userData)
-            completion(user)
         }
     }
     

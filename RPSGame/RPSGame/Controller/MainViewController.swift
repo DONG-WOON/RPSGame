@@ -95,11 +95,10 @@ final class MainViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        checkIfUserIsLoggedIn()
         
         view.backgroundColor = .white
                 
-        
-
         view.addSubview(myInformationView)
         setupMyInformationView()
         
@@ -109,8 +108,6 @@ final class MainViewController: UIViewController {
 
         view.addSubview(logoutButton)
         setupLogoutButton()
-
-//        checkIfUserIsLoggedIn()
     }
     
 // MARK: - Configure
@@ -199,10 +196,10 @@ extension MainViewController: UITableViewDelegate {
 
         let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
         let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController")
+        let nav = UINavigationController(rootViewController: inGameVC)
         
-        inGameVC.modalPresentationStyle = .fullScreen
-        self.present(inGameVC, animated: true, completion: nil)
-    
+        nav.modalPresentationStyle = .fullScreen
+        self.present(nav, animated: true, completion: nil)
         tableView.deselectRow(at: indexPath, animated: true)
     }
 }

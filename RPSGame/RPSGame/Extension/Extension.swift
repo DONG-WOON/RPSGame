@@ -13,8 +13,9 @@ extension UIViewController {
     func showMessage(title: String, message: String?, firstAction: String?, completion: ((UIAlertAction) -> Void)?) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         let firstAction = UIAlertAction(title: firstAction, style: .default, handler: completion)
+        let cancelAction = UIAlertAction(title: "아니오", style: .cancel, handler: completion)
         alert.addAction(firstAction)
-        
+        alert.addAction(cancelAction)
         present(alert, animated: true, completion: nil)
     }
 }

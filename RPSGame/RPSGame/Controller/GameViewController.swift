@@ -6,42 +6,61 @@
 //
 
 import UIKit
+import KakaoSDKUser
 
 final class GameViewController: UIViewController {
-    
+// MARK: - Properties
     @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var startButton: UIButton!
-    var opponent: User? = nil
-    var mycard: RPS?
-    var token = 0   //토큰이 1일 때 나가면 무조건
+    var opponent: User?
+    var myChoice: RPS?
     
+// MARK: - Life Cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         
     }
+// MARK: - Actions
     
     @IBAction func goChat(_ sender: Any) {
         
     }
     
     @IBAction func startGame(_ sender: Any) {
-        /*
-         토큰 1로 바꾸기
-         가위바위보 사운드 재생
-         가위바위보 버튼들 활성화
-         이 버튼 비활성화
-         상대방이 째려보는 사진 내리고
-         사운드 재생 속도에 맞춰 가위바위보 ui를 글로, 차례대로 보여주기
-         백그라운드에서 상대의 패가 있다면 가져오는 시도 지속하기
-         */
-        
+        showMessage(title: "게임 시작", message: "게임을 시작할까유?", firstAction: "네") { [self] alertAction in
+            switch alertAction.style {
+                case .default:
+                    print("네를 눌렀구만")
+                    gamePlay()
+                case .cancel:
+                    print("아니오를 눌렀구만")
+                case .destructive:
+                    break
+                @unknown default:
+                    break
+            }
+        }
     }
     
     @IBAction func rockPaperScissors(_ sender: Any) {
+        guard let mychoice = sender as? RPS else { return }
+        switch mychoice {
+            case .rock:
+                print("rock")
+            case .paper:
+                print("paper")
+            case .scissor:
+                print("scissor")
+        }
+        self.myChoice = mychoice
+    }
+    
+    private func gamePlay() {
         
     }
     
-    //게임 시작 눌렀을 때
+// MARK: Helpers
+   
     private func playSound() {
         
     }
@@ -50,34 +69,16 @@ final class GameViewController: UIViewController {
         
     }
     
-    private func disableStarGameButton() {
-        
-    }
-    
-    private func enableCards() {
-        
-    }
-    
-    private func recievePartysCard() {
-        
-    }
-    
-    // 패 눌렀을 때
-    private func uploadMyCard() {
-        
-    }
-    
-    private func compareCards() {
+    private func compareCards(myChoice: RPS, OpponentChoice: RPS) {
         
     }
     
     private func showResult() {
+        print("승자는 OO 입니다")
         askGameAgain()
     }
     
     private func askGameAgain() {
-//        내 전적 데이터 변경
-//        토큰 0으로 바꾸고
-//        버튼label을 "리겜?" 으로 바꿈
+
     }
 }
