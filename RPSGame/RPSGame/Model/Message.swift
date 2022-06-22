@@ -8,6 +8,6 @@
 import Foundation
 
 struct Message {
-    let userName: String
-    let text: String
+    let userName: String?
+    let text: String?
 }
