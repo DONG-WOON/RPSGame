@@ -10,15 +10,11 @@ import UIKit
 class ChatTableViewCell: UITableViewCell {
     
     enum bubbleType{
+        
         case incoming
         case outgoing
     }
     
-<<<<<<< HEAD
-    override func awakeFromNib() {
-        super.awakeFromNib()
-//        chatTextBubbleView.layer.cornerRadius = 6
-=======
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var chatTextBubbleView: UIView!
@@ -26,49 +22,31 @@ class ChatTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        chatTextBubbleView.layer.cornerRadius = 6
->>>>>>> 312e71e115f07f93ed287521d4eec573c9bc1179
         
+        chatTextBubbleView.layer.cornerRadius = 6
     }
     
     func setMessageData(message: Message) {
-<<<<<<< HEAD
-//        userNameLabel.text = message.userName
-//        chatTextView.text = message.text
-    }
-    
-    func setBubbleType(type: bubbleType) {
-//        if type == .incoming {
-//            stackView.alignment = .leading
-//            chatTextBubbleView.backgroundColor = #colorLiteral(red: 0.9485026002, green: 0.6838501096, blue: 0.1121309325, alpha: 0.6835402397)
-//            chatTextView.textColor = .black
-//        } else if type == .outgoing {
-//            stackView.alignment = .trailing
-//            chatTextBubbleView.backgroundColor = #colorLiteral(red: 0.9088875055, green: 0.488041997, blue: 0.7129195333, alpha: 0.8097174658)
-//            chatTextView.textColor = .white
-//        }
-//        
-=======
         userNameLabel.text = message.userName
         chatTextView.text = message.text
     }
     
     func setBubbleType(type: bubbleType) {
-        if type == .incoming {
+        
+        if type == .outgoing {
+            
             stackView.alignment = .leading
             chatTextBubbleView.backgroundColor = #colorLiteral(red: 0.9485026002, green: 0.6838501096, blue: 0.1121309325, alpha: 0.6835402397)
             chatTextView.textColor = .black
-        } else if type == .outgoing {
+        } else if type == .incoming {
+            
             stackView.alignment = .trailing
             chatTextBubbleView.backgroundColor = #colorLiteral(red: 0.9088875055, green: 0.488041997, blue: 0.7129195333, alpha: 0.8097174658)
             chatTextView.textColor = .white
         }
-        
->>>>>>> 312e71e115f07f93ed287521d4eec573c9bc1179
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
 }

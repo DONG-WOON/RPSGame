@@ -9,35 +9,11 @@ import UIKit
 
 final class ChatViewController: UIViewController {
     
+    let me = User(data: ["id":"1", "name":"ehd", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":true])
+    let opponent = User(data: ["id":"2", "name":"domb", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":false])
+    
     var chatMessages = [Message]()
     
-    func addmessage() {
-        let message1 = Message(userName: "e", text: "야")
-        let message2 = Message(userName: "d", text: "왜")
-        let message3 = Message(userName: "e", text: "ㅁ렁나리;ㅁㄴ어라ㅣㅁㄴ;ㅜㅡㅇ라민ㅇㅇ푸마ㅣ;음ㅇ나ㅣ퍼마ㅣㄴ어프마ㅣㄴ;품나ㅣㅍ이;ㅜㄴㅁㅇㅍㄴㅁㅍㅇ푸ㅏㅁㄴ잎;ㅜㅁㄴ아ㅣ")
-        let message4 = Message(userName: "d", text: "모야 이건")
-        let message5 = Message(userName: "e", text: "ㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋㅋ")
-        let message6 = Message(userName: "e", text: "꼽냐")
-        let message7 = Message(userName: "d", text: "응엄청")
-        let message8 = Message(userName: "e", text: "ㅁ디지고싶냐")
-        let message9 = Message(userName: "d", text: "머라그랬냐")
-        let message99 = Message(userName: "e", text: "아무것도아님8")
-        
-
-        chatMessages.append(message1)
-        chatMessages.append(message2)
-        chatMessages.append(message3)
-        chatMessages.append(message4)
-        chatMessages.append(message5)
-        chatMessages.append(message6)
-        chatMessages.append(message7)
-        chatMessages.append(message8)
-        chatMessages.append(message9)
-        chatMessages.append(message99)
-        
-    }
-    
-
     let containerView = UIView()
     let chatTableView = UITableView()
     let inputTextView = UITextView()
@@ -45,17 +21,9 @@ final class ChatViewController: UIViewController {
     let moveDownButton = UIButton()
     let messageContainerView = UIView()
     
-    var viewBottomSafeInset: CGFloat = 5
-
-    
-    struct chatUI { //이거 꼭 필요한가?
-        var textFieldSize: CGFloat = 60
-    }
-    
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        addmessage()
+        
         view.backgroundColor = .white
         
         setAutoLayout()
@@ -84,17 +52,36 @@ final class ChatViewController: UIViewController {
         containerView.addSubview(messageContainerView)
         containerView.addSubview(moveDownButton)
         
-        chatTableView.anchor(top: containerView.topAnchor, left: containerView.leftAnchor, right: containerView.rightAnchor)
-        messageContainerView.anchor(top: chatTableView.bottomAnchor, left: containerView.leftAnchor, bottom: containerView.bottomAnchor, right: containerView.rightAnchor, height: 60)
+        chatTableView.anchor(top: containerView.topAnchor,
+                             left: containerView.leftAnchor,
+                             right: containerView.rightAnchor)
         
-        moveDownButton.anchor(bottom: messageContainerView.topAnchor, right: containerView.rightAnchor, paddingBottom: 3, paddingRight: 10, width: 32, height: 32)
+        messageContainerView.anchor(top: chatTableView.bottomAnchor,
+                                    left: containerView.leftAnchor,
+                                    bottom: containerView.bottomAnchor,
+                                    right: containerView.rightAnchor, height: 60)
+        
+        moveDownButton.anchor(bottom: messageContainerView.topAnchor,
+                              right: containerView.rightAnchor,
+                              paddingBottom: 3,
+                              paddingRight: 10,
+                              width: 32,
+                              height: 32)
+        
+        
         
         messageContainerView.addSubview(inputTextView)
         messageContainerView.addSubview(sendButton)
 
-        inputTextView.anchor(left: messageContainerView.leftAnchor, paddingLeft: 5, height: 35)
+        inputTextView.anchor(left: messageContainerView.leftAnchor,
+                             paddingLeft: 5,
+                             height: 35)
         inputTextView.centerY(inView: messageContainerView)
-        sendButton.anchor(left: inputTextView.rightAnchor, right: messageContainerView.rightAnchor, width: 35, height: 35)
+        
+        sendButton.anchor(left: inputTextView.rightAnchor,
+                          right: messageContainerView.rightAnchor,
+                          width: 35,
+                          height: 35)
         sendButton.centerY(inView: messageContainerView)
     }
     
@@ -102,10 +89,7 @@ final class ChatViewController: UIViewController {
 
         chatTableView.dataSource = self
         chatTableView.register(UINib(nibName: "ChatTableViewCell", bundle: nil), forCellReuseIdentifier: "chatCell")
-        //        chatTableView.rowHeight = 150
-        //        chatTableView.estimatedRowHeight = 80
-        //        chatTableView.rowHeight = UITableView.automaticDimension
-
+        chatTableView.rowHeight = UITableView.automaticDimension
         chatTableView.separatorStyle = .none
         chatTableView.allowsSelection = false
         chatTableView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tapGestureTableView(_:))))
@@ -129,11 +113,6 @@ final class ChatViewController: UIViewController {
 
     }
     
-    @objc func tapGestureTableView(_ sender: UITapGestureRecognizer) {
-        inputTextView.resignFirstResponder()
-    }
-    
-
     @objc func didReceiveKeyboardNotification(_ sender: Notification) {
     
         switch sender.name {
@@ -142,9 +121,9 @@ final class ChatViewController: UIViewController {
             if let keyboardFrame:NSValue = sender.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
                    let keyboardRectangle = keyboardFrame.cgRectValue
                
-                UIView.animate(withDuration: 0.3) {
-                    self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
-                }
+                    UIView.animate(withDuration: 0.3) {
+                        self.view.transform = CGAffineTransform(translationX: 0, y: -keyboardRectangle.height)
+                    }
                 }
             
             case UIResponder.keyboardWillHideNotification :
@@ -155,51 +134,53 @@ final class ChatViewController: UIViewController {
         }
     }
     
+    @objc func tapGestureTableView(_ sender: UITapGestureRecognizer) {
+        inputTextView.resignFirstResponder()
+    }
+    
+    
     func observeMessages() {
 
+        USERS_REF.child("Chat").child("messages").observe(.childAdded) { (snapshot) in
+            if let dataArray = snapshot.value as? [String: Any] {
+                
+                print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
+                
+                guard let senderName = dataArray["senderName"] as? String
+                    , let messageText = dataArray["text"] as? String
+                    else { return }
 
-//        let messageRoomKey = amIChallenger ? "\(playerID)vs\(playerVS)" : "\(playerVS)vs\(playerID)"      // 도전자의이름이 앞에오는 동일한 키를 가지기위함
-//
-//        dbRef.child("Chat").child("messages").child("\(messageRoomKey)").observe(.childAdded) { (snapshot) in
-//            if let dataArray = snapshot.value as? [String: Any] {
-//                print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
-//                guard let senderName = dataArray["senderName"] as? String
-//                    , let messageText = dataArray["text"] as? String
-//                    else { return }
-//
-//                let message = Message(messageKey: snapshot.key, senderName: senderName, messageText: messageText)
-//                self.chatMessages.append(message)
-//                self.chatTableView.reloadData()
-//
-//                self.chatTableView.scrollToRow(at: IndexPath(row: self.chatMessages.count-1, section: 0), at: UITableView.ScrollPosition.bottom, animated: false)
-//            }
-//        }
+                let message = Message(userName: senderName, text: messageText)
+                self.chatMessages.append(message)
+                self.chatTableView.reloadData()
+
+                self.chatTableView.scrollToRow(at: IndexPath(row: self.chatMessages.count-1, section: 0), at: UITableView.ScrollPosition.bottom, animated: false)
+            }
+        }
     }
     
     func sendMessage(text: String, completion: @escaping (_ isSuccess: Bool) -> () ) {
-//        let senderName = playerID
-//        let dataArray: [String: Any] = ["senderName": senderName, "text": text]
-//        print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
-//
-//        let messageRoomKey = amIChallenger ? "\(playerID)vs\(playerVS)" : "\(playerVS)vs\(playerID)"
-//
-//        dbRef.child("Chat").child("messages").child("\(messageRoomKey)").childByAutoId().setValue(dataArray) { (error, ref) in
-//            error == nil ? completion(true) : completion(false)
-//        }
+        let senderName = me.name
+        let dataArray: [String: Any] = ["senderName": senderName, "text": text]
         
+        print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
+        
+        USERS_REF.child("Chat").child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
+            error == nil ? completion(true) : completion(false)
+        }
     }
     
     @objc func sendBtnDidTap(_ sender: UIButton) {
-//        guard let text = inputTextView.text, !text.isEmpty else { return }
-//
-//            sendMessage(text: text, completion: { (isSuccess) in
-//                if isSuccess {
-//                    self.inputTextView.text = ""
-//                    self.textViewDidChange(self.inputTextView)
-//                } else {
-//                    print("‼️‼️‼️ sendMessage 메소드 에러")
-//                }
-//            })
+        guard let text = inputTextView.text, !text.isEmpty else { return }
+
+            sendMessage(text: text, completion: { (isSuccess) in
+                if isSuccess {
+                    self.inputTextView.text = ""
+                    self.textViewDidChange(self.inputTextView)
+                } else {
+                    print("‼️‼️‼️ sendMessage 메소드 에러")
+                }
+            })
     }
     
     @objc func moveDownBtnDidTap(_ sender: UIButton) {
@@ -243,14 +224,6 @@ extension ChatViewController: UITextViewDelegate {
             }
         }
     }
-
-    
-//    func scrollViewDidScroll(_ scrollView: UIScrollView) {
-//        let lastPageContentOffset = scrollView.contentSize.height - chatTableView.frame.height
-//
-//        scrollView.contentOffset.y < lastPageContentOffset - 50 ?
-//            (moveDownButton.isHidden = false) : (moveDownButton.isHidden = true)
-//    }
 }
 
 
