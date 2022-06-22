@@ -145,11 +145,7 @@
                         </barButtonItem>
                         <barButtonItem key="rightBarButtonItem" image="text.bubble" catalog="system" id="z7V-6D-1Kn" userLabel="chat">
                             <connections>
-<<<<<<< HEAD
-                                <action selector="goChat:" destination="Y6W-OH-hqX" id="4Rt-eY-QeU"/>
-=======
                                 <action selector="goChat:" destination="Y6W-OH-hqX" id="DJw-uE-56H"/>
->>>>>>> 312e71e115f07f93ed287521d4eec573c9bc1179
                             </connections>
                         </barButtonItem>
                     </navigationItem>
