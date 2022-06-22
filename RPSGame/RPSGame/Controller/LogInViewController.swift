@@ -112,7 +112,7 @@ final class LoginViewController: UIViewController {
         GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { (user, error) in
             
             if let error = error {
-                print("DEBUG Google Login Error\(error.localizedDescription)")
+                print("DEBUG: Google Login Error\(error.localizedDescription)")
                 return
             }
             
@@ -135,7 +135,7 @@ final class LoginViewController: UIViewController {
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
-                    print("login with kakaoTalk error: \(error)")
+                    print("DEBUG: kakaoTalk Login error: \(error)")
                 }
                 else {
                     print("loginWithKakaoTalk() success.")

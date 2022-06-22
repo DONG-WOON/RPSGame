@@ -12,18 +12,34 @@ final class GameViewController: UIViewController {
 // MARK: - Properties
     @IBOutlet weak var gameView: UIView!
     @IBOutlet weak var startButton: UIButton!
-    @IBOutlet weak var rpsButton: UIButton!
-    var opponent: User?
-    var myChoice: RPS?
+    @IBOutlet weak var rockButton: UIButton!
+    @IBOutlet weak var scissorButton: UIButton!
+    @IBOutlet weak var paperButton: UIButton!
+    @IBOutlet weak var opponentName: UILabel!
+    @IBOutlet weak var myName: UILabel!
+    @IBOutlet weak var opponentChoiceImageView: UIImageView!
+    @IBOutlet weak var myChoiceImageView: UIImageView!
+    
+    var opponentInfo: GamerInfo?
+    var myInfo: GamerInfo?
     
 // MARK: - Life Cycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupPlayers()
+
+        opponentName.text = opponentInfo?.name
+        myName.text = myInfo?.name
     }
 // MARK: - Actions
     
+    func setupPlayers() {
+        guard let opponentId = opponentInfo?.id, let myId = myInfo?.id else { return }
+    }
+    
     @IBAction func goChat(_ sender: Any) {
-        let chatVC = ChatTableViewController()
+        let chatVC = ChatViewController()
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
@@ -40,16 +56,21 @@ final class GameViewController: UIViewController {
         switch mychoice {
             case .rock:
                 print("rock")
+                rockButton.isEnabled.toggle()
             case .paper:
                 print("paper")
+                paperButton.isEnabled.toggle()
             case .scissor:
                 print("scissor")
+                scissorButton.isEnabled.toggle()
         }
-        self.myChoice = mychoice
+        self.myInfo?.choice = mychoice
     }
     
     private func gamePlay() {
-        rpsButton.isEnabled.toggle()
+        rockButton.isEnabled.toggle()
+        paperButton.isEnabled.toggle()
+        scissorButton.isEnabled.toggle()
     }
     
 // MARK: Helpers

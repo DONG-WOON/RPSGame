@@ -39,8 +39,9 @@
                         <constraint firstAttribute="height" constant="80" id="Efr-RL-S6B"/>
                     </constraints>
                 </stackView>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="따라서" translatesAutoresizingMaskIntoConstraints="NO" id="pkX-6K-5Es">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pkX-6K-5Es">
                     <rect key="frame" x="20" y="20" width="140" height="140"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                     <constraints>
                         <constraint firstAttribute="height" constant="140" id="0jg-4W-cDa"/>
                         <constraint firstAttribute="width" constant="140" id="sEy-GU-v1D"/>
@@ -61,7 +62,6 @@
         </view>
     </objects>
     <resources>
-        <image name="따라서" width="1838" height="1875"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
         </systemColor>

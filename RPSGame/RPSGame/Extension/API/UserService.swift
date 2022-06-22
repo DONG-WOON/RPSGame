@@ -87,4 +87,9 @@ struct UserService {
             completion(users)
         }
     }
+    
+    static func logout(_ user: User?) {
+        guard let id = user?.id else { return }
+        USERS_REF.child("\(id)").child("isLogin").setValue(false)
+    }
 }

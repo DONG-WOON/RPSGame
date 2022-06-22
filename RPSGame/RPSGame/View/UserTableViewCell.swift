@@ -10,12 +10,33 @@ import UIKit
 class UserTableViewCell: UITableViewCell {
 // MARK: - Properties
     
-    private let profileImageView: UIImageView = {
+    var user: User? {
+        didSet {
+            guard let user = user else { return }
+            userNameLabel.text = user.name
+            userRecordLabel.text = "승리: \(user.record.win) , 패배: \(user.record.lose)"
+        }
+    }
+    
+    let profileImageView: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         iv.clipsToBounds = true
         iv.backgroundColor = .lightGray
         return iv
+    }()
+    
+    private lazy var logStatusLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = user?.isLogin ?? false ? "로그인중" : "로그아웃중"
+        lbl.isEnabled = false
+        lbl.textColor = .darkGray
+        lbl.layer.cornerRadius = 5
+        lbl.layer.borderWidth = 0.5
+        lbl.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        lbl.layer.borderColor = CGColor(gray: 1, alpha: 1)
+        lbl.font = UIFont.boldSystemFont(ofSize: 20)
+        return lbl
     }()
     
     private let userNameLabel: UILabel = {
@@ -25,9 +46,8 @@ class UserTableViewCell: UITableViewCell {
         return lbl
     }()
     
-    private let userRecordLabel: UILabel = {
+    private lazy var userRecordLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "승리: 3, 패배: 1"
         lbl.font = UIFont.systemFont(ofSize: 18)
         return lbl
     }()
@@ -38,6 +58,7 @@ class UserTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        
         addSubview(profileImageView)
         setupProfileImageView()
         
@@ -46,6 +67,9 @@ class UserTableViewCell: UITableViewCell {
         
         addSubview(userRecordLabel)
         setupUserRecordLabel()
+        
+        addSubview(logStatusLabel)
+        setupLogStatusLabel()
         
     }
     
@@ -70,5 +94,9 @@ class UserTableViewCell: UITableViewCell {
 
     func setupUserRecordLabel() {
         userRecordLabel.anchor(left: profileImageView.rightAnchor, bottom: profileImageView.bottomAnchor, paddingLeft: 10, paddingBottom: 2)
+    }
+    
+    func setupLogStatusLabel() {
+        logStatusLabel.anchor(top: self.topAnchor, right: self.rightAnchor, paddingTop: 10, paddingRight: 5)
     }
 }

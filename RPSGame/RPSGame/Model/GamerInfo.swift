@@ -11,10 +11,21 @@ import Firebase
 
 struct GamerInfo {
     var name: String
-    var choice: RPS?    // lazy는 optional일 때 못씀!
+    var id: String
+    var choice: RPS?   // lazy는 optional일 때 못씀!
     var wantsGameStart: Bool
     
-//    func fetchGamerInfo(of username: String) {
-//
-//    }
+    init(data: [String: Any]) {
+        self.name = data["name"] as? String ?? ""
+        self.id = data["id"] as? String ?? ""
+        self.choice = data["choice"] as? RPS
+        self.wantsGameStart = data["wantsGameStart"] as? Bool ?? false
+    }
+    
+    init(name: String, id: String, choice: RPS?, wantsGameStart: Bool) {
+        self.name = name
+        self.id = id
+        self.choice = choice
+        self.wantsGameStart = wantsGameStart
+    }
 }
