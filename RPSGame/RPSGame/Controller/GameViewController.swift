@@ -107,7 +107,7 @@ final class GameViewController: UIViewController {
     
     @IBAction func goChat(_ sender: Any) {
         let chatVC = ChatViewController()
-        chatVC.opponentName = opponentInfo?.name
+        
         chatVC.myName = myInfo?.name
         navigationController?.pushViewController(chatVC, animated: true)
     }

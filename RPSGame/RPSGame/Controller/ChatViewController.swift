@@ -8,12 +8,8 @@
 import UIKit
 
 final class ChatViewController: UIViewController {
-    
-//    let me = User(data: ["id":"1", "name":"ehd", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":true])
-//    let opponent = User(data: ["id":"2", "name":"domb", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":false])
-    
+
     var myName: String?
-    var opponentName: String?
     
     var chatMessages = [Message]()
     
@@ -208,8 +204,8 @@ extension ChatViewController: UITableViewDataSource {
         
         
         
-        message.userName == "e" ?
-            cell.setBubbleType(type: .outgoing) : cell.setBubbleType(type: .incoming)
+        message.userName == myName ?
+            cell.setBubbleType(type: .incoming) : cell.setBubbleType(type: .outgoing)
         
         return cell
     }
