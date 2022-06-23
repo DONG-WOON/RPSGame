@@ -14,6 +14,13 @@ import Firebase
 
 final class MainViewController: UIViewController {
 // MARK: - Properties
+    
+    private var users = [User]()
+    private var userTableView = UITableView()
+    private lazy var logoutButton = UIButton()
+    private let reusableTableViewCellIdentifier = "UserTableViewCell"
+    private let myInformationView = MyInformationView()
+    
     private var user: User? {
         didSet {
             guard let user = user else { return }
@@ -24,77 +31,65 @@ final class MainViewController: UIViewController {
             }
             self.userTableView.reloadData()
             
-            // 사용자가 초대를 받았는지 알려주기위한 observer를 등록 / 지금생각으론 User 객체가 완전히 존재해야하기 때문에 이 부분에서 구현함.
+            // 사용자가 초대를 받았는지 알려주기위한 observer를 등록
             USERS_REF.child("\(user.id)").child("isInvited").observe(.value) { snapshot in
                 guard let isInvited = snapshot.value as? Bool else { return }
-                self.isinvited = isInvited
+                self.isInvited = isInvited
+            }
+            // 초대장을 보낸 상대방이 초대를 수락했는지 알려주기위한 observer를 등록
+            USERS_REF.child("\(user.id)").child("opponent").child("acceptInvitation").observe(.value) { snapshot in
+                guard let acceptInvitation = snapshot.value as? Bool else { return }
+                self.opponentAcceptInvitaion = acceptInvitation
             }
         }
     }
     
     //초대 받았을때 사용되는 flag
-    var isinvited: Bool? = false {
+    
+    var isInvited: Bool? = false {
         didSet {
             guard let guest = user else { return }
-            guard isinvited == true else { return }
+            guard isInvited == true else { return }
             
-            USERS_REF.child("\(guest.id)").child("opponent").observeSingleEvent(of: .childAdded) { snapshot in
-                guard let data = snapshot.value as? String else { return }
-//                if data != nil {
-                    self.fetchGamerData(guest) { (hostInfo) in
+            self.fetchGamerData(guest) { (host) in
+                
+                self.showMessage(title: "초대장", message: "\(host.name) 님이 게임에 초대했습니다. 입장하시겠습니까?", firstAction: "수락") { alertAction in
+                    if alertAction.title == "수락" {
+                        self.dismiss(animated: true, completion: nil)
                         
-                        self.showMessage(title: "초대장", message: "\(hostInfo.name) 님이 게임에 초대했습니다. 입장하시겠습니까?", firstAction: "수락") { alertAction in
-                            if alertAction.title == "수락" {
-                                self.dismiss(animated: true, completion: nil)
-
-                                USERS_REF.child("\(hostInfo.id)").updateChildValues(["isInvited": true])
-                                
-                                let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
-                                guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
-                                inGameVC.opponentInfo = hostInfo
-                                inGameVC.myInfo = GamerInfo(name: guest.name, id: guest.id, choice: nil, wantsGameStart: false)
-                                
-                                let nav = UINavigationController(rootViewController: inGameVC)
-                                nav.modalPresentationStyle = .fullScreen
-                                self.present(nav, animated: true, completion: nil)
-                            } else {
-                                USERS_REF.child("\(guest.id)").child("isInvited").setValue(false)
-                                USERS_REF.child("\(guest.id)").child("opponent").removeValue()
-                                USERS_REF.child("\(hostInfo.id)").child("opponent").removeValue()
-                            }
-                        }
-//                    }
-//                } else {
-//                    self.fetchGamerData(guest) { (hostInfo) in
-//                        self.dismiss(animated: true, completion: nil)
-//                        USERS_REF.child("\(guest.id)").child("opponent").setValue(["name": hostInfo.name,
-//                                                                                      "id": hostInfo.id,
-//                                                                                      "choice": nil,
-//                                                                                      "wantsGameStart": false])
-//                        let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
-//                        guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
-//                        inGameVC.opponentInfo = hostInfo
-//                        inGameVC.myInfo = GamerInfo(name: guest.name, id: guest.id, choice: nil, wantsGameStart: false)
-//
-//                        let nav = UINavigationController(rootViewController: inGameVC)
-//                        nav.modalPresentationStyle = .fullScreen
-//                        self.present(nav, animated: true, completion: nil)
-//                    }
+                        UserService.uploadGamerData(guest, host)
+                        
+                        let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
+                        guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
+                        inGameVC.opponentInfo = host
+                        inGameVC.myInfo = GamerInfo(name: guest.name, id: guest.id, choice: nil, wantsGameStart: false)
+                        
+                        let nav = UINavigationController(rootViewController: inGameVC)
+                        nav.modalPresentationStyle = .fullScreen
+                        self.present(nav, animated: true, completion: nil)
+                    } else {
+                        USERS_REF.child("\(guest.id)").child("isInvited").setValue(false)
+                        USERS_REF.child("\(guest.id)").child("opponent").removeValue()
+                        USERS_REF.child("\(host.id)").child("opponent").removeValue()
+                    }
                 }
             }
         }
     }
     
+    //상대방이 초대를 수락했을때 사용되는 flag
     var opponentAcceptInvitaion: Bool? = false {
         didSet {
-            guard let user = user else { return }
-            guard isinvited == true else { return }
+            guard let host = user else { return }
+            guard opponentAcceptInvitaion == true else { return }
             
-            fetchGamerData(user) { opponentInfo in
+            fetchGamerData(host) { opponentInfo in
                 self.dismiss(animated: true, completion: nil)
-                
+
                 let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
                 guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
+                inGameVC.opponentInfo = opponentInfo
+                inGameVC.myInfo = GamerInfo(name: host.name, id: host.id, choice: nil, wantsGameStart: false)
                 
                 let nav = UINavigationController(rootViewController: inGameVC)
                 nav.modalPresentationStyle = .fullScreen
@@ -102,13 +97,6 @@ final class MainViewController: UIViewController {
             }
         }
     }
-    
-    private var users = [User]()
-    private var userTableView = UITableView()
-    private lazy var logoutButton = UIButton()
-    private let reusableTableViewCellIdentifier = "UserTableViewCell"
-    private let myInformationView = MyInformationView()
-    
 // MARK: - Actions
     
     private func checkIfUserIsLoggedIn(completion: @escaping(String) -> Void) {
@@ -169,7 +157,7 @@ final class MainViewController: UIViewController {
         }
     }
     
-    private func fetchUserData(_ id: String) {
+    private func fetchUserDataAndLoadProfileImage(_ id: String) {
         UserService.fetchUser(id) { [self] user in
             self.user = user
             
@@ -203,11 +191,7 @@ final class MainViewController: UIViewController {
     }
     
     private func fetchGamerData(_ user: User, completion: @escaping (GamerInfo) -> Void) {
-        USERS_REF.child("\(user.id)").child("opponent").observeSingleEvent(of: .value) { snapshot in
-            guard let data = snapshot.value as? [String: Any] else { return }
-            let opponentInfo = GamerInfo(data: data)
-            completion(opponentInfo)
-        }
+        UserService.fetchGamerData(user, completion)
     }
 // MARK: - Life Cycle
     
@@ -216,7 +200,7 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .white
 
         checkIfUserIsLoggedIn() { id in
-            self.fetchUserData(id)
+            self.fetchUserDataAndLoadProfileImage(id)
             self.fetchUsersData()
             USERS_REF.child("\(id)").child("isLogin").setValue(true)
         }
@@ -276,8 +260,10 @@ final class MainViewController: UIViewController {
     }
     
     @IBAction func unwindToMain(_ unwindSegue: UIStoryboardSegue) {
+        guard let user = user else { return }
+        USERS_REF.child("\(user.id)").child("isInvited").setValue(false)
+        USERS_REF.child("\(user.id)").child("opponent").removeValue()
     }
-    
 }
 
 
@@ -317,27 +303,27 @@ extension MainViewController: UITableViewDataSource {
     }
 }
 
+//MARK: - UITableViewDelegate
+
 extension MainViewController: UITableViewDelegate {
+    
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let host = user else { return }
         let guest = users[indexPath.row]
         
-        USERS_REF.child("\(guest.id)").child("opponent").setValue(["name": host.name,
-                                                                      "id": host.id,
-                                                                      "choice": nil,
-                                                                      "wantsGameStart": false])
+        UserService.uploadGamerData(guest, host)
         
         USERS_REF.child("\(guest.id)").updateChildValues(["isInvited": true])
+        
         self.showMessage(title: "대결 신청", message: "\(guest.name)님의 수락을 기다리는 중") { alertAction in
             if alertAction.style == .cancel {
                 USERS_REF.child("\(guest.id)").child("opponent").removeValue()
+                USERS_REF.child("\(host.id)").child("opponent").removeValue()
                 USERS_REF.child("\(host.id)").child("isInvited").setValue(false)
                 USERS_REF.child("\(guest.id)").child("isInvited").setValue(false)
                 tableView.deselectRow(at: indexPath, animated: true)
             }
         }
-
-        
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

@@ -141,7 +141,7 @@ final class ChatViewController: UIViewController {
     
     func observeMessages() {
 
-        USERS_REF.child("Chat").child("messages").observe(.childAdded) { (snapshot) in
+        CHAT_REF.child("messages").observe(.childAdded) { (snapshot) in
             if let dataArray = snapshot.value as? [String: Any] {
                 
                 print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
@@ -165,7 +165,7 @@ final class ChatViewController: UIViewController {
         
         print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
         
-        USERS_REF.child("Chat").child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
+        CHAT_REF.child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
             error == nil ? completion(true) : completion(false)
         }
     }

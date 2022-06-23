@@ -15,6 +15,8 @@ class UserTableViewCell: UITableViewCell {
             guard let user = user else { return }
             userNameLabel.text = user.name
             userRecordLabel.text = "승리: \(user.record.win) , 패배: \(user.record.lose)"
+            logStatusLabel.text = user.isLogin ? "로그인중" : "로그아웃중"
+            logStatusLabel.textColor = user.isLogin ? .systemBlue : .lightGray
         }
     }
     
@@ -28,20 +30,13 @@ class UserTableViewCell: UITableViewCell {
     
     private lazy var logStatusLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = user?.isLogin ?? false ? "로그인중" : "로그아웃중"
-        lbl.isEnabled = false
-        lbl.textColor = .darkGray
-        lbl.layer.cornerRadius = 5
-        lbl.layer.borderWidth = 0.5
-        lbl.font = UIFont.systemFont(ofSize: 11, weight: .light)
+        lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
         lbl.layer.borderColor = CGColor(gray: 1, alpha: 1)
-        lbl.font = UIFont.boldSystemFont(ofSize: 20)
         return lbl
     }()
     
     private let userNameLabel: UILabel = {
         let lbl = UILabel()
-        lbl.text = "EHD"
         lbl.font = UIFont.boldSystemFont(ofSize: 20)
         return lbl
     }()

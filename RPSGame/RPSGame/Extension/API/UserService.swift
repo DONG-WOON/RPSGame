@@ -88,6 +88,28 @@ struct UserService {
         }
     }
     
+    static func fetchGamerData(_ user: User, _ completion: @escaping (GamerInfo) -> Void) {
+        USERS_REF.child("\(user.id)").child("opponent").observeSingleEvent(of: .value) { snapshot in
+            guard let data = snapshot.value as? [String: Any] else { return }
+            let opponentInfo = GamerInfo(data: data)
+            completion(opponentInfo)
+        }
+    }
+    
+    static func uploadGamerData(_ guest: User, _ host: User) {
+        USERS_REF.child("\(guest.id)").child("opponent").setValue(["name": host.name,
+                                                                   "id": host.id,
+                                                                   "choice": nil,
+                                                                   "wantsGameStart": false])
+    }
+    
+    static func uploadGamerData(_ guest: User, _ host: GamerInfo) {
+        USERS_REF.child("\(host.id)").child("opponent").setValue(["name": guest.name,
+                                                                      "id": guest.id,
+                                                                      "choice": nil,
+                                                                      "wantsGameStart": false,
+                                                                      "acceptInvitation": true])
+    }
     static func logout(_ user: User?) {
         guard let id = user?.id else { return }
         USERS_REF.child("\(id)").child("isLogin").setValue(false)

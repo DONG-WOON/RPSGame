@@ -9,3 +9,4 @@ import Foundation
 import Firebase
 
 let USERS_REF = Database.database().reference().child("USERS")
+let CHAT_REF = Database.database().reference().child("CHAT")

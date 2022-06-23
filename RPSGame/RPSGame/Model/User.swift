@@ -19,10 +19,11 @@ struct User {
     var isInvited: Bool  //observe 등록해서 데이터 관찰 / 초대장 구현에 필요
     
     init(data: [String: Any]) {
+        guard let record = data["record"] as? [String: Int] else { fatalError() }
         self.id = data["id"] as? String ?? ""
         self.name = data["name"] as? String ?? ""
         self.profileThumbnailImageUrl = data["profileImageUrl"] as? String ?? ""
-        self.record = data["record"] as? Record ?? Record(win: 0, lose: 0)
+        self.record = Record(win: record["win"] ?? 0, lose: record["lose"] ?? 0)
         self.isLogin = data["isLogin"] as? Bool ?? false
         self.isInGame = data["isInGame"] as? Bool ?? false
         self.isInvited = data["isInvited"] as? Bool ?? false
