@@ -32,12 +32,12 @@ final class MainViewController: UIViewController {
             self.userTableView.reloadData()
             
             // 사용자가 초대를 받았는지 알려주기위한 observer를 등록
-            USERS_REF.child("\(user.id)").child("isInvited").observe(.value) { snapshot in
+            USERS_REF.child(user.id).child("isInvited").observe(.value) { snapshot in
                 guard let isInvited = snapshot.value as? Bool else { return }
                 self.isInvited = isInvited
             }
             // 초대장을 보낸 상대방이 초대를 수락했는지 알려주기위한 observer를 등록
-            USERS_REF.child("\(user.id)").child("opponent").child("acceptInvitation").observe(.value) { snapshot in
+            USERS_REF.child(user.id).child("opponent").child("acceptInvitation").observe(.value) { snapshot in
                 guard let acceptInvitation = snapshot.value as? Bool else { return }
                 self.opponentAcceptInvitaion = acceptInvitation
             }
@@ -68,9 +68,9 @@ final class MainViewController: UIViewController {
                         nav.modalPresentationStyle = .fullScreen
                         self.present(nav, animated: true, completion: nil)
                     } else {
-                        USERS_REF.child("\(guest.id)").child("isInvited").setValue(false)
-                        USERS_REF.child("\(guest.id)").child("opponent").removeValue()
-                        USERS_REF.child("\(host.id)").child("opponent").removeValue()
+                        USERS_REF.child(guest.id).child("isInvited").setValue(false)
+                        USERS_REF.child(guest.id).child("opponent").removeValue()
+                        USERS_REF.child(host.id).child("opponent").removeValue()
                     }
                 }
             }
@@ -202,7 +202,7 @@ final class MainViewController: UIViewController {
         checkIfUserIsLoggedIn() { id in
             self.fetchUserDataAndLoadProfileImage(id)
             self.fetchUsersData()
-            USERS_REF.child("\(id)").child("isLogin").setValue(true)
+            USERS_REF.child(id).child("isLogin").setValue(true)
         }
     }
     
@@ -261,8 +261,8 @@ final class MainViewController: UIViewController {
     
     @IBAction func unwindToMain(_ unwindSegue: UIStoryboardSegue) {
         guard let user = user else { return }
-        USERS_REF.child("\(user.id)").child("isInvited").setValue(false)
-        USERS_REF.child("\(user.id)").child("opponent").removeValue()
+        USERS_REF.child(user.id).child("isInvited").setValue(false)
+        USERS_REF.child(user.id).child("opponent").removeValue()
     }
 }
 
@@ -313,17 +313,17 @@ extension MainViewController: UITableViewDelegate {
         
         UserService.uploadGamerData(guest, host)
         
-        USERS_REF.child("\(guest.id)").updateChildValues(["isInvited": true])
+        USERS_REF.child(guest.id).updateChildValues(["isInvited": true])
         
         self.showMessage(title: "대결 신청", message: "\(guest.name)님의 수락을 기다리는 중") { alertAction in
             if alertAction.style == .cancel {
-                USERS_REF.child("\(guest.id)").child("opponent").removeValue()
-                USERS_REF.child("\(host.id)").child("opponent").removeValue()
-                USERS_REF.child("\(host.id)").child("isInvited").setValue(false)
-                USERS_REF.child("\(guest.id)").child("isInvited").setValue(false)
-                tableView.deselectRow(at: indexPath, animated: true)
+                USERS_REF.child(guest.id).child("opponent").removeValue()
+                USERS_REF.child(host.id).child("opponent").removeValue()
+                USERS_REF.child(host.id).child("isInvited").setValue(false)
+                USERS_REF.child(guest.id).child("isInvited").setValue(false)
             }
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {

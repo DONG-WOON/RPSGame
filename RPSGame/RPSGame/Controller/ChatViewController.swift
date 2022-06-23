@@ -9,8 +9,11 @@ import UIKit
 
 final class ChatViewController: UIViewController {
     
-    let me = User(data: ["id":"1", "name":"ehd", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":true])
-    let opponent = User(data: ["id":"2", "name":"domb", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":false])
+//    let me = User(data: ["id":"1", "name":"ehd", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":true])
+//    let opponent = User(data: ["id":"2", "name":"domb", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":false])
+    
+    var myName: String?
+    var opponentName: String?
     
     var chatMessages = [Message]()
     
@@ -160,7 +163,7 @@ final class ChatViewController: UIViewController {
     }
     
     func sendMessage(text: String, completion: @escaping (_ isSuccess: Bool) -> () ) {
-        let senderName = me.name
+        guard let senderName = myName else { return }
         let dataArray: [String: Any] = ["senderName": senderName, "text": text]
         
         print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
