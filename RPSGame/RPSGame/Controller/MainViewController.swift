@@ -13,8 +13,8 @@ import GoogleSignIn
 import Firebase
 
 final class MainViewController: UIViewController {
-// MARK: - Properties
     
+// MARK: - Properties
     private var users = [User]()
     private var userTableView = UITableView()
     private lazy var logoutButton = UIButton()

@@ -14,7 +14,8 @@ import KakaoSDKUser
 
 
 final class LoginViewController: UIViewController {
-    
+
+//    MARK: - UI setting
     private let backgroundView = UIImageView()
     private let mainLabel = UILabel()
     private let kakaoLoginButton = UIButton()
@@ -105,6 +106,7 @@ final class LoginViewController: UIViewController {
         }
     }
     
+//    MARK: - Login
     @objc func googleLogin() {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)

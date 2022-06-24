@@ -106,9 +106,17 @@ final class GameViewController: UIViewController {
     }
     
     @IBAction func goChat(_ sender: Any) {
+        
+        guard let myInfo = myInfo else { return }
+        guard let opponentInfo = opponentInfo else { return }
+
+        let chatRoomID = opponentInfo.id > myInfo.id ? "\(opponentInfo.id)\(myInfo.id)" : "\(myInfo.id)\(opponentInfo.id)"
+        CHAT_REF.child("\(chatRoomID)")
+        
         let chatVC = ChatViewController()
         
-        chatVC.myName = myInfo?.name
+        chatVC.myName = myInfo.name
+        chatVC.chatRommID = chatRoomID
         navigationController?.pushViewController(chatVC, animated: true)
     }
     

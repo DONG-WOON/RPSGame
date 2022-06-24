@@ -12,6 +12,7 @@ final class ChatViewController: UIViewController {
     var myName: String?
     
     var chatMessages = [Message]()
+    var chatRommID: String?
     
     let containerView = UIView()
     let chatTableView = UITableView()
@@ -140,7 +141,9 @@ final class ChatViewController: UIViewController {
     
     func observeMessages() {
 
-        CHAT_REF.child("messages").observe(.childAdded) { (snapshot) in
+        guard let chatRommID = chatRommID else { return }
+        
+        CHAT_REF.child("\(chatRommID)").child("messages").observe(.childAdded) { (snapshot) in
             if let dataArray = snapshot.value as? [String: Any] {
                 
                 print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
@@ -160,11 +163,13 @@ final class ChatViewController: UIViewController {
     
     func sendMessage(text: String, completion: @escaping (_ isSuccess: Bool) -> () ) {
         guard let senderName = myName else { return }
+        guard let chatRommID = chatRommID else { return }
+
         let dataArray: [String: Any] = ["senderName": senderName, "text": text]
         
         print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
         
-        CHAT_REF.child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
+        CHAT_REF.child("\(chatRommID)").child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
             error == nil ? completion(true) : completion(false)
         }
     }
