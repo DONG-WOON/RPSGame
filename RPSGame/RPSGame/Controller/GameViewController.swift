@@ -7,6 +7,7 @@
 
 import UIKit
 import KakaoSDKUser
+import AVFoundation
 
 final class GameViewController: UIViewController {
 // MARK: - Properties
@@ -26,10 +27,12 @@ final class GameViewController: UIViewController {
         return v
     }()
     
+    private var player: AVAudioPlayer?
+    
     var opponentInfo: GamerInfo?
     var myInfo: GamerInfo?
-    var timer = Timer()
-    var timeValue = 7
+    private var timer = Timer()
+    private var timeValue = 7
     
     var startFlag: (Bool,Bool)? = (false, false) {
         didSet {
@@ -44,6 +47,7 @@ final class GameViewController: UIViewController {
 // MARK: - Life Cycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupPlayers()
     }
@@ -52,6 +56,7 @@ final class GameViewController: UIViewController {
     private func gamePlay() {
         startButton.isEnabled.toggle()
         gameReadyView.isHidden = true
+        playSound()
         
         guard let opponent = opponentInfo, let my = myInfo else { return }
         USERS_REF.child(opponent.id).child("opponent").child("choice").observe(.value) { snapshot in
@@ -111,7 +116,6 @@ final class GameViewController: UIViewController {
         guard let opponentInfo = opponentInfo else { return }
 
         let chatRoomID = opponentInfo.id > myInfo.id ? "\(opponentInfo.id)\(myInfo.id)" : "\(myInfo.id)\(opponentInfo.id)"
-        CHAT_REF.child("\(chatRoomID)")
         
         let chatVC = ChatViewController()
         
@@ -166,6 +170,23 @@ final class GameViewController: UIViewController {
    
     private func playSound() {
         
+        guard let sound = Bundle.main.url(forResource: "game", withExtension: "mp3") else { return }
+        
+        do {
+                try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+                try AVAudioSession.sharedInstance().setActive(true)
+
+                player = try AVAudioPlayer(contentsOf: sound, fileTypeHint: AVFileType.mp3.rawValue)
+
+                guard let player = player else { return }
+
+                player.play()
+
+            } catch let error {
+                print(error.localizedDescription)
+            }
+        
+        print("소리남")
     }
     
     private func showStandByUIView() {

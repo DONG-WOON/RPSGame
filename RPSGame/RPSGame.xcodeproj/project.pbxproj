@@ -29,6 +29,7 @@
 		D34123CA2860BE0400E8A648 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34123C92860BE0400E8A648 /* ChatViewController.swift */; };
 		D34123CD2861A3AA00E8A648 /* ChatTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = D34123CB2861A3AA00E8A648 /* ChatTableViewCell.swift */; };
 		D34123CE2861A3AA00E8A648 /* ChatTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D34123CC2861A3AA00E8A648 /* ChatTableViewCell.xib */; };
+		D34ACD9A2865AFB4000E17A2 /* game.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D34ACD992865AFB4000E17A2 /* game.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,6 +58,7 @@
 		D34123C92860BE0400E8A648 /* ChatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		D34123CB2861A3AA00E8A648 /* ChatTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatTableViewCell.swift; sourceTree = "<group>"; };
 		D34123CC2861A3AA00E8A648 /* ChatTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ChatTableViewCell.xib; sourceTree = "<group>"; };
+		D34ACD992865AFB4000E17A2 /* game.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = game.mp3; sourceTree = "<group>"; };
 		D41651518DA9B54CFB04895A /* Pods_RPSGame.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RPSGame.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -93,6 +95,7 @@
 		7282080C284CD04E00AEE913 /* RPSGame */ = {
 			isa = PBXGroup;
 			children = (
+				D34ACD942865A4D8000E17A2 /* Sounds */,
 				7282080D284CD04E00AEE913 /* AppDelegate.swift */,
 				7282080F284CD04E00AEE913 /* SceneDelegate.swift */,
 				72820821284CE12000AEE913 /* Model */,
@@ -177,6 +180,14 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		D34ACD942865A4D8000E17A2 /* Sounds */ = {
+			isa = PBXGroup;
+			children = (
+				D34ACD992865AFB4000E17A2 /* game.mp3 */,
+			);
+			path = Sounds;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -239,6 +250,7 @@
 			files = (
 				7282081A284CD05000AEE913 /* LaunchScreen.storyboard in Resources */,
 				D34123CE2861A3AA00E8A648 /* ChatTableViewCell.xib in Resources */,
+				D34ACD9A2865AFB4000E17A2 /* game.mp3 in Resources */,
 				D34123C0285B20A600E8A648 /* MyInformationView.xib in Resources */,
 				D34123C8285DCBB400E8A648 /* GameViewController.storyboard in Resources */,
 				72820817284CD05000AEE913 /* Assets.xcassets in Resources */,
