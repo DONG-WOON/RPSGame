@@ -70,25 +70,8 @@ final class GameViewController: UIViewController {
         }
         
         buttonisEnabled(true)
-        
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerDispatchQueue(timer:)), userInfo: nil, repeats: true)
     }
     
-    @objc func timerDispatchQueue(timer: Timer) {
-        timeValue -= 1
-        //타이머 보여줄수 있도록 뷰 구현
-        //        timerView
-        print(timeValue)
-        
-        if timeValue == 0 {
-            self.timer.invalidate()
-            buttonisEnabled(false)
-            guard let opponent = opponentInfo, let my = myInfo else { return }
-            
-            let winner = compare(myChoice: my.choice, opponentChoice: opponent.choice)
-            showResult(winner: winner)
-        }
-    }
     // MARK: Configure UI
     
     func setupPlayers() {
@@ -178,6 +161,8 @@ final class GameViewController: UIViewController {
             
             player = try AVAudioPlayer(contentsOf: sound, fileTypeHint: AVFileType.mp3.rawValue)
             
+            player?.delegate = self
+            
             guard let player = player else { return }
             
             player.play()
@@ -185,8 +170,6 @@ final class GameViewController: UIViewController {
         } catch let error {
             print(error.localizedDescription)
         }
-        
-        print("소리남")
     }
     
     private func showStandByUIView() {
@@ -262,5 +245,15 @@ extension GameViewController {
         rockButton.isEnabled = bool
         paperButton.isEnabled = bool
         scissorButton.isEnabled = bool
+    }
+}
+
+extension GameViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        buttonisEnabled(false)
+        guard let opponent = opponentInfo, let my = myInfo else { return }
+        
+        let winner = compare(myChoice: my.choice, opponentChoice: opponent.choice)
+        showResult(winner: winner)
     }
 }
