@@ -207,8 +207,6 @@ extension ChatViewController: UITableViewDataSource {
         
         cell.setMessageData(message: message)
         
-        
-        
         message.userName == myName ?
             cell.setBubbleType(type: .incoming) : cell.setBubbleType(type: .outgoing)
         

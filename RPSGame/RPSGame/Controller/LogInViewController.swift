@@ -58,6 +58,7 @@ final class LoginViewController: UIViewController {
         
         NSLayoutConstraint.activate(constraints)
         
+        
         mainLabel.backgroundColor = .systemGray
         mainLabel.layer.masksToBounds = true
         mainLabel.numberOfLines = 2

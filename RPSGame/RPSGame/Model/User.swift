@@ -36,7 +36,5 @@ struct Record {
 }
 
 enum RPS: Int {
-    case rock
-    case paper
-    case scissor
+    case rock, paper, scissors
 }
