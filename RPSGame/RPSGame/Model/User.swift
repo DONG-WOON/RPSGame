@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 
+var myID: String?
+
 struct User {
     let id: String
     let name: String

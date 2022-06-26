@@ -68,8 +68,6 @@ final class ChatViewController: UIViewController {
                               width: 32,
                               height: 32)
         
-        
-        
         messageContainerView.addSubview(inputTextView)
         messageContainerView.addSubview(sendButton)
 

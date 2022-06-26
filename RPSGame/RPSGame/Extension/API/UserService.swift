@@ -26,8 +26,8 @@ struct UserService {
                       let userName = userProfile.nickname,
                       let userProfileImageUrl = userProfile.thumbnailImageUrl else { return }
                 
-                let userIdToString = String(userId)
-                USERS_REF.child(userIdToString).setValue(["id": userIdToString,
+                let userID = String(userId)
+                USERS_REF.child(String(userId)).setValue(["id": userID,
                                                        "name": userName,
                                                        "profileImageUrl": userProfileImageUrl.absoluteString,
                                                        "record": ["win": 0, "lose": 0],
@@ -71,7 +71,7 @@ struct UserService {
         }
     }
     
-    static func fetchUsers(completion: @escaping ([User]) -> Void) {
+    static func fetchUsers(butFor mine: String? = nil, completion: @escaping ([User]) -> Void) {
         
         USERS_REF.getData { (error, snapshot) in
             guard error == nil else {
@@ -81,8 +81,10 @@ struct UserService {
             guard let userList = snapshot?.value as? [String: Any] else {
                 fatalError("DEBUG: user data is nil")
             }
-            let users = userList.map { (_,userData) in
+            let users = userList.map { (_, userData) in
                 User(data: userData as! [String : Any])
+            }.filter { user in
+                user.id != mine
             }
             completion(users)
         }
