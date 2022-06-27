@@ -7,9 +7,10 @@
 
 import UIKit
 import KakaoSDKUser
+import AVFoundation
 
 final class GameViewController: UIViewController {
-// MARK: - Properties
+    // MARK: - Properties
     
     @IBOutlet weak var gameReadyView: UIImageView!
     @IBOutlet weak var startButton: UIButton!
@@ -26,10 +27,12 @@ final class GameViewController: UIViewController {
         return v
     }()
     
+    private var player: AVAudioPlayer?
+    
     var opponentInfo: GamerInfo?
     var myInfo: GamerInfo?
-    var timer = Timer()
-    var timeValue = 7
+    private var timer = Timer()
+    private var timeValue = 7
     
     var startFlag: (Bool,Bool)? = (false, false) {
         didSet {
@@ -41,17 +44,19 @@ final class GameViewController: UIViewController {
         }
     }
     
-// MARK: - Life Cycle
+    // MARK: - Life Cycle
     
     override func viewDidLoad() {
+        
         super.viewDidLoad()
         setupPlayers()
     }
-// MARK: - Actions
+    // MARK: - Actions
     
     private func gamePlay() {
         startButton.isEnabled.toggle()
         gameReadyView.isHidden = true
+        playSound()
         
         guard let opponent = opponentInfo, let my = myInfo else { return }
         USERS_REF.child(opponent.id).child("opponent").child("choice").observe(.value) { snapshot in
@@ -65,32 +70,15 @@ final class GameViewController: UIViewController {
         }
         
         buttonisEnabled(true)
-        
-        self.timer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(timerDispatchQueue(timer:)), userInfo: nil, repeats: true)
     }
-
-    @objc func timerDispatchQueue(timer: Timer) {
-        timeValue -= 1
-        //타이머 보여줄수 있도록 뷰 구현
-//        timerView
-        print(timeValue)
-        
-        if timeValue == 0 {
-            self.timer.invalidate()
-            buttonisEnabled(false)
-            guard let opponent = opponentInfo, let my = myInfo else { return }
-            
-            let winner = compare(myChoice: my.choice, OpponentChoice: opponent.choice)
-            showResult(winner: winner)
-        }
-    }
+    
     // MARK: Configure UI
     
     func setupPlayers() {
         guard let opponent = opponentInfo, let my = myInfo else { return }
         opponentName.text = opponent.name
         myName.text = my.name
-    
+        
         USERS_REF.child(opponent.id).child("opponent").child("wantsGameStart").observe(.value) { snapshot in
             guard let iWantGameStart = snapshot.value as? Bool else{ return }
             print(iWantGameStart)
@@ -106,14 +94,21 @@ final class GameViewController: UIViewController {
     }
     
     @IBAction func goChat(_ sender: Any) {
+        
+        guard let myInfo = myInfo else { return }
+        guard let opponentInfo = opponentInfo else { return }
+        
+        let chatRoomID = opponentInfo.id > myInfo.id ? "\(opponentInfo.id)\(myInfo.id)" : "\(myInfo.id)\(opponentInfo.id)"
+        
         let chatVC = ChatViewController()
-        chatVC.opponentName = opponentInfo?.name
-        chatVC.myName = myInfo?.name
+        
+        chatVC.myName = myInfo.name
+        chatVC.chatRommID = chatRoomID
         navigationController?.pushViewController(chatVC, animated: true)
     }
     
     @IBAction func startGame(_ sender: Any) {
-       
+        
         guard let opponentId = opponentInfo?.id else { return }
         showMessage(title: "게임 시작", message: "게임을 시작할까유?", firstAction: "네") { alertAction in
             if alertAction.style == .default {
@@ -129,23 +124,23 @@ final class GameViewController: UIViewController {
         guard let button = sender as? UIButton else { return }
         let mychoice = button.tag
         switch mychoice {
-            case RPS.rock.rawValue:
-                print("rock")
-                rockButton.isEnabled = false
-                paperButton.isEnabled = true
-                scissorButton.isEnabled = true
-            case RPS.paper.rawValue:
-                print("paper")
-                rockButton.isEnabled = true
-                paperButton.isEnabled = false
-                scissorButton.isEnabled = true
-            case RPS.scissor.rawValue:
-                print("scissor")
-                rockButton.isEnabled = true
-                paperButton.isEnabled = true
-                scissorButton.isEnabled = false
-            default:
-                break
+        case RPS.rock.rawValue:
+            print("rock")
+            rockButton.isEnabled = false
+            paperButton.isEnabled = true
+            scissorButton.isEnabled = true
+        case RPS.paper.rawValue:
+            print("paper")
+            rockButton.isEnabled = true
+            paperButton.isEnabled = false
+            scissorButton.isEnabled = true
+        case RPS.scissors.rawValue:
+            print("scissor")
+            rockButton.isEnabled = true
+            paperButton.isEnabled = true
+            scissorButton.isEnabled = false
+        default:
+            break
         }
         
         self.myInfo?.choice = RPS(rawValue: mychoice)
@@ -154,26 +149,57 @@ final class GameViewController: UIViewController {
         USERS_REF.child(opponentId).child("opponent").updateChildValues(["choice": mychoice])
     }
     
-// MARK: Helpers
-   
+    // MARK: Helpers
+    
     private func playSound() {
         
+        guard let sound = Bundle.main.url(forResource: "game", withExtension: "mp3") else { return }
+        
+        do {
+            try AVAudioSession.sharedInstance().setCategory(.playback, mode: .default)
+            try AVAudioSession.sharedInstance().setActive(true)
+            
+            player = try AVAudioPlayer(contentsOf: sound, fileTypeHint: AVFileType.mp3.rawValue)
+            
+            player?.delegate = self
+            
+            guard let player = player else { return }
+            
+            player.play()
+            
+        } catch let error {
+            print(error.localizedDescription)
+        }
     }
     
     private func showStandByUIView() {
         
     }
     
-    private func compare(myChoice: RPS?, OpponentChoice: RPS?) -> String {
-        if myChoice == nil && OpponentChoice == nil {
+    private func compare(myChoice: RPS?, opponentChoice: RPS?) -> String {
+        if myChoice == nil && opponentChoice == nil {
             return "무승부"
         } else if myChoice == nil {
             return opponentInfo!.name
-        } else if OpponentChoice == nil {
+        } else if opponentChoice == nil {
             return myInfo!.name
         } else {
-            //두개 비교
-            return ""
+            switch (myChoice, opponentChoice) {
+            case (.rock, .rock):     return "무승부"
+            case (.rock, .paper):    return opponentInfo!.name
+            case (.rock, .scissors): return myInfo!.name
+                
+            case (.paper, .rock):     return myInfo!.name
+            case (.paper, .paper):    return "무승부"
+            case (.paper, .scissors): return opponentInfo!.name
+                
+            case (.scissors, .rock):     return opponentInfo!.name
+            case (.scissors, .paper):    return myInfo!.name
+            case (.scissors, .scissors): return "무승부"
+                
+            default:
+                return "일단 에러"
+            }
         }
     }
     
@@ -219,5 +245,15 @@ extension GameViewController {
         rockButton.isEnabled = bool
         paperButton.isEnabled = bool
         scissorButton.isEnabled = bool
+    }
+}
+
+extension GameViewController: AVAudioPlayerDelegate {
+    func audioPlayerDidFinishPlaying(_ player: AVAudioPlayer, successfully flag: Bool) {
+        buttonisEnabled(false)
+        guard let opponent = opponentInfo, let my = myInfo else { return }
+        
+        let winner = compare(myChoice: my.choice, opponentChoice: opponent.choice)
+        showResult(winner: winner)
     }
 }

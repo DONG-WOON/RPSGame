@@ -13,13 +13,15 @@ import GoogleSignIn
 import Firebase
 
 final class MainViewController: UIViewController {
-// MARK: - Properties
     
+// MARK: - Properties
+//    private let me: User
     private var users = [User]()
     private var userTableView = UITableView()
-    private lazy var logoutButton = UIButton()
+    private let logoutButton = UIButton()
     private let reusableTableViewCellIdentifier = "UserTableViewCell"
     private let myInformationView = MyInformationView()
+    private var refreshControl: UIRefreshControl!
     
     private var user: User? {
         didSet {
@@ -97,6 +99,22 @@ final class MainViewController: UIViewController {
             }
         }
     }
+    
+// MARK: - Life Cycle
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        
+        checkIfUserIsLoggedIn() { id in
+            myID = id
+            self.fetchUserDataAndLoadProfileImage(id)
+            self.fetchUsersData()
+            USERS_REF.child(id).child("isLogin").setValue(true)
+        }
+        setupRefreshControl()
+    }
+
 // MARK: - Actions
     
     private func checkIfUserIsLoggedIn(completion: @escaping(String) -> Void) {
@@ -118,6 +136,7 @@ final class MainViewController: UIViewController {
                     //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
                     guard let id = tokenInfo?.id else { return }
                     let userIdToString = String(id)
+                    myID = userIdToString
                     completion(userIdToString)
                 }
             }
@@ -164,23 +183,28 @@ final class MainViewController: UIViewController {
             
             // 이부분 모듈화 해고싶음. 내부 구현 굳이 안보여줘도 이해하는데 충분할 듯
             myInformationView.myName.text = user.name
+            
             let record = user.record.win + user.record.lose
             myInformationView.myGameRecord.text = "\(record)전 \(user.record.win)승 \(0)무 \(user.record.lose)패"
-            DispatchQueue.global().async {
-                guard let url = URL(string: user.profileThumbnailImageUrl) else { fatalError() }
-                        URLSession.shared.dataTask(with: url) { (data, response, error) in
-                            if let error = error {
-                                print("download Image dataTaskError: \(error.localizedDescription)")
-                            }
-                            DispatchQueue.main.async {
-                                guard let data = data else {
-                                    return
-                                }
-                                let image = UIImage(data: data)
-                                myInformationView.myProfiileImage.image = image
-                            }
-                        }.resume()
-            }
+            
+            guard let url = URL(string: user.profileThumbnailImageUrl) else { fatalError() }
+            
+            URLSession.shared.dataTask(with: url) { (data, response, error) in
+                if let error = error {
+                    print("download Image dataTaskError: \(error.localizedDescription)")
+                }
+                
+                DispatchQueue.main.async {
+                    guard let data = data else {
+                        
+                        return
+                    }
+                    
+                    let image = UIImage(data: data)
+                    
+                    myInformationView.myProfiileImage.image = image
+                }
+            }.resume()
             self.setupUI()
         }
     }
@@ -194,18 +218,6 @@ final class MainViewController: UIViewController {
     
     private func fetchGamerData(_ user: User, completion: @escaping (GamerInfo) -> Void) {
         UserService.fetchGamerData(user, completion)
-    }
-// MARK: - Life Cycle
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = .white
-
-        checkIfUserIsLoggedIn() { id in
-            self.fetchUserDataAndLoadProfileImage(id)
-            self.fetchUsersData()
-            USERS_REF.child(id).child("isLogin").setValue(true)
-        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -269,6 +281,32 @@ final class MainViewController: UIViewController {
         guard let user = user else { return }
         USERS_REF.child(user.id).child("isInvited").setValue(false)
         USERS_REF.child(user.id).child("opponent").removeValue()
+    }
+    
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
+        userTableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    @objc private func onRefresh() {
+        
+        UserService.fetchUsers(butFor: myID) { users in
+            self.users = users
+        }
+        print(users)
+        self.userTableView.reloadData()
+        refresh()
+    }
+    
+    private func run(after wait: TimeInterval, closure: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + wait, execute: closure)
+    }
+    
+    private func refresh() {
+        run(after: 1) {
+            self.refreshControl.endRefreshing()
+        }
     }
 }
 

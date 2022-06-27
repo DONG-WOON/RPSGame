@@ -8,6 +8,8 @@
 import Foundation
 import Firebase
 
+var myID: String?
+
 struct User {
     let id: String
     let name: String
@@ -36,7 +38,5 @@ struct Record {
 }
 
 enum RPS: Int {
-    case rock
-    case paper
-    case scissor
+    case rock, paper, scissors
 }

@@ -28,7 +28,7 @@ class UserTableViewCell: UITableViewCell {
         return iv
     }()
     
-    private lazy var logStatusLabel: UILabel = {
+    private var logStatusLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
         lbl.layer.borderColor = CGColor(gray: 1, alpha: 1)
@@ -41,7 +41,7 @@ class UserTableViewCell: UITableViewCell {
         return lbl
     }()
     
-    private lazy var userRecordLabel: UILabel = {
+    private var userRecordLabel: UILabel = {
         let lbl = UILabel()
         lbl.font = UIFont.systemFont(ofSize: 18)
         return lbl
@@ -79,7 +79,6 @@ class UserTableViewCell: UITableViewCell {
         profileImageView.centerY(inView: self,
                                  leftAnchor: leftAnchor,
                                  paddingLeft: 15)
-        
     }
     
     func setupUserNameLabel() {

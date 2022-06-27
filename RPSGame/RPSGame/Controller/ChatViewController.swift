@@ -8,14 +8,11 @@
 import UIKit
 
 final class ChatViewController: UIViewController {
-    
-//    let me = User(data: ["id":"1", "name":"ehd", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":true])
-//    let opponent = User(data: ["id":"2", "name":"domb", "profileImageUrl":"", "record":Record(win: 100, lose: 100), "isLogin":true, "isInGame":true, "isInvited":false])
-    
+
     var myName: String?
-    var opponentName: String?
     
     var chatMessages = [Message]()
+    var chatRommID: String?
     
     let containerView = UIView()
     let chatTableView = UITableView()
@@ -70,8 +67,6 @@ final class ChatViewController: UIViewController {
                               paddingRight: 10,
                               width: 32,
                               height: 32)
-        
-        
         
         messageContainerView.addSubview(inputTextView)
         messageContainerView.addSubview(sendButton)
@@ -144,7 +139,9 @@ final class ChatViewController: UIViewController {
     
     func observeMessages() {
 
-        CHAT_REF.child("messages").observe(.childAdded) { (snapshot) in
+        guard let chatRommID = chatRommID else { return }
+        
+        CHAT_REF.child("\(chatRommID)").child("messages").observe(.childAdded) { (snapshot) in
             if let dataArray = snapshot.value as? [String: Any] {
                 
                 print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
@@ -164,11 +161,13 @@ final class ChatViewController: UIViewController {
     
     func sendMessage(text: String, completion: @escaping (_ isSuccess: Bool) -> () ) {
         guard let senderName = myName else { return }
+        guard let chatRommID = chatRommID else { return }
+
         let dataArray: [String: Any] = ["senderName": senderName, "text": text]
         
         print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
         
-        CHAT_REF.child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
+        CHAT_REF.child("\(chatRommID)").child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
             error == nil ? completion(true) : completion(false)
         }
     }
@@ -206,10 +205,8 @@ extension ChatViewController: UITableViewDataSource {
         
         cell.setMessageData(message: message)
         
-        
-        
-        message.userName == "e" ?
-            cell.setBubbleType(type: .outgoing) : cell.setBubbleType(type: .incoming)
+        message.userName == myName ?
+            cell.setBubbleType(type: .incoming) : cell.setBubbleType(type: .outgoing)
         
         return cell
     }
