@@ -20,6 +20,7 @@ final class LoginViewController: UIViewController {
     private let kakaoLoginButton = UIButton()
     private let loginButtonStack = UIStackView()
     private let googleLoginButton = GIDSignInButton()
+    weak var delegate: AuthenticationDelegate?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -126,8 +127,9 @@ final class LoginViewController: UIViewController {
             let credential = GoogleAuthProvider.credential(withIDToken: idToken,
                                                            accessToken: authentication.accessToken)
             
-            UserService.uploadGoogleUser(credential)
-            self.dismiss(animated: true, completion: nil)
+            UserService.uploadGoogleUser(credential) { id in
+                self.delegate?.authenticationDidComplete(of: id)
+            }
         }
     }
     
@@ -140,8 +142,9 @@ final class LoginViewController: UIViewController {
                 else {
                     print("loginWithKakaoTalk() success.")
                     _ = oauthToken
-                    UserService.uploadKakaoUser()
-                    self.dismiss(animated: true, completion: nil)
+                    UserService.uploadKakaoUser { id in
+                        self.delegate?.authenticationDidComplete(of: id)
+                    }
                 }
             }
         }

@@ -133,6 +133,7 @@ final class MainViewController: UIViewController {
         DispatchQueue.main.async {
             let loginVC = LoginViewController()
             loginVC.modalPresentationStyle = .fullScreen
+            loginVC.delegate = self
             self.present(loginVC, animated: false, completion: nil)
         }
     }
@@ -187,6 +188,7 @@ final class MainViewController: UIViewController {
     private func fetchUsersData() {
         UserService.fetchUsers { users in
             self.users = users
+            self.userTableView.reloadData()
         }
     }
     
@@ -204,6 +206,10 @@ final class MainViewController: UIViewController {
             self.fetchUsersData()
             USERS_REF.child(id).child("isLogin").setValue(true)
         }
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.fetchUsersData()
     }
     
 // MARK: - Configure
@@ -332,6 +338,19 @@ extension MainViewController: UITableViewDelegate {
         } else {
             return indexPath
         }
+    }
+}
+
+protocol AuthenticationDelegate: AnyObject {
+    func authenticationDidComplete(of id: String)
+}
+
+extension MainViewController: AuthenticationDelegate {
+    
+    func authenticationDidComplete(of id: String) {
+        /// 델리게이트를 설정해서 특정부분에서 이 메소드가 항상 호출되므로 user의 정보를 fetch할 수 있다.
+        fetchUserDataAndLoadProfileImage(id)
+        self.dismiss(animated: true, completion: nil)
     }
 }
 

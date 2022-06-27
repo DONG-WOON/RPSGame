@@ -14,7 +14,7 @@ import GoogleSignIn
 // MARK: - UserService
 struct UserService {
     
-    static func uploadKakaoUser() {
+    static func uploadKakaoUser(completion: ((String) -> Void)?) {
         UserApi.shared.me { (user, error) in
             if let error = error {
                 print("DEBUG: register Error\(error.localizedDescription)")
@@ -24,7 +24,7 @@ struct UserService {
                       let userId = kakaoUser.id ,
                       let userProfile = kakaoUser.kakaoAccount?.profile,
                       let userName = userProfile.nickname,
-                      let userProfileImageUrl = userProfile.thumbnailImageUrl else { return }
+                      let userProfileImageUrl = userProfile.thumbnailImageUrl else { fatalError() }
                 
                 let userIdToString = String(userId)
                 USERS_REF.child(userIdToString).setValue(["id": userIdToString,
@@ -34,15 +34,16 @@ struct UserService {
                                                        "isLogin": true,
                                                        "isInGame": false,
                                                        "isInvited": false])
+                completion?(userIdToString)
             }
         }
     }
     
-    static func uploadGoogleUser(_ credential: AuthCredential) {
+    static func uploadGoogleUser(_ credential: AuthCredential, completion: ((String) -> Void)?) {
         Auth.auth().signIn(with: credential) { (authData, error) in
             
             guard let user = authData?.user,
-                  let photoUrl = user.photoURL else { return }
+                  let photoUrl = user.photoURL else { fatalError() }
            
             USERS_REF.child(user.uid).setValue(["id": user.uid,
                                                      "name": user.displayName ?? "",
@@ -51,6 +52,7 @@ struct UserService {
                                                      "isLogin": true,
                                                      "isInGame": false,
                                                      "isInvited": false])
+            completion?(user.uid)
         }
     }
     
@@ -90,7 +92,7 @@ struct UserService {
     
     static func fetchGamerData(_ user: User, _ completion: @escaping (GamerInfo) -> Void) {
         USERS_REF.child(user.id).child("opponent").getData() { (_, snapshot) in
-            guard let data = snapshot?.value as? [String: Any] else { return }
+            guard let data = snapshot?.value as? [String: Any] else { fatalError() }
             let opponentInfo = GamerInfo(data: data)
             completion(opponentInfo)
         }
