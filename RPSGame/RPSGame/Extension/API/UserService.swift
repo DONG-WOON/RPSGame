@@ -72,7 +72,7 @@ struct UserService {
 //        }
 //    }
     
-    static func fetchUsers(butFor mine: String? = nil, completion: @escaping ([User]) -> Void) {
+    static func fetchUsers(completion: @escaping ([User]) -> Void) {
         
         USERS_REF.getData { (error, snapshot) in
             guard error == nil else {
@@ -84,8 +84,6 @@ struct UserService {
             }
             let users = usersData.map { (_, userData) in
                 User(data: userData as! [String : Any])
-            }.filter { user in
-                user.id != mine
             }
             completion(users)
         }

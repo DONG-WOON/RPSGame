@@ -163,7 +163,7 @@ final class MainViewController: UIViewController {
     
     private func setUpMyInformationView() {
         
-        guard let myInfo = getMyInfo(), let url = URL(string: myInfo.profileThumbnailImageUrl) else { return }
+        guard let myInfo = getMyInfo(), let url = URL(string: myInfo.profileThumbnailImageUrl) else { fatalError() }
         let record = myInfo.record.win + myInfo.record.lose
         getMyImages(url)
         myInformationView.myNameLabel.text = myInfo.name
@@ -218,6 +218,7 @@ final class MainViewController: UIViewController {
             self.opponentAcceptInvitaion = acceptInvitation
         }
     }
+    
     private func goToGameVC(_ gamer: Gamer, _ user: User) {
         self.dismiss(animated: true, completion: nil)
         let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
@@ -290,31 +291,7 @@ final class MainViewController: UIViewController {
         USERS_REF.child(user.id).child("opponent").removeValue()
     }
     
-    private func setupRefreshControl() {
-        refreshControl = UIRefreshControl()
-        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
-        userTableView.insertSubview(refreshControl, at: 0)
-    }
     
-    @objc private func onRefresh() {
-        
-        UserService.fetchUsers(butFor: myID) { users in
-            self.users = users
-        }
-        print(users)
-        self.userTableView.reloadData()
-        refresh()
-    }
-    
-    private func run(after wait: TimeInterval, closure: @escaping () -> Void) {
-        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + wait, execute: closure)
-    }
-    
-    private func refresh() {
-        run(after: 1) {
-            self.refreshControl.endRefreshing()
-        }
-    }
 }
 
 
@@ -323,9 +300,8 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-
-        let me = 1
         
+        let me = 1
         return users.count - me
     }
 
@@ -333,6 +309,7 @@ extension MainViewController: UITableViewDataSource {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
         let usersButForMe = users.filter { $0.id != myID }
+        
         cell.user = usersButForMe[indexPath.row]
         cell.backgroundColor = UIColor(red: 153/255, green: 255/255, blue: 205/255, alpha: 1)
         return cell
@@ -381,5 +358,33 @@ extension MainViewController: AuthenticationDelegate {
         /// 델리게이트를 설정해서 특정부분에서 이 메소드가 항상 호출되므로 user의 정보를 fetch할 수 있다.
         self.fetchUsersData()
         self.dismiss(animated: true, completion: nil)
+    }
+}
+
+extension MainViewController {
+    private func setupRefreshControl() {
+        refreshControl = UIRefreshControl()
+        refreshControl.addTarget(self, action: #selector(onRefresh), for: .valueChanged)
+        userTableView.insertSubview(refreshControl, at: 0)
+    }
+    
+    @objc private func onRefresh() {
+        
+        UserService.fetchUsers { users in
+            self.users = users
+        }
+        print(users)
+        self.userTableView.reloadData()
+        refresh()
+    }
+    
+    private func run(after wait: TimeInterval, closure: @escaping () -> Void) {
+        DispatchQueue.main.asyncAfter(deadline: DispatchTime.now() + wait, execute: closure)
+    }
+    
+    private func refresh() {
+        run(after: 1) {
+            self.refreshControl.endRefreshing()
+        }
     }
 }
