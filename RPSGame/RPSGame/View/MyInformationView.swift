@@ -9,9 +9,9 @@ import UIKit
 
 class MyInformationView: UIView {
 
-    @IBOutlet weak var myProfiileImage: UIImageView!
-    @IBOutlet weak var myName: UILabel!
-    @IBOutlet weak var myGameRecord: UILabel!
+    @IBOutlet weak var myProfiileImageView: UIImageView!
+    @IBOutlet weak var myNameLabel: UILabel!
+    @IBOutlet weak var myGameRecordLabel: UILabel!
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -33,7 +33,7 @@ class MyInformationView: UIView {
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.frame = self.bounds
         addSubview(view)
-        myProfiileImage.contentMode = .scaleAspectFill
+        myProfiileImageView.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 10
     }
 }

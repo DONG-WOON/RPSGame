@@ -13,6 +13,8 @@ class UserTableViewCell: UITableViewCell {
     var user: User? {
         didSet {
             guard let user = user else { return }
+            
+            getUserImage()
             userNameLabel.text = user.name
             userRecordLabel.text = "승리: \(user.record.win) , 패배: \(user.record.lose)"
             logStatusLabel.text = user.isLogin ? "로그인중" : "로그아웃중"
@@ -74,6 +76,7 @@ class UserTableViewCell: UITableViewCell {
     
 // MARK: - Configure
     func setupProfileImageView() {
+
         profileImageView.setDimensions(height: 60, width: 60)
         profileImageView.layer.cornerRadius = 60 / 2
         profileImageView.centerY(inView: self,
@@ -92,5 +95,22 @@ class UserTableViewCell: UITableViewCell {
     
     func setupLogStatusLabel() {
         logStatusLabel.anchor(top: self.topAnchor, right: self.rightAnchor, paddingTop: 10, paddingRight: 5)
+    }
+    
+    func getUserImage() {
+        guard let user = user, let url = URL(string: user.profileThumbnailImageUrl) else { fatalError() }
+        
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("download Image dataTaskError: \(error.localizedDescription)")
+            }
+            guard let data = data else {
+                
+                return
+            }
+            DispatchQueue.main.async {
+                self.profileImageView.image = UIImage(data: data)
+            }
+        }.resume()
     }
 }

@@ -11,6 +11,7 @@ import KakaoSDKUser
 import KakaoSDKCommon
 import GoogleSignIn
 import Firebase
+import AVFoundation
 
 final class MainViewController: UIViewController {
     
@@ -26,13 +27,7 @@ final class MainViewController: UIViewController {
     private var user: User? {
         didSet {
             guard let user = user else { return }
-            
-            // user table에서 내정보가 같이 나오는 것을 없애기 위해 구현./ 애초에 User 데이터를 가져오지말고 Users에서 user만 뽑는게 더 효율적일것 같음.
-            if let userIndex = users.firstIndex(where: { $0.name == user.name }) {
-                self.users.remove(at: userIndex)
-            }
-            self.userTableView.reloadData()
-            
+
             // 사용자가 초대를 받았는지 알려주기위한 observer를 등록
             USERS_REF.child(user.id).child("isInvited").observe(.value) { snapshot in
                 guard let isInvited = snapshot.value as? Bool else { return }
@@ -107,17 +102,20 @@ final class MainViewController: UIViewController {
         view.backgroundColor = .white
         
         checkIfUserIsLoggedIn() { id in
+            
             myID = id
-            self.fetchUserDataAndLoadProfileImage(id)
             self.fetchUsersData()
             USERS_REF.child(id).child("isLogin").setValue(true)
         }
+        
         setupRefreshControl()
     }
 
 // MARK: - Actions
     
     private func checkIfUserIsLoggedIn(completion: @escaping(String) -> Void) {
+        
+//        카카오 로그인
         if AuthApi.hasToken() {
             UserApi.shared.accessTokenInfo { [self] (tokenInfo, error) in
                 if let error = error {
@@ -135,11 +133,12 @@ final class MainViewController: UIViewController {
                 else {
                     //토큰 유효성 체크 성공(필요 시 토큰 갱신됨)
                     guard let id = tokenInfo?.id else { return }
-                    let userIdToString = String(id)
-                    myID = userIdToString
-                    completion(userIdToString)
+                    myID = String(id)
+                    completion(String(id))
                 }
             }
+            
+//            구글 로그인
         } else if GIDSignIn.sharedInstance.hasPreviousSignIn() {
             guard let id = Auth.auth().currentUser?.uid else { return }
             completion(id)
@@ -157,6 +156,12 @@ final class MainViewController: UIViewController {
     }
     
     @objc func logoutButtonDidTapped() {
+        kakaoLogOut()
+        googleLogOut()
+    }
+    
+    private func kakaoLogOut() {
+        
         if AuthApi.hasToken() {
             UserApi.shared.logout { [self] (error) in
                 if let error = error {
@@ -168,49 +173,63 @@ final class MainViewController: UIViewController {
                     backToLogin()
                 }
             }
-        } else {
-            GIDSignIn.sharedInstance.signOut()
-            print("google logout() success.")
-            UserService.logout(user)
-            backToLogin()
         }
     }
     
-    private func fetchUserDataAndLoadProfileImage(_ id: String) {
-        UserService.fetchUser(id) { [self] user in
-            self.user = user
+    private func googleLogOut() {
+        
+        GIDSignIn.sharedInstance.signOut()
+        print("google logout() success.")
+        UserService.logout(user)
+        backToLogin()
+    }
+    
+    private func getMyInfo() -> User? {
+        let me = users.first { $0.id == myID }
+        
+        guard let myInfo = me else { return nil }
+        
+        return myInfo
+    }
+    
+    private func setUpMyInformationView() {
+        
+        guard let myInfo = getMyInfo(), let url = URL(string: myInfo.profileThumbnailImageUrl) else { return }
+        let record = myInfo.record.win + myInfo.record.lose
+        getMyImages(url)
+        myInformationView.myNameLabel.text = myInfo.name
+        myInformationView.myGameRecordLabel.text = "\(record)전 \(myInfo.record.win)승 \(0)무 \(myInfo.record.lose)패"
+    }
+    
+    private func getMyImages(_ url: URL) {
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("download Image dataTaskError: \(error.localizedDescription)")
+            }
             
-            // 이부분 모듈화 해고싶음. 내부 구현 굳이 안보여줘도 이해하는데 충분할 듯
-            myInformationView.myName.text = user.name
+            guard let data = data else {
+                return
+            }
             
-            let record = user.record.win + user.record.lose
-            myInformationView.myGameRecord.text = "\(record)전 \(user.record.win)승 \(0)무 \(user.record.lose)패"
+            let image = UIImage(data: data)
             
-            guard let url = URL(string: user.profileThumbnailImageUrl) else { fatalError() }
-            
-            URLSession.shared.dataTask(with: url) { (data, response, error) in
-                if let error = error {
-                    print("download Image dataTaskError: \(error.localizedDescription)")
-                }
-                
-                DispatchQueue.main.async {
-                    guard let data = data else {
-                        
-                        return
-                    }
-                    
-                    let image = UIImage(data: data)
-                    
-                    myInformationView.myProfiileImage.image = image
-                }
-            }.resume()
-            self.setupUI()
-        }
+            DispatchQueue.main.async {
+                self.myInformationView.myProfiileImageView.image = image
+            }
+        }.resume()
     }
     
     private func fetchUsersData() {
         UserService.fetchUsers { users in
             self.users = users
+            self.setUpMyInformationView()
+            
+            DispatchQueue.main.async {
+                self.setupUI()
+            }
+            users.forEach { user in
+                print("😅처음 fetch할때 user들이름:", user.name)
+            }
         }
     }
     
@@ -235,8 +254,8 @@ final class MainViewController: UIViewController {
 
         myInformationView.anchor(top: view.topAnchor, paddingTop: 75)
         myInformationView.centerX(inView: view)
-        myInformationView.myProfiileImage.clipsToBounds = true
-        myInformationView.myProfiileImage.layer.cornerRadius = 10
+        myInformationView.myProfiileImageView.clipsToBounds = true
+        myInformationView.myProfiileImageView.layer.cornerRadius = 10
     }
     
     private func setupLogoutButton() {
@@ -255,6 +274,7 @@ final class MainViewController: UIViewController {
     }
     
     private func setupUserTableView() {
+        
         userTableView.dataSource = self
         userTableView.delegate = self
         userTableView.rowHeight = 80
@@ -310,31 +330,18 @@ final class MainViewController: UIViewController {
 extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+        let me = 1
         
-        return users.count
+        return users.count - me
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-        cell.user = users[indexPath.row]
+        let usersButForMe = users.filter { $0.id != myID }
         
-        DispatchQueue.global().async {
-            guard let url = URL(string: self.users[indexPath.row].profileThumbnailImageUrl) else { fatalError() }
-                    URLSession.shared.dataTask(with: url) { (data, response, error) in
-                        if let error = error {
-                            print("download Image dataTaskError: \(error.localizedDescription)")
-                        }
-                        DispatchQueue.main.async {
-                            guard let data = data else {
-                                return
-                            }
-                            let image = UIImage(data: data)
-                            cell.profileImageView.image = image
-                        }
-                    }.resume()
-        }
-        
+        cell.user = usersButForMe[indexPath.row]
         cell.backgroundColor = UIColor(red: 153/255, green: 255/255, blue: 205/255, alpha: 1)
         
         return cell
@@ -346,11 +353,11 @@ extension MainViewController: UITableViewDataSource {
 extension MainViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
         guard let host = user else { return }
         let guest = users[indexPath.row]
         
         UserService.uploadGamerData(guest, host)
-        
         USERS_REF.child(guest.id).updateChildValues(["isInvited": true])
         
         self.showMessage(title: "대결 신청", message: "\(guest.name)님의 수락을 기다리는 중") { alertAction in
@@ -372,4 +379,3 @@ extension MainViewController: UITableViewDelegate {
         }
     }
 }
-

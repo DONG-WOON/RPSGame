@@ -54,22 +54,22 @@ struct UserService {
         }
     }
     
-    static func fetchUser(_ id: String, completion: @escaping (User) -> Void) {
-        DispatchQueue.global().async {
-            USERS_REF.child(id).getData { (error, snapshot) in
-                guard error == nil else {
-                    print(error!.localizedDescription)
-                    return
-                }
-                
-                guard let userData = snapshot?.value as? [String: Any] else {
-                    fatalError("DEBUG: user data is nil")
-                }
-                let user = User(data: userData)
-                completion(user)
-            }
-        }
-    }
+//    static func fetchUser(_ id: String, completion: @escaping (User) -> Void) {
+//        DispatchQueue.global().async {
+//            USERS_REF.child(id).getData { (error, snapshot) in
+//                guard error == nil else {
+//                    print(error!.localizedDescription)
+//                    return
+//                }
+//                
+//                guard let userData = snapshot?.value as? [String: Any] else {
+//                    fatalError("DEBUG: user data is nil")
+//                }
+//                let user = User(data: userData)
+//                completion(user)
+//            }
+//        }
+//    }
     
     static func fetchUsers(butFor mine: String? = nil, completion: @escaping ([User]) -> Void) {
         
