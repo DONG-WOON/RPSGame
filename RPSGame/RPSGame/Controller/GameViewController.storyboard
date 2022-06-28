@@ -74,10 +74,10 @@
                                 </connections>
                             </button>
                             <stackView opaque="NO" contentMode="scaleToFill" spacing="24" translatesAutoresizingMaskIntoConstraints="NO" id="H8N-Zz-G0G">
-                                <rect key="frame" x="78" y="742" width="258" height="31"/>
+                                <rect key="frame" x="67.5" y="742" width="279" height="31"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6OY-Ju-fhe">
-                                        <rect key="frame" x="0.0" y="0.0" width="70" height="31"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="77" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="rock"/>
                                         <connections>
@@ -85,15 +85,15 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="2" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="M5O-zd-Lpz">
-                                        <rect key="frame" x="94" y="0.0" width="70" height="31"/>
+                                        <rect key="frame" x="101" y="0.0" width="77" height="31"/>
                                         <state key="normal" title="Button"/>
-                                        <buttonConfiguration key="configuration" style="plain" title="scissor"/>
+                                        <buttonConfiguration key="configuration" style="plain" title="scissors"/>
                                         <connections>
-                                            <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="9Ws-tx-vh9"/>
+                                            <action selector="rockPaperScissors:" destination="Y6W-OH-hqX" eventType="touchUpInside" id="urC-zK-dGa"/>
                                         </connections>
                                     </button>
                                     <button opaque="NO" tag="1" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="pz5-lY-rqu">
-                                        <rect key="frame" x="188" y="0.0" width="70" height="31"/>
+                                        <rect key="frame" x="202" y="0.0" width="77" height="31"/>
                                         <state key="normal" title="Button"/>
                                         <buttonConfiguration key="configuration" style="plain" title="paper"/>
                                         <connections>
@@ -157,7 +157,7 @@
                         <outlet property="opponentName" destination="VCM-83-cd0" id="Cum-Vp-D0D"/>
                         <outlet property="paperButton" destination="pz5-lY-rqu" id="sPj-jl-t9f"/>
                         <outlet property="rockButton" destination="6OY-Ju-fhe" id="TNy-4o-vJS"/>
-                        <outlet property="scissorButton" destination="M5O-zd-Lpz" id="Sum-ou-kyX"/>
+                        <outlet property="scissorsButton" destination="M5O-zd-Lpz" id="Sum-ou-kyX"/>
                         <outlet property="startButton" destination="rK7-S4-YSL" id="5xN-oD-XZs"/>
                     </connections>
                 </viewController>

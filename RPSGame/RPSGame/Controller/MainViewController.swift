@@ -28,7 +28,7 @@ final class MainViewController: UIViewController {
             guard let user = user else { return }
             
             // user table에서 내정보가 같이 나오는 것을 없애기 위해 구현./ 애초에 User 데이터를 가져오지말고 Users에서 user만 뽑는게 더 효율적일것 같음.
-            if let userIndex = users.firstIndex(where: { $0.name == user.name }) {
+            if let userIndex = users.firstIndex(where: { $0.id == user.id }) {
                 self.users.remove(at: userIndex)
             }
             self.userTableView.reloadData()
@@ -53,7 +53,7 @@ final class MainViewController: UIViewController {
             guard let guest = user else { return }
             guard isInvited == true else { return }
             
-            self.fetchGamerData(guest) { (host) in
+            self.fetchGamerData(of: guest) { (host) in
                 
                 self.showMessage(title: "초대장", message: "\(host.name) 님이 게임에 초대했습니다. 입장하시겠습니까?", firstAction: "수락") { alertAction in
                     if alertAction.title == "수락" {
@@ -63,8 +63,8 @@ final class MainViewController: UIViewController {
                         
                         let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
                         guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
-                        inGameVC.opponentInfo = host
-                        inGameVC.myInfo = GamerInfo(name: guest.name, id: guest.id, choice: nil, wantsGameStart: false)
+                        inGameVC.opponent = host
+                        inGameVC.me = Gamer(name: guest.name, id: guest.id, choice: nil, wantsGameStart: false)
                         
                         let nav = UINavigationController(rootViewController: inGameVC)
                         nav.modalPresentationStyle = .fullScreen
@@ -85,13 +85,13 @@ final class MainViewController: UIViewController {
             guard let host = user else { return }
             guard opponentAcceptInvitaion == true else { return }
             
-            fetchGamerData(host) { opponentInfo in
+            fetchGamerData(of: host) { opponentInfo in
                 self.dismiss(animated: true, completion: nil)
 
                 let storyboard = UIStoryboard(name: "GameViewController", bundle: nil)
                 guard let inGameVC = storyboard.instantiateViewController(withIdentifier: "GameViewController") as? GameViewController else { return }
-                inGameVC.opponentInfo = opponentInfo
-                inGameVC.myInfo = GamerInfo(name: host.name, id: host.id, choice: nil, wantsGameStart: false)
+                inGameVC.opponent = opponentInfo
+                inGameVC.me = Gamer(name: host.name, id: host.id, choice: nil, wantsGameStart: false)
                 
                 let nav = UINavigationController(rootViewController: inGameVC)
                 nav.modalPresentationStyle = .fullScreen
@@ -212,11 +212,14 @@ final class MainViewController: UIViewController {
     private func fetchUsersData() {
         UserService.fetchUsers { users in
             self.users = users
+            if let userIndex = users.firstIndex(where: { $0.id == self.user?.id }) {
+                self.users.remove(at: userIndex)
+            }
             self.userTableView.reloadData()
         }
     }
     
-    private func fetchGamerData(_ user: User, completion: @escaping (GamerInfo) -> Void) {
+    private func fetchGamerData(of user: User, completion: @escaping (Gamer) -> Void) {
         UserService.fetchGamerData(user, completion)
     }
     
@@ -325,21 +328,19 @@ extension MainViewController: UITableViewDataSource {
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
         cell.user = users[indexPath.row]
         
-        DispatchQueue.global().async {
-            guard let url = URL(string: self.users[indexPath.row].profileThumbnailImageUrl) else { fatalError() }
-                    URLSession.shared.dataTask(with: url) { (data, response, error) in
-                        if let error = error {
-                            print("download Image dataTaskError: \(error.localizedDescription)")
-                        }
-                        DispatchQueue.main.async {
-                            guard let data = data else {
-                                return
-                            }
-                            let image = UIImage(data: data)
-                            cell.profileImageView.image = image
-                        }
-                    }.resume()
-        }
+        guard let url = URL(string: users[indexPath.row].profileThumbnailImageUrl) else { fatalError() }
+        URLSession.shared.dataTask(with: url) { (data, response, error) in
+            if let error = error {
+                print("download Image dataTaskError: \(error.localizedDescription)")
+            }
+            DispatchQueue.main.async {
+                guard let data = data else {
+                    return
+                }
+                let image = UIImage(data: data)
+                cell.profileImageView.image = image
+            }
+        }.resume()
         
         cell.backgroundColor = UIColor(red: 153/255, green: 255/255, blue: 205/255, alpha: 1)
         

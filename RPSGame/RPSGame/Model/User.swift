@@ -36,7 +36,3 @@ struct Record {
     var win: Int
     var lose: Int
 }
-
-enum RPS: Int {
-    case rock, paper, scissors
-}

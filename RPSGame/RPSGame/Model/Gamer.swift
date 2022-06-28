@@ -9,16 +9,17 @@ import Foundation
 import Firebase
 
 
-struct GamerInfo {
+struct Gamer {
     var name: String
     var id: String
     var choice: RPS?
     var wantsGameStart: Bool
     
     init(data: [String: Any]) {
+        let choice = data["choice"] as? Int
         self.name = data["name"] as? String ?? ""
         self.id = data["id"] as? String ?? ""
-        self.choice = data["choice"] as? RPS
+        self.choice = RPS(rawValue: choice ?? 3)
         self.wantsGameStart = data["wantsGameStart"] as? Bool ?? false
     }
     
@@ -29,3 +30,8 @@ struct GamerInfo {
         self.wantsGameStart = wantsGameStart
     }
 }
+
+enum RPS: Int {
+    case rock, paper, scissors
+}
+

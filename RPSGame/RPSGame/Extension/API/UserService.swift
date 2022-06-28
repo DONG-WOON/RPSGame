@@ -20,21 +20,20 @@ struct UserService {
                 print("DEBUG: register Error\(error.localizedDescription)")
                 return
             } else {
-                guard let kakaoUser = user,
-                      let userId = kakaoUser.id ,
-                      let userProfile = kakaoUser.kakaoAccount?.profile,
+                guard let user = user,
+                      let userId = user.id,
+                      let userProfile = user.kakaoAccount?.profile,
                       let userName = userProfile.nickname,
                       let userProfileImageUrl = userProfile.thumbnailImageUrl else { fatalError() }
-                
-                let userID = String(userId)
-                USERS_REF.child(String(userId)).setValue(["id": userID,
+            
+                USERS_REF.child(String(userId)).setValue(["id": userId,
                                                        "name": userName,
                                                        "profileImageUrl": userProfileImageUrl.absoluteString,
                                                        "record": ["win": 0, "lose": 0],
                                                        "isLogin": true,
                                                        "isInGame": false,
                                                        "isInvited": false])
-                completion?(userIdToString)
+                completion?(String(userId))
             }
         }
     }
@@ -80,10 +79,10 @@ struct UserService {
                 print(error!.localizedDescription)
                 return
             }
-            guard let userList = snapshot?.value as? [String: Any] else {
+            guard let usersData = snapshot?.value as? [String: Any] else {
                 fatalError("DEBUG: user data is nil")
             }
-            let users = userList.map { (_, userData) in
+            let users = usersData.map { (_, userData) in
                 User(data: userData as! [String : Any])
             }.filter { user in
                 user.id != mine
@@ -92,11 +91,11 @@ struct UserService {
         }
     }
     
-    static func fetchGamerData(_ user: User, _ completion: @escaping (GamerInfo) -> Void) {
+    static func fetchGamerData(_ user: User, _ completion: @escaping (Gamer) -> Void) {
         USERS_REF.child(user.id).child("opponent").getData() { (_, snapshot) in
             guard let data = snapshot?.value as? [String: Any] else { fatalError() }
-            let opponentInfo = GamerInfo(data: data)
-            completion(opponentInfo)
+            let opponent = Gamer(data: data)
+            completion(opponent)
         }
     }
     
@@ -107,7 +106,7 @@ struct UserService {
                                                                    "wantsGameStart": false])
     }
     
-    static func uploadGamerData(_ guest: User, _ host: GamerInfo) {
+    static func uploadGamerData(_ guest: User, _ host: Gamer) {
         USERS_REF.child(host.id).child("opponent").setValue(["name": guest.name,
                                                                       "id": guest.id,
                                                                       "choice": nil,
