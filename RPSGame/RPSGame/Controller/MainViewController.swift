@@ -18,6 +18,10 @@ final class MainViewController: UIViewController {
 // MARK: - Properties
 //    private let me: User
     private var users = [User]()
+    private lazy var usersButForMe: [User] = {
+        
+        return users.filter { $0.id != myID }
+    }()
     private var userTableView = UITableView()
     private let logoutButton = UIButton()
     private let reusableTableViewCellIdentifier = "UserTableViewCell"
@@ -155,7 +159,7 @@ final class MainViewController: UIViewController {
     
     private func getMyInfo() -> User? {
         let me = users.first { $0.id == myID }
-        
+        user = me
         guard let myInfo = me else { return nil }
         
         return myInfo
@@ -301,14 +305,12 @@ extension MainViewController: UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         
-        let me = 1
-        return users.count - me
+        return usersButForMe.count
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "UserTableViewCell", for: indexPath) as! UserTableViewCell
-        let usersButForMe = users.filter { $0.id != myID }
         
         cell.user = usersButForMe[indexPath.row]
         cell.backgroundColor = UIColor(red: 153/255, green: 255/255, blue: 205/255, alpha: 1)
@@ -323,7 +325,7 @@ extension MainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         guard let host = user else { return }
-        let guest = users[indexPath.row]
+        let guest = usersButForMe[indexPath.row]
         
         UserService.uploadGamerData(guest, host)
         USERS_REF.child(guest.id).updateChildValues(["isInvited": true])
@@ -340,7 +342,7 @@ extension MainViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-        if users[indexPath.row].isLogin == false {
+        if usersButForMe[indexPath.row].isLogin == false {
             return nil
         } else {
             return indexPath
