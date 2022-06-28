@@ -208,12 +208,10 @@ final class GameViewController: UIViewController {
         if winner == opponent.name {
             USERS_REF.child(opponent.id).child("record").child("win").getData { (_, snapshot) in
                 guard let winCount = snapshot?.value as? Int else { return }
-
                 USERS_REF.child(opponent.id).child("record").updateChildValues(["win":winCount + 1])
             }
         } else if winner == me.name {
             USERS_REF.child(opponent.id).child("record").child("lose").getData { (_, snapshot) in
-                print(snapshot)
                 guard let loseCount = snapshot?.value as? Int else { return }
                 USERS_REF.child(opponent.id).child("record").updateChildValues(["lose":loseCount + 1])
             }

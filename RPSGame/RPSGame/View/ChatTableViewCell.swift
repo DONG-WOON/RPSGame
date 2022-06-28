@@ -8,23 +8,21 @@
 import UIKit
 
 class ChatTableViewCell: UITableViewCell {
+// MARK: - Custom Type
+    enum bubbleType{ case incoming, outgoing }
     
-    enum bubbleType{
-        
-        case incoming
-        case outgoing
-    }
-    
+// MARK: - Properties
     @IBOutlet weak var stackView: UIStackView!
     @IBOutlet weak var userNameLabel: UILabel!
     @IBOutlet weak var chatTextBubbleView: UIView!
     @IBOutlet weak var chatTextView: UITextView!
-    
+// MARK: - Life Cycle
     override func awakeFromNib() {
         super.awakeFromNib()
         
         chatTextBubbleView.layer.cornerRadius = 6
     }
+// MARK: - Actions
     
     func setMessageData(message: Message) {
         userNameLabel.text = message.userName

@@ -8,21 +8,13 @@
 import UIKit
 
 class MyInformationView: UIView {
-
-    @IBOutlet weak var myProfiileImage: UIImageView!
-    @IBOutlet weak var myName: UILabel!
-    @IBOutlet weak var myGameRecord: UILabel!
+// MARK: - Properties
+    @IBOutlet weak var myProfiileImageView: UIImageView!
+    @IBOutlet weak var myNameLabel: UILabel!
+    @IBOutlet weak var myGameRecordLabel: UILabel!
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        self.viewLoad()
-    }
-    
-    required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-    
-    private func viewLoad() {
+// MARK: - Actions
+    private func loadNib() {
         let view = Bundle.main.loadNibNamed("MyInformationView",
                                             owner: self,
                                             options: nil)?.first as? MyInformationView
@@ -33,7 +25,16 @@ class MyInformationView: UIView {
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.frame = self.bounds
         addSubview(view)
-        myProfiileImage.contentMode = .scaleAspectFill
+        myProfiileImageView.contentMode = .scaleAspectFill
         view.layer.cornerRadius = 10
+    }
+// MARK: - Life Cycle
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        loadNib()
+    }
+    
+    required init?(coder: NSCoder) {
+        super.init(coder: coder)
     }
 }

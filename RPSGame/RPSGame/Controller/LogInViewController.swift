@@ -15,7 +15,7 @@ import KakaoSDKUser
 
 final class LoginViewController: UIViewController {
 
-//    MARK: - UI setting
+// MARK: - Properties
     private let backgroundView = UIImageView()
     private let mainLabel = UILabel()
     private let kakaoLoginButton = UIButton()
@@ -23,18 +23,64 @@ final class LoginViewController: UIViewController {
     private let googleLoginButton = GIDSignInButton()
     weak var delegate: AuthenticationDelegate?
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+//MARK: - Login
+    @objc func googleLogin() {
+        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
+        let config = GIDConfiguration(clientID: clientID)
         
-        setupBackgroundView()
-        setupMainLabel()
-        setupStackView()
-        setupLoginButtons()
-        
-        appear()
+        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { (user, error) in
+            if let error = error {
+                print("DEBUG: Google Login Error\(error.localizedDescription)")
+                return
+            }
+            
+            guard
+                let authentication = user?.authentication,
+                let idToken = authentication.idToken
+            else {
+                return
+            }
+            
+            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
+                                                           accessToken: authentication.accessToken)
+            
+            UserService.uploadGoogleUser(credential) { id in
+                self.delegate?.authenticationDidComplete(of: id)
+            }
+        }
     }
     
-    private func setupBackgroundView() {
+    @objc func kakaoLogin() {
+        if (UserApi.isKakaoTalkLoginAvailable()) {
+            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
+                if let error = error {
+                    print("DEBUG: kakaoTalk Login error: \(error)")
+                }
+                else {
+                    print("loginWithKakaoTalk() success.")
+                    _ = oauthToken
+                    UserService.uploadKakaoUser { id in
+                        self.delegate?.authenticationDidComplete(of: id)
+                    }
+                }
+            }
+        }
+    }
+    
+// MARK: - Life Cycle
+override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    setupBackgroundView()
+    setupMainLabel()
+    setupStackView()
+    setupLoginButtons()
+    appear()
+}
+    
+// MARK: - Configure UI
+
+private func setupBackgroundView() {
         view.backgroundColor = .white
         view.addSubview(backgroundView)
         
@@ -98,58 +144,12 @@ final class LoginViewController: UIViewController {
         
     }
     
-    
     private func appear() {
         UIView.animate(withDuration: 2) {
             self.backgroundView.alpha = 1
             self.mainLabel.alpha = 1
             self.loginButtonStack.alpha = 1
             self.mainLabel.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
-        }
-    }
-    
-//    MARK: - Login
-    @objc func googleLogin() {
-        guard let clientID = FirebaseApp.app()?.options.clientID else { return }
-        let config = GIDConfiguration(clientID: clientID)
-        
-        GIDSignIn.sharedInstance.signIn(with: config, presenting: self) { (user, error) in
-            
-            if let error = error {
-                print("DEBUG: Google Login Error\(error.localizedDescription)")
-                return
-            }
-            
-            guard
-                let authentication = user?.authentication,
-                let idToken = authentication.idToken
-            else {
-                return
-            }
-            
-            let credential = GoogleAuthProvider.credential(withIDToken: idToken,
-                                                           accessToken: authentication.accessToken)
-            
-            UserService.uploadGoogleUser(credential) { id in
-                self.delegate?.authenticationDidComplete(of: id)
-            }
-        }
-    }
-    
-    @objc func kakaoLogin() {
-        if (UserApi.isKakaoTalkLoginAvailable()) {
-            UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
-                if let error = error {
-                    print("DEBUG: kakaoTalk Login error: \(error)")
-                }
-                else {
-                    print("loginWithKakaoTalk() success.")
-                    _ = oauthToken
-                    UserService.uploadKakaoUser { id in
-                        self.delegate?.authenticationDidComplete(of: id)
-                    }
-                }
-            }
         }
     }
 }
