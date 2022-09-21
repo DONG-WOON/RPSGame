@@ -9,8 +9,10 @@
 ## App Icon ##
 <img width="100" height="100" alt="app" src="https://user-images.githubusercontent.com/80871083/191462645-55f4f54e-9f37-4e67-ab17-bdeaea5bfa45.png">
 
+
 > 나의 가위바위보 ✌🏻✊🖐🏾 실력은 어느정도일까?? 
 > 깜찍한 가위바위보 게임으로 우리 승부를 겨뤄보자 ㅎㅎ!!
+
 
 ## 프로젝트 기간
 
