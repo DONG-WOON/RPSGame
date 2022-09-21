@@ -24,7 +24,7 @@ final class LoginViewController: UIViewController {
     weak var delegate: AuthenticationDelegate?
     
 //MARK: - Login
-    @objc func googleLogin() {
+    @objc func signupGoogle() {
         guard let clientID = FirebaseApp.app()?.options.clientID else { return }
         let config = GIDConfiguration(clientID: clientID)
         
@@ -45,12 +45,12 @@ final class LoginViewController: UIViewController {
                                                            accessToken: authentication.accessToken)
             
             UserService.uploadGoogleUser(credential) { id in
-                self.delegate?.authenticationDidComplete(of: id)
+                self.delegate?.authenticationDidComplete(id: id)
             }
         }
     }
     
-    @objc func kakaoLogin() {
+    @objc func signupKakao() {
         if (UserApi.isKakaoTalkLoginAvailable()) {
             UserApi.shared.loginWithKakaoTalk {(oauthToken, error) in
                 if let error = error {
@@ -60,7 +60,7 @@ final class LoginViewController: UIViewController {
                     print("loginWithKakaoTalk() success.")
                     _ = oauthToken
                     UserService.uploadKakaoUser { id in
-                        self.delegate?.authenticationDidComplete(of: id)
+                        self.delegate?.authenticationDidComplete(id: id)
                     }
                 }
             }
@@ -79,12 +79,12 @@ override func viewDidLoad() {
 }
     
 // MARK: - Configure UI
-
-private func setupBackgroundView() {
+    
+    private func setupBackgroundView() {
         view.backgroundColor = .white
         view.addSubview(backgroundView)
         
-        backgroundView.frame = view.frame
+        backgroundView.center(inView: view, constant: 15)
         backgroundView.image = UIImage(named: "loginBackground")
         backgroundView.contentMode = .scaleAspectFit
         backgroundView.alpha = 0
@@ -98,50 +98,58 @@ private func setupBackgroundView() {
         
         let constraints = [
             mainLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0),
-            mainLabel.centerYAnchor.constraint(equalTo: view.topAnchor, constant: 150),
+            mainLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             mainLabel.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.85),
             mainLabel.heightAnchor.constraint(equalTo: view.widthAnchor, multiplier: 0.4),
         ]
         
         NSLayoutConstraint.activate(constraints)
         
-        
-        mainLabel.backgroundColor = .systemGray
+        mainLabel.backgroundColor = UIColor(named: "LightOrange")
         mainLabel.layer.masksToBounds = true
-        mainLabel.numberOfLines = 2
-        mainLabel.text = "죽음의\n 가위바위보"
-        mainLabel.textColor = .systemRed
+        mainLabel.numberOfLines = 0
+        mainLabel.layer.cornerRadius = 10
+        mainLabel.text = "가위바위보 게임"
+        mainLabel.textColor = UIColor(named: "Title")
         mainLabel.alpha = 0
         mainLabel.textAlignment = .center
-        mainLabel.font = UIFont.boldSystemFont(ofSize: 50)
+        mainLabel.font = UIFont.boldSystemFont(ofSize: 40)
+        
+        mainLabel.layer.borderColor = UIColor(named: "Background")?.cgColor
+        mainLabel.layer.borderWidth = 2
+        mainLabel.layer.shadowColor = UIColor.black.cgColor
+        mainLabel.layer.shadowOffset = CGSize(width: 0, height: 0)
+        mainLabel.layer.shadowOpacity = 0.7
+        mainLabel.layer.shadowRadius = 4.0
     }
     
     private func setupLoginButtons() {
-        loginButtonStack.addArrangedSubview(kakaoLoginButton)
-        
-        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
-        kakaoLoginButton.addTarget(self, action: #selector(kakaoLogin), for: .touchUpInside)
         
         loginButtonStack.addArrangedSubview(googleLoginButton)
+        loginButtonStack.addArrangedSubview(kakaoLoginButton)
         
-        googleLoginButton.addTarget(self, action: #selector(googleLogin), for: .touchUpInside)
+        
+        googleLoginButton.addTarget(self, action: #selector(signupGoogle), for: .touchUpInside)
         googleLoginButton.translatesAutoresizingMaskIntoConstraints = false
         googleLoginButton.style = .wide
+        
+        kakaoLoginButton.setImage(UIImage(named: "kakaoLogIn"), for: .normal)
+        kakaoLoginButton.imageEdgeInsets = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        kakaoLoginButton.addTarget(self, action: #selector(signupKakao), for: .touchUpInside)
     }
     
     private func setupStackView() {
         view.addSubview(loginButtonStack)
         
         loginButtonStack.axis = .vertical
-        loginButtonStack.spacing = 20.0
+        loginButtonStack.spacing = 10.0
         loginButtonStack.alignment = .center
         loginButtonStack.distribution = .fill
         loginButtonStack.alpha = 0
         
         loginButtonStack.translatesAutoresizingMaskIntoConstraints = false
         loginButtonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        loginButtonStack.centerYAnchor.constraint(equalTo: view.bottomAnchor, constant: -150).isActive = true
-        
+        loginButtonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -50).isActive = true
     }
     
     private func appear() {
@@ -149,7 +157,6 @@ private func setupBackgroundView() {
             self.backgroundView.alpha = 1
             self.mainLabel.alpha = 1
             self.loginButtonStack.alpha = 1
-            self.mainLabel.backgroundColor = UIColor.systemGray.withAlphaComponent(0.4)
         }
     }
 }
