@@ -1,5 +1,5 @@
 # Uncomment the next line to define a global platform for your project
-# platform :ios, '9.0'
+# platform :ios, '11.0'
 
 target 'RPSGame' do
   # Comment the next line if you don't want to use dynamic frameworks
@@ -9,9 +9,9 @@ pod 'Firebase/Database'
 pod 'Firebase/Auth'
 pod 'Firebase/Storage'
 pod 'GoogleSignIn'
-pod 'KakaoSDKCommon'
-pod 'KakaoSDKAuth'
-pod 'KakaoSDKUser'
+pod 'KakaoSDKCommon', '~> 2.11.1'
+pod 'KakaoSDKAuth', '~> 2.11.1'
+pod 'KakaoSDKUser', '~> 2.11.1'
   # Pods for RPSGame
 
 end
