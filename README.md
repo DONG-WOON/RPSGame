@@ -7,6 +7,8 @@
 
 ## 소개
 
+<img width="100" height="100" alt="app" src="https://user-images.githubusercontent.com/80871083/191462645-55f4f54e-9f37-4e67-ab17-bdeaea5bfa45.png">
+
 > 나의 가위바위보 실력은 어느정도일까?? 세상에서 가장 무시무시한 가위바위보 게임으로 승부를 겨뤄보자!!
 
 ## 프로젝트 기간
