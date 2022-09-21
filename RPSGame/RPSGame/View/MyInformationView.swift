@@ -21,7 +21,13 @@ class MyInformationView: UIView {
 
         guard let view = view else { return }
         
-        view.backgroundColor = UIColor(red: 255/255, green: 211/255, blue: 110/255, alpha: 1)
+        view.backgroundColor = UIColor(named: "Background")
+        view.layer.borderColor = UIColor(named: "LightOrange")?.cgColor
+        view.layer.borderWidth = 2
+        view.layer.shadowColor = UIColor.black.cgColor
+        view.layer.shadowOffset = CGSize(width: 0, height: 0)
+        view.layer.shadowOpacity = 0.7
+        view.layer.shadowRadius = 4.0
         view.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         view.frame = self.bounds
         addSubview(view)

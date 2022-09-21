@@ -12,11 +12,25 @@ class UserTableViewCell: UITableViewCell {
     
     var user: User? {
         didSet {
+            
             guard let user = user else { return }
             getUserImage(of: user)
             configure(user)
+            if user.isInGame {
+                userIsInGameLabel.textColor = .lightGray
+            } else {
+                userIsInGameLabel.textColor = .clear
+            }
         }
     }
+    
+    let roundedBackgrpundView: UIView = {
+        let v = UIView()
+        v.backgroundColor = .white
+        v.layer.cornerRadius = 10.0
+        v.clipsToBounds = true
+        return v
+    }()
     
     let profileImageView: UIImageView = {
         let iv = UIImageView()
@@ -28,33 +42,44 @@ class UserTableViewCell: UITableViewCell {
     
     private var logStatusLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 14, weight: .light)
-        lbl.layer.borderColor = CGColor(gray: 1, alpha: 1)
+        lbl.font = UIFont.boldSystemFont(ofSize: 14)
+        return lbl
+    }()
+    
+    private lazy var userIsInGameLabel: UILabel = {
+        let lbl = UILabel()
+        lbl.text = "게임중"
+        lbl.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
+        lbl.textColor = .clear
         return lbl
     }()
     
     private let userNameLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.boldSystemFont(ofSize: 20)
+        lbl.font = UIFont.boldSystemFont(ofSize: 17)
         return lbl
     }()
     
     private var userRecordLabel: UILabel = {
         let lbl = UILabel()
-        lbl.font = UIFont.systemFont(ofSize: 18)
+        lbl.font = UIFont.systemFont(ofSize: 14)
         return lbl
     }()
     
 // MARK: - Actions
     private func configure(_ user: User) {
         userNameLabel.text = user.name
+        userNameLabel.textColor = user.isLogin ? .black : .lightGray
         userRecordLabel.text = "승리: \(user.record.win) , 패배: \(user.record.lose)"
-        logStatusLabel.text = user.isLogin ? "로그인중" : "로그아웃중"
-        logStatusLabel.textColor = user.isLogin ? .systemBlue : .lightGray
+        userRecordLabel.textColor = user.isLogin ? .black : .lightGray
+        logStatusLabel.text = user.isLogin ? "로그인 중" : ""
+        logStatusLabel.textColor = user.isLogin ?  UIColor(named: "LightOrange") : .lightGray
     }
     
     private func getUserImage(of user: User) {
-        guard let url = URL(string: user.profileThumbnailImageUrl) else { fatalError() }
+        guard let url = URL(string: user.profileThumbnailImageUrl) else {
+            return
+        }
         
         URLSession.shared.dataTask(with: url) { (data, response, error) in
             if let error = error {
@@ -72,6 +97,9 @@ class UserTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
+        addSubview(roundedBackgrpundView)
+        setRoundedBackgrpundViewConstraints()
+        
         addSubview(profileImageView)
         setupProfileImageView()
         
@@ -83,6 +111,9 @@ class UserTableViewCell: UITableViewCell {
         
         addSubview(logStatusLabel)
         setupLogStatusLabel()
+        
+        addSubview(userIsInGameLabel)
+        setupUserIsInGameLabel()
     }
     
     required init?(coder: NSCoder) {
@@ -91,23 +122,30 @@ class UserTableViewCell: UITableViewCell {
     
 // MARK: - Configure
     private func setupProfileImageView() {
-        profileImageView.setDimensions(height: 60, width: 60)
-        profileImageView.layer.cornerRadius = 60 / 2
-        profileImageView.centerY(inView: self,
+        profileImageView.setDimensions(height: 50, width: 50)
+        profileImageView.layer.cornerRadius = 50 / 2
+        profileImageView.centerY(inView: roundedBackgrpundView,
                                  leftAnchor: leftAnchor,
                                  paddingLeft: 15)
     }
     
     private func setupUserNameLabel() {
-        userNameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, paddingLeft: 10)
+        userNameLabel.anchor(top: profileImageView.topAnchor, left: profileImageView.rightAnchor, paddingTop: 2, paddingLeft: 10)
     }
     
+    private func setupUserIsInGameLabel() {
+        userIsInGameLabel.anchor(top: userNameLabel.topAnchor, left: userNameLabel.rightAnchor, paddingTop: 5, paddingLeft: 5)
+    }
 
     private func setupUserRecordLabel() {
-        userRecordLabel.anchor(left: profileImageView.rightAnchor, bottom: profileImageView.bottomAnchor, paddingLeft: 10, paddingBottom: 2)
+        userRecordLabel.anchor(left: profileImageView.rightAnchor, bottom: profileImageView.bottomAnchor, paddingLeft: 10, paddingBottom: 3)
     }
     
     private func setupLogStatusLabel() {
-        logStatusLabel.anchor(top: self.topAnchor, right: self.rightAnchor, paddingTop: 10, paddingRight: 5)
+        logStatusLabel.anchor(top: roundedBackgrpundView.topAnchor, right: roundedBackgrpundView.rightAnchor, paddingTop: 10, paddingRight: 10)
+    }
+    
+    private func setRoundedBackgrpundViewConstraints() {
+        roundedBackgrpundView.anchor(top: self.topAnchor, left: self.leftAnchor, bottom: self.bottomAnchor, right: self.rightAnchor, paddingTop: 8, paddingLeft: 8, paddingRight: 8)
     }
 }

@@ -6,23 +6,34 @@
 //
 
 import UIKit
+
+enum Action: String {
+    case ok = "확인"
+    case yes = "예"
+    case no = "아니요"
+    case accept = "수락"
+    case cancel = "취소"
+    case reject = "거절"
+}
+
 // MARK: - UIViewController
 
 extension UIViewController {
+
     
-    func showMessage(title: String, message: String?, completion: ((UIAlertAction) -> Void)?) {
+    func showMessage(title: String, message: String?, action: Action?, completion: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let cancelAction = UIAlertAction(title: "취소", style: .cancel, handler: completion)
-        alert.addAction(cancelAction)
+        let action = UIAlertAction(title: action?.rawValue, style: .default, handler: completion)
+        alert.addAction(action)
         present(alert, animated: true, completion: nil)
     }
     
-    func showMessage(title: String, message: String?, firstAction: String?, completion: ((UIAlertAction) -> Void)?) {
+    func showMessage(title: String, message: String?, firstAction: Action?, secondAction: Action?, firstActionCompletion: ((UIAlertAction) -> Void)? = nil, secondActionCompletion: ((UIAlertAction) -> Void)? = nil) {
         let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let firstAction = UIAlertAction(title: firstAction, style: .default, handler: completion)
-        let cancelAction = UIAlertAction(title: "거절", style: .cancel, handler: completion)
+        let firstAction = UIAlertAction(title: firstAction?.rawValue, style: .default, handler: firstActionCompletion)
+        let secondAction = UIAlertAction(title: secondAction?.rawValue, style: .cancel, handler: secondActionCompletion)
         alert.addAction(firstAction)
-        alert.addAction(cancelAction)
+        alert.addAction(secondAction)
         present(alert, animated: true, completion: nil)
     }
 }
@@ -67,10 +78,10 @@ extension UIView {
         }
     }
     
-    func center(inView view: UIView) {
+    func center(inView view: UIView, constant: CGFloat = 0) {
         translatesAutoresizingMaskIntoConstraints = false
         centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        centerYAnchor.constraint(equalTo: view.centerYAnchor, constant: constant).isActive = true
     }
     
     func setDimensions(height: CGFloat, width: CGFloat) {
