@@ -20,14 +20,12 @@
 
 ## UI
 
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191463826-62188627-df5b-4112-93dc-4224212cc0e8.png">
-
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191464070-49c6d7d8-9490-42b6-ba47-79cb25e8abf4.png">
-
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191464296-40612188-1cfa-4374-988d-a55af9e33637.png">
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191464375-4b9a02a5-5079-4e89-ac53-584ac1afc00b.png">
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191464412-e8a39476-bb11-4073-949b-d78a59f032de.png">
-<img width="250" src = "https://user-images.githubusercontent.com/80871083/191464532-cd68a45a-4092-4b68-ba48-5b3c3bd61283.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191463826-62188627-df5b-4112-93dc-4224212cc0e8.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191464070-49c6d7d8-9490-42b6-ba47-79cb25e8abf4.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191464296-40612188-1cfa-4374-988d-a55af9e33637.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191464375-4b9a02a5-5079-4e89-ac53-584ac1afc00b.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191464412-e8a39476-bb11-4073-949b-d78a59f032de.png">
+    <img width="250" src = "https://user-images.githubusercontent.com/80871083/191464532-cd68a45a-4092-4b68-ba48-5b3c3bd61283.png">
 
 <img width="250" src = "">
 
