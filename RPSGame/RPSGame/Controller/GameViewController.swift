@@ -151,31 +151,31 @@ final class GameViewController: UIViewController {
         myName.text = me.name
         
         // Gamers "wantsGameStart" Observer
-        USERS_REF.child(opponent.id).child("opponent").child("wantsGameStart").observe(.value, with: { snapshot in
+        USERS_REF.child(opponent.id).child(Const.opponent).child(Const.wantsGameStart).observe(.value, with: { snapshot in
             guard let iWantGameStart = snapshot.value as? Bool else{ return }
             self.startFlag?.0 = iWantGameStart
         })
         
-        USERS_REF.child(me.id).child("opponent").child("wantsGameStart").observe(.value, with: { snapshot in
+        USERS_REF.child(me.id).child(Const.opponent).child(Const.wantsGameStart).observe(.value, with: { snapshot in
             guard let opponentWantsGameStart = snapshot.value as? Bool else{ return }
             self.startFlag?.1 = opponentWantsGameStart
         })
         
         // Gamers "choice" Observer
-        USERS_REF.child(opponent.id).child("opponent").child("choice").observe(.value, with: { snapshot in
+        USERS_REF.child(opponent.id).child(Const.opponent).child(Const.choice).observe(.value, with: { snapshot in
             guard let value = snapshot.value as? Int else { return }
             let mychoice = RPS(rawValue: value)
             self.me?.choice = mychoice
         })
         
-        USERS_REF.child(me.id).child("opponent").child("choice").observe(.value, with: { snapshot in
+        USERS_REF.child(me.id).child(Const.opponent).child(Const.choice).observe(.value, with: { snapshot in
             guard let value = snapshot.value as? Int else { return }
             let opponentChoice = RPS(rawValue: value)
             self.opponent?.choice = opponentChoice
         })
         
         // Opponent "isInGame" Observer
-        USERS_REF.child(opponent.id).child("isInGame").observe(.value, with: { snapshot in
+        USERS_REF.child(opponent.id).child(Const.isInGame).observe(.value, with: { snapshot in
             guard let value = snapshot.value as? Bool else { return }
             print(value, #function)
             self.opponentIsInGame = value
@@ -199,8 +199,8 @@ final class GameViewController: UIViewController {
         self.opponent?.choice = nil
         self.me?.choice = nil
         
-        USERS_REF.child(me!.id).child("opponent").child("choice").setValue(nil)
-        USERS_REF.child(opponent!.id).child("opponent").child("choice").setValue(nil)
+        USERS_REF.child(me!.id).child(Const.opponent).child(Const.choice).setValue(nil)
+        USERS_REF.child(opponent!.id).child(Const.opponent).child(Const.choice).setValue(nil)
     }
     
     private func playSound() {
@@ -244,12 +244,12 @@ final class GameViewController: UIViewController {
         guard let presentingVC = self.presentingViewController as? MainViewController else { return }
         guard let opponentId = opponent?.id, let myId = me?.id else { return }
         
-        USERS_REF.child(myId).child("isInvited").setValue(false)
-        USERS_REF.child(myId).child("isInGame").setValue(false)
+        USERS_REF.child(myId).child(Const.isInGame).setValue(false)
+        USERS_REF.child(myId).child(Const.isInGame).setValue(false)
 
-        USERS_REF.child(opponentId).child("opponent").removeValue()
-        USERS_REF.child(opponentId).child("opponent").removeAllObservers()
-        USERS_REF.child(opponentId).child("isInGame").removeAllObservers()
+        USERS_REF.child(opponentId).child(Const.opponent).removeValue()
+        USERS_REF.child(opponentId).child(Const.opponent).removeAllObservers()
+        USERS_REF.child(opponentId).child(Const.isInGame).removeAllObservers()
         
         presentingVC.fetchUsersData()
         
@@ -295,7 +295,7 @@ final class GameViewController: UIViewController {
         
         self.me?.choice = RPS(rawValue: button.tag)
         
-        USERS_REF.child(opponent!.id).child("opponent").updateChildValues(["choice": button.tag])
+        USERS_REF.child(opponent!.id).child(Const.opponent).updateChildValues([Const.choice: button.tag])
     }
     
     // 튜플의 Equatable처리를 위해 만든 함수
@@ -330,27 +330,27 @@ extension GameViewController: AVAudioPlayerDelegate {
     private func compare(myChoice: RPS?, opponentChoice: RPS?) -> String {
         
         if myChoice == nil && opponentChoice == nil {
-            return "무승부"
+            return Const.draw
         } else if myChoice == nil {
             return opponent!.id
         } else if opponentChoice == nil {
             return me!.id
         } else {
             switch (myChoice, opponentChoice) {
-                case (.rock, .rock):     return "무승부"
-                case (.rock, .paper):    return opponent!.id
-                case (.rock, .scissors): return me!.id
-                    
-                case (.paper, .rock):     return me!.id
-                case (.paper, .paper):    return "무승부"
-                case (.paper, .scissors): return opponent!.id
-                    
-                case (.scissors, .rock):     return opponent!.id
-                case (.scissors, .paper):    return me!.id
-                case (.scissors, .scissors): return "무승부"
-                    
-                default:
-                    return "compare error"
+            case (.rock, .rock):     return Const.draw
+            case (.rock, .paper):    return opponent!.id
+            case (.rock, .scissors): return me!.id
+                
+            case (.paper, .rock):     return me!.id
+            case (.paper, .paper):    return Const.draw
+            case (.paper, .scissors): return opponent!.id
+                
+            case (.scissors, .rock):     return opponent!.id
+            case (.scissors, .paper):    return me!.id
+            case (.scissors, .scissors): return Const.draw
+                
+            default:
+                return "compare error"
             }
         }
     }
@@ -372,7 +372,7 @@ extension GameViewController: AVAudioPlayerDelegate {
             case .some(.none):
                 break
         }
-        if winner == "무승부" {
+        if winner == Const.draw {
             resultLabel.text = "무승부! 재대결 해야죠?"
         } else if winner == opponent!.id {
             resultLabel.text = " 졌어요.. 😭 "
@@ -381,19 +381,19 @@ extension GameViewController: AVAudioPlayerDelegate {
         }
         
         if winner == opponent!.id {
-            USERS_REF.child(opponent!.id).child("record").child("win").getData { (_, snapshot) in
+            USERS_REF.child(opponent!.id).child(Const.record).child(Const.win).getData { (_, snapshot) in
                 guard let winCount = snapshot?.value as? Int else { return }
-                USERS_REF.child(self.opponent!.id).child("record").updateChildValues(["win":winCount + 1])
+                USERS_REF.child(self.opponent!.id).child(Const.record).updateChildValues([Const.win:winCount + 1])
             }
         } else if winner == me!.id {
-            USERS_REF.child(opponent!.id).child("record").child("lose").getData { (_, snapshot) in
+            USERS_REF.child(opponent!.id).child(Const.record).child(Const.lose).getData { (_, snapshot) in
                 guard let loseCount = snapshot?.value as? Int else { return }
-                USERS_REF.child(self.opponent!.id).child("record").updateChildValues(["lose":loseCount + 1])
+                USERS_REF.child(self.opponent!.id).child(Const.record).updateChildValues([Const.lose:loseCount + 1])
             }
         }
         
-        USERS_REF.child(me!.id).child("opponent").updateChildValues(["wantsGameStart": false])
-        USERS_REF.child(opponent!.id).child("opponent").updateChildValues(["wantsGameStart": false])
+        USERS_REF.child(me!.id).child(Const.opponent).updateChildValues([Const.wantsGameStart: false])
+        USERS_REF.child(opponent!.id).child(Const.opponent).updateChildValues([Const.wantsGameStart: false])
         
         startButton.isEnabled.toggle()
         askGameAgain()

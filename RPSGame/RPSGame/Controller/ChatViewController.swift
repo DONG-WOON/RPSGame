@@ -34,7 +34,6 @@ final class ChatViewController: UIViewController {
         
         observeMessages()
         textViewDidChange(inputTextView)
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -108,7 +107,6 @@ final class ChatViewController: UIViewController {
         moveDownButton.layer.opacity = 0.5
         moveDownButton.addTarget(self, action: #selector(moveDownBtnDidTap(_:)), for: .touchUpInside)
         view.bringSubviewToFront(moveDownButton)
-
     }
     
     @objc func didReceiveKeyboardNotification(_ sender: Notification) {
@@ -141,13 +139,13 @@ final class ChatViewController: UIViewController {
 
         guard let chatRommID = chatRommID else { return }
         
-        CHAT_REF.child("\(chatRommID)").child("messages").observe(.childAdded) { (snapshot) in
+        CHAT_REF.child("\(chatRommID)").child(Const.messages).observe(.childAdded) { (snapshot) in
             if let dataArray = snapshot.value as? [String: Any] {
                 
                 print("🔵🔵🔵 obserMessages DataArray: ", dataArray)
                 
-                guard let senderName = dataArray["senderName"] as? String
-                    , let messageText = dataArray["text"] as? String
+                guard let senderName = dataArray[Const.senderName] as? String
+                        , let messageText = dataArray[Const.text] as? String
                     else { return }
 
                 let message = Message(userName: senderName, text: messageText)
@@ -163,11 +161,11 @@ final class ChatViewController: UIViewController {
         guard let senderName = myName else { return }
         guard let chatRommID = chatRommID else { return }
 
-        let dataArray: [String: Any] = ["senderName": senderName, "text": text]
+        let dataArray: [String: Any] = [Const.senderName: senderName, Const.text: text]
         
         print("🔸🔸🔸 sendMessage DataArray: ", dataArray)
         
-        CHAT_REF.child("\(chatRommID)").child("messages").childByAutoId().setValue(dataArray) { (error, ref) in
+        CHAT_REF.child("\(chatRommID)").child(Const.messages).childByAutoId().setValue(dataArray) { (error, ref) in
             error == nil ? completion(true) : completion(false)
         }
     }

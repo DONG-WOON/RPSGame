@@ -86,7 +86,7 @@ class UserTableViewCell: UITableViewCell {
                 print("download Image dataTaskError: \(error.localizedDescription)")
             }
             guard let data = data else { return }
-            DispatchQueue.main.async {
+            DispatchQueue.main.async                                {
                 self.profileImageView.image = UIImage(data: data)
             }
         }.resume()

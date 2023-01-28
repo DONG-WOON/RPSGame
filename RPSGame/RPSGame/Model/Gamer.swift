@@ -14,7 +14,7 @@ struct Gamer {
     var choice: RPS?
     
     init(data: [String: Any]) {
-        let choice = data["choice"] as? Int
+        let choice = data[Const.choice] as? Int
         self.name = data["name"] as? String ?? ""
         self.id = data["id"] as? String ?? ""
         self.choice = RPS(rawValue: choice ?? 3)
@@ -27,7 +27,7 @@ struct Gamer {
     }
     
     func oppoenentWantGameStart(_ bool: Bool) {
-        USERS_REF.child(id).child("opponent").updateChildValues(["wantsGameStart": bool])
+        USERS_REF.child(id).child(Const.opponent).updateChildValues([Const.wantsGameStart: bool])
     }
 }
 
