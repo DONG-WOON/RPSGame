@@ -78,12 +78,12 @@
 
 ## 핵심 경험
 
-Firebase- RealTime Database
+☑️  Firebase- RealTime Database
 > 서버 구축 없이 Firebase가 제공하는 RealTime Database를 활용하여 사용자 정보와 게임정보를 실시간 연동하여 앱의 기능들을 구현
 
-Oauth를 이용한 구글, 카카오 간편로그인
+☑️ Oauth를 이용한 구글, 카카오 간편로그인
 > Third- Party- Login을 제공하는 카카오와 구글의 SDK를 활용하여 간편로그인 구현 경험
 
-code 및 storyboard를 사용하여 UI 구현
+☑️ Code 및 storyboard를 사용하여 UI 구현
 > 각 방식으로 AutoLayout을 적용하여 UI를 구현해보고 장단점 경험 
 
