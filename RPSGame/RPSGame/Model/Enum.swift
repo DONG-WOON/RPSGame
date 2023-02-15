@@ -14,6 +14,7 @@ enum Const {
     static let opponent = "opponent"
     static let wantsGameStart = "wantsGameStart"
     static let choice = "choice"
+    static let isLogin = "isLogin"
     static let isInGame = "isInGame"
     static let isInvited = "isInvited"
     static let draw = "무승부"
